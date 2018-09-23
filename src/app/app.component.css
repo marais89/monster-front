@@ -1,0 +1,63 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 5px;
+  width: 20%;
+}
+
+.fill-height-or-more {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.body-content_size {
+height: 100%;
+}
+
+.header-image_size{
+height: 45px;
+width: 45px;
+}
+
+.toolbar-menu-right{
+width: 100%;
+  float: right;
+  text-align:right;
+  margin:0px 0px 0px 0px;
+}
+
+.header-icon_size{
+height: 35px;
+width: 35px;
+}
+
+
+.burger {
+  cursor: pointer;
+  font-size: xx-large;
+  padding: 15px;
+}
+
+.close{
+  cursor: pointer;
+  font-size: xx-large;
+  float: right;
+}
+
+
+

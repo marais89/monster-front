@@ -1,0 +1,43 @@
+<div class="body-content_size">
+
+  <mat-toolbar layout="row" color="primary">
+    <div>
+      <a (click)="drawer.toggle()">
+        <i class="material-icons burger">menu</i>
+      </a>
+      <img [src]="LOGO" class="header-image_size"/>
+    </div>
+    <div class="toolbar-menu-right">
+      <a (click)="drawer.toggle()">
+        <i class="material-icons burger">home</i>
+      </a>
+      <a (click)="drawer.toggle()" class="header-icon_size">
+        <i class="material-icons burger">info</i>
+      </a>
+      <a (click)="drawer.toggle()" class="header-icon_size">
+        <i class="material-icons burger">settings</i>
+      </a>
+    </div>
+  </mat-toolbar>
+
+  <mat-drawer-container class="fill-height-or-more">
+    <mat-drawer #drawer class="example-sidenav">
+      <a (click)="drawer.toggle()">
+        <i class="material-icons close">close</i>
+      </a>
+    </mat-drawer>
+
+    <mat-drawer #drawer class="example-sidenav">
+      <a (click)="drawer.toggle()">
+        <i class="material-icons close">close</i>
+      </a>
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+      <app-individu-list></app-individu-list>
+    </div>
+
+  </mat-drawer-container>
+</div>
+
+
