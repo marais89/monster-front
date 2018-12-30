@@ -6,18 +6,22 @@ import { AppComponent } from './app.component';
 import { IndividuService } from './shared/individu/individu.service';
 import { IndividuListComponent } from './individu-list/individu-list.component';
 import { MatTableModule } from '@angular/material';
+import { IndividuCreateComponent } from './individu-create/individu-create.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    IndividuListComponent
+    IndividuListComponent,
+    IndividuCreateComponent
   ],
   imports: [
     BrowserModule,
     MaterialModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule
   ],
   providers: [IndividuService],
   bootstrap: [AppComponent]

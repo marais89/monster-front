@@ -1,0 +1,33 @@
+<mat-card>
+
+
+    <div class="example-container">
+
+    <mat-form-field >
+      <input matInput placeholder="Nom" [(ngModel)]="individu.nom" required >
+      <mat-error *ngIf="nameFormControl.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <input matInput placeholder="Prenom" [(ngModel)]="individu.prenom" name="prenom" >
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Adresse" [(ngModel)]="individu.adresse" name="adresse" >
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="E-mail" [(ngModel)]="individu.email" name="email" >
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Numero telephone" [(ngModel)]="individu.numTel" name="numTel" >
+    </mat-form-field>
+
+    <button class="btn btn-success" (click)="createIndividu()">Create</button>
+    </div>
+
+</mat-card>
+

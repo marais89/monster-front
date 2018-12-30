@@ -8,7 +8,9 @@ MatMenuModule,
 MatToolbarModule,
 MatIconModule,
 MatCardModule,
-MatSidenavModule
+MatSidenavModule,
+MatFormFieldModule,
+MatInputModule
 } from '@angular/material';
 
 @NgModule({
@@ -20,7 +22,8 @@ MatSidenavModule
     MatCardModule,
     MatSidenavModule,
     MatCardModule,
-    BrowserAnimationsModule
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     MatButtonModule,
@@ -30,7 +33,8 @@ MatSidenavModule
     MatCardModule,
     MatSidenavModule,
     MatCardModule,
-    BrowserAnimationsModule
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class MaterialModule {}
