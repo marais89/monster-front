@@ -1,33 +1,81 @@
-<mat-card>
-
-
-    <div class="example-container">
-
-    <mat-form-field >
-      <input matInput placeholder="Nom" [(ngModel)]="individu.nom" required >
-      <mat-error *ngIf="nameFormControl.hasError('required')">
-        Name is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field >
-      <input matInput placeholder="Prenom" [(ngModel)]="individu.prenom" name="prenom" >
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Adresse" [(ngModel)]="individu.adresse" name="adresse" >
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="E-mail" [(ngModel)]="individu.email" name="email" >
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Numero telephone" [(ngModel)]="individu.numTel" name="numTel" >
-    </mat-form-field>
-
-    <button class="btn btn-success" (click)="createIndividu()">Create</button>
+<div class="main-div">
+  <mat-card class="container m-5 text-center">
+    <h5 class="card-title mb-5">Information Client </h5>
+    <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
+      Un probléme est survenue lors du sauvgarde !
     </div>
+    <div class="w-50 mx-auto">
 
-</mat-card>
+      <br>
+
+      <a id="OpenImgUpload1"  title="select your picture"> <img class="roundedImage" *ngIf="base64textString" src={{base64textString}} alt="1"> </a>
+      <a id="OpenImgUpload2"  title="select your picture"> <img class="roundedImage" *ngIf="!base64textString" src="{{anonymousPic}}" alt="1"/> </a>
+      <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
+             style="display:none"/>
+
+      <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <input type="text" matInput placeholder="Nom" [(ngModel)]="individu.nom" required>
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          Le nom est <strong>obligatoire</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <input type="text" matInput placeholder="Prenom"  [(ngModel)]="individu.prenom" required
+               name="prenom">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          Le prénom est <strong>obligatoire</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <input type="email" matInput placeholder="E-mail" [(ngModel)]="individu.email" required
+               name="email">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          L'enail est <strong>obligatoire</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-5 w-100">
+        <input type="date" matInput placeholder="Date de naissance"  [(ngModel)]="individu.date_naissance" required
+               name="dateNaissance">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          La date de naissance est <strong>obligatoire</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password validation -->
+      <mat-form-field floatLabel="never" class="row mb-5 w-100">
+        <input type="password" matInput placeholder="Password" [(ngModel)]="password" required minlength="8"   pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+               name="pwd">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          Le mot de passe doit contenir <strong>lettre MAJ, lettre min, chiffre, caractére spécial</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-1 w-100">
+        <input type="password" matInput placeholder="Password confirmation" [(ngModel)]="passwordConfirmation" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+               name="pwdConfirm">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          Le mot de passe doit contenir <strong>lettre MAJ, lettre min, chiffre, caractére spécial</strong>
+        </mat-error>
+      </mat-form-field >
+      <div *ngIf="!isConformPwd()" class="alert alert-danger mb-5" role="alert" >
+      <div >
+        Le mot de passe  <strong>doit étre identique</strong>
+      </div>
+        <!--<div *ngIf="!isRegexConform()" >
+          Le mot de passe doit contenir <strong>lettre MAJ, lettre min, chiffre, caractére spécial</strong>
+        </div>
+        <div >
+          Le mot de passe doit contenir au minimum <strong>8 caractère </strong>
+        </div>-->
+      </div>
+
+      <div class="mb-5 w-100">
+        <button class="btn btn-success w-100" type="submit" (click)="createIndividu()">Créer mon compte</button>
+      </div>
+    </div>
+  </mat-card>
+</div>
 

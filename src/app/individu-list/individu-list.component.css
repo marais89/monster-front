@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+
+.mat-table-sticky:first-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+.mat-table-sticky:last-child {
+  border-left: 1px solid #e0e0e0;
+}
+.table-btn-size{
+  width: 70px;
+}

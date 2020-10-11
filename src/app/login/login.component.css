@@ -1,0 +1,10 @@
+.login-container {
+  max-width: 500px;
+  width: 35%;
+}
+
+mat-checkbox ::ng-deep .mat-checkbox-inner-container {
+  width: 16px;
+  height: 16px;
+}
+

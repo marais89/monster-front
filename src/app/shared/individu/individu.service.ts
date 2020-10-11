@@ -1,37 +1,70 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Individu} from '../../model/individu';
-import {catchError, tap} from "rxjs/operators";
-import {of} from "rxjs";
+import {UrlUtils} from '../../utils/url-utils';
+import {User} from '../../login/login.component';
+import {StringUtils} from '../../utils/string-utils';
+import {CookiesUtils} from '../../utils/cookies-utils';
+import * as bcrypt from 'bcryptjs';
+
 
 @Injectable()
 export class IndividuService {
 
-  private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  private httpOptions = this.buildHeader();
+
+  private buildHeader() {
+    return {
+      headers: new HttpHeaders({Authorization: 'Basic ' + CookiesUtils.getCookie('token')})
+    };
+  }
+
+  private buildCustomHeader(name: string, value: string) {
+    return {
+      headers: new HttpHeaders({Authorization: 'Basic ' + name + ':' + value})
+    };
+  }
+
+  private buildHeaderWithoutCokies() {
+    return {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
+    };
+  }
 
   constructor(private http: HttpClient) {
   }
 
-  private individuUrl = '//localhost:8080/individus';
-
-  getAll(): Observable<any> {
-    return this.http.get(this.individuUrl);
+  getAll(): Observable<Individu[]> {
+    return this.http.get<Individu[]>(UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL, this.buildHeader());
+    //TODO CATCH exception
   }
 
-  saveIndividu(individu: Individu): Observable<Individu> {
-    return this.http.post(this.individuUrl, JSON.stringify(individu), this.httpOptions)
-      .pipe(
-        tap((individu: Individu) => console.log(`added individu w/ id=${individu.nom}`)),
-        catchError(this.handleError<Individu>('addIndividu'))
-      )
+  saveIndividu(individu: Individu): Observable<any> {
+    let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
+    return this.http.post(url, JSON.stringify(individu), this.buildHeaderWithoutCokies());
+    //TODO CATCH exception
+  };
 
-    };
+  deleteIndividu(id: number): Observable<Object> {
+    let url = UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL + UrlUtils.DELETE_URL + id;
+    return this.http.delete(url, this.buildHeader());
+    //TODO CATCH exception
+  }
 
+  getLoggedUser(user: User): Observable<User> {
+    let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
+    return this.http.post<User>(url,
+       user.login,
+     );
+  }
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  isAuthenticated(): boolean {
+    let token = CookiesUtils.getCookie('token');
+    return !StringUtils.isNullOrUndefined(token);
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

@@ -4,6 +4,11 @@ export class Individu {
   prenom: string;
   adresse: string;
   email: string;
-  numTel: string;
-
+  numeroTel: string;
+  date_naissance: Date;
+  date_ceation: Date;
+  niveau: number;
+  statut: string;
+  user_image: any;
+  pass: string;
 }
