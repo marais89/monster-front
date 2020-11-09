@@ -5,6 +5,48 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+.logo {
+  font-size: 1.2em;
+  font-family: "Comic Sans MS";
+  color: #35b1b6;
+}
+
+::ng-deep .mat-menu-panel.providers-menu {
+  margin-top: 3em;
+  width: 15em;
+  background-color: cornflowerblue;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#mainNav {
+  padding-left: 2em;
+}
+
+.menu-btn {
+  padding: 0.3em;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+.menu-btn :hover {
+  color: white;
+  cursor: pointer;
+  border: 1px white;
+}
+
+.logo:hover {
+  font-size: 1.2em;
+  font-family: "Comic Sans MS";
+  color: #3bc2c7;
+  text-decoration: none;
+}
+
 .example-sidenav-content {
   display: block;
   height: 100%;
@@ -19,34 +61,44 @@ body {
 }
 
 .fill-height-or-more {
-    height: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .body-content_size {
-height: 100%;
+  height: 100%;
 }
 
-.header-image_size{
-height: 45px;
-width: 45px;
+.header-image_size {
+  height: 45px;
+  width: 45px;
 }
 
-.toolbar-menu-right{
-width: 100%;
+.toolbar-menu-right {
+  width: 100%;
   float: right;
-  text-align:right;
-  margin:0px 0px 0px 0px;
+  text-align: right;
+  margin: 0px 0px 0px 0px;
 }
 
-.header-icon_size{
-height: 35px;
-width: 35px;
+.header-icon_size {
+  height: 35px;
+  width: 35px;
 }
 
+.roundedImage {
+  overflow: hidden;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  box-shadow: 1px 1px 12px #555;
+  cursor: pointer;
+}
 
 .burger {
   cursor: pointer;
@@ -54,7 +106,7 @@ width: 35px;
   padding: 15px;
 }
 
-.close{
+.close {
   cursor: pointer;
   font-size: xx-large;
   float: right;

@@ -1,0 +1,97 @@
+<div class="main-div">
+  <mat-card class="container m-5 text-center">
+    <h5 class="card-title mb-5">Mon profile </h5>
+    <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
+      Un probléme est survenue lors du sauvgarde !
+    </div>
+
+    <br>
+    <a id="OpenImgUpload1" title="select your picture"> <img class="roundedImage" *ngIf="user_image"
+                                                             [src]=user_image alt="1"> </a>
+    <a id="OpenImgUpload2" title="select your picture"> <img class="roundedImage" *ngIf="!user_image"
+                                                             [src]="anonymousPic" alt="1"/> </a>
+    <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
+           style="display:none"/>
+    <div class="d-flex justify-content-center w-100">
+      <img class="startSize" *ngIf="individu.niveau > 1" [src]="star"/>
+      <img class="startSize" *ngIf="individu.niveau > 2" [src]="star"/>
+      <img class="startSize" *ngIf="individu.niveau > 3" [src]="star"/>
+    </div>
+
+    <div class="d-flex justify-content-start w-100">
+      <div class="p-2 w-50">
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" [disabled]="true" matInput placeholder="Nom" [(ngModel)]="individu.nom" required>
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            Le nom est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" [disabled]="true" matInput placeholder="Prenom" [(ngModel)]="individu.prenom" required
+                 name="prenom">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            Le prénom est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="email" matInput [disabled]="true" placeholder="E-mail" [(ngModel)]="individu.email" required
+                 name="email">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            L'enail est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-5 w-100">
+          <input type="date" [disabled]="true" matInput placeholder="Date de naissance"
+                 [(ngModel)]="individu.date_naissance" required
+                 name="dateNaissance">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            La date de naissance est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" matInput placeholder="Telephone" [(ngModel)]="individu.numeroTel"
+                 name="telephone">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            Le prénom est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" matInput placeholder="Adresse" [(ngModel)]="individu.adresse"
+                 name="Adresse">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            Le prénom est <strong>obligatoire</strong>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="p-2 pt-5 w-50">
+          <span
+            class="mx-auto mt-5 text-capitalize"> date d'inscription: {{individu.date_ceation | date: 'dd/MM/yyyy'}}</span>
+        <div>
+          <div class="mt-3">
+            <span class="text-danger" *ngIf="individu.statut == 'attente'">Votre compte est en attente d'activation</span>
+            <span class="text-info" *ngIf="individu.statut == 'active'">Votre compte est active</span>
+            <span class="text-danger" *ngIf="individu.statut == 'bloque'">Votre compte est bloqué</span>
+            <span class="text-danger" *ngIf="individu.statut == 'resilie'">Votre compte est résilié</span>
+            <img class="verifiedImgSize " *ngIf="individu.statut == 'active' && individu.niveau > 2"
+                 [src]="verifiedLogo"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-5 w-100">
+      <button class="btn btn-success w-100" type="submit" (click)="updateIndividuAccountInformations()">Valider</button>
+      <a class="w-100 mt-3" type="button" routerLink="/" >Retour</a>
+    </div>
+
+  </mat-card>
+</div>
+
+

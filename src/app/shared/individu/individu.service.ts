@@ -1,5 +1,5 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {observable, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Individu} from '../../model/individu';
 import {UrlUtils} from '../../utils/url-utils';
@@ -13,6 +13,7 @@ import * as bcrypt from 'bcryptjs';
 export class IndividuService {
 
   private httpOptions = this.buildHeader();
+  private individu: Individu;
 
   private buildHeader() {
     return {
@@ -42,7 +43,13 @@ export class IndividuService {
 
   saveIndividu(individu: Individu): Observable<any> {
     let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
-    return this.http.post(url, JSON.stringify(individu), this.buildHeaderWithoutCokies());
+    return this.http.post(url, JSON.stringify(individu), this.buildHeader());
+    //TODO CATCH exception
+  };
+
+  updateIndividu(individu: Individu): Observable<Individu> {
+    let url = UrlUtils.BASE_URL + UrlUtils.UPDATE_URL;
+    return this.http.post<Individu>(url, individu, this.buildHeader());
     //TODO CATCH exception
   };
 
@@ -50,6 +57,11 @@ export class IndividuService {
     let url = UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL + UrlUtils.DELETE_URL + id;
     return this.http.delete(url, this.buildHeader());
     //TODO CATCH exception
+  }
+
+  retrieveIndividu(login: string): Observable<Individu>{
+    let url = UrlUtils.BASE_URL + UrlUtils.RETRIEVE_INDIVIDU_URL+login;
+    return this.http.get<Individu>(url, this.buildHeader());
   }
 
   getLoggedUser(user: User): Observable<User> {

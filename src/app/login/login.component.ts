@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IndividuService} from '../shared/individu/individu.service';
 import {FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CookiesUtils} from '../utils/cookies-utils';
 import * as bcrypt from 'bcryptjs';
+import {Individu} from '../model/individu';
 
 export class User {
   login: string;
@@ -18,7 +19,6 @@ export class User {
 export class LoginComponent implements OnInit {
   private user: User;
   displayLoginErrorMsg: boolean = false;
-
   constructor(private individuService: IndividuService, private router: Router) {
   }
 

@@ -1,41 +1,35 @@
 <div class="body-content_size">
-
-  <mat-toolbar layout="row" color="primary" *ngIf="isClientConnected()" class="fixed-top" >
-    <div>
-      <a (click)="drawer.toggle()">
-        <i class="material-icons burger">menu</i>
-      </a>
-      <img [src]="LOGO" class="header-image_size"/>
-    </div>
-    <div class="toolbar-menu-right">
-      <a routerLink="/">
-        <i class="material-icons burger">home</i>
-      </a>
-      <a   routerLink="/login" class="header-icon_size" (click)="logout()">
-        <i class="material-icons burger">logout</i>
-      </a>
-      <a class="header-icon_size">
-        <i class="material-icons burger">settings</i>
-      </a>
-    </div>
-  </mat-toolbar>
-
   <mat-drawer-container class="fill-height-or-more">
+    <mat-toolbar layout="row" color="primary" *ngIf="isClientConnected()" class="fixed-top">
+
+        <a (click)="drawer.toggle()">
+          <i class="material-icons burger">chat</i>
+        </a>
+       <!-- <a class=" header-image_size align-middle">
+          <img [src]="LOGO" class="header-image_size align-middle"/>
+        </a>-->
+     <a routerLink="/" class="align-middle logo" >MONSTER</a>
+      <div class="toolbar-menu-right">
+        <a class="menu-btn" routerLink="/"><span>Accueil</span></a>
+        <a class="menu-btn" routerLink="/"><span>Produits</span></a>
+
+        <a id="mainNav" [matMenuTriggerFor]="menu"><a><span class="mr-2">Bonjour {{name}}</span></a>
+          <img class="roundedImage" *ngIf="user_image"  [src]="user_image" />
+          <img class="roundedImage" *ngIf="!user_image" [src]="anonymousPic" /></a>
+        <mat-menu #menu="matMenu" yPosition="below" class="providers-menu" >
+          <a mat-menu-item><i class="material-icons align-middle">storefront</i><span class="ml-2">Mes commandes</span></a>
+          <a mat-menu-item routerLink="/account" ><i class="material-icons align-middle">person</i><span class="ml-2">Mon compte</span></a>
+          <a mat-menu-item><i class="material-icons align-middle">language</i><span class="ml-2">Langage</span></a>
+          <a mat-menu-item routerLink="/login" (click)="logout()"><i class="material-icons align-middle">logout</i><span class="ml-2">Déconnexion</span></a>
+          <a mat-menu-item><i class="material-icons align-middle">help</i><span class="ml-2">Aide</span></a>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
 
     <mat-drawer #drawer class="example-sidenav">
       <a (click)="drawer.toggle()">
         <i class="material-icons close">close</i>
       </a>
-      <button mat-raised-button
-              matTooltip="By default, I delay"
-              aria-label="Button that displays a tooltip that has custom delays through a default config">
-        Button with delay-default tooltip
-      </button>
-      <button mat-raised-button
-              matTooltip="By default, I delay"
-              aria-label="Button that displays a tooltip that has custom delays through a default config">
-        Button with delay-default tooltip
-      </button>
     </mat-drawer>
     <router-outlet></router-outlet>
   </mat-drawer-container>

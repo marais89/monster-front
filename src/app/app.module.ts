@@ -15,6 +15,8 @@ import { DialogInfoComponent } from './dialog-info/dialog-info.component';
 import {AuthGuardService} from './authGuardService';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {IndividuAccountComponent} from './individu-account/individu-account.component';
 
 
 @NgModule({
@@ -22,6 +24,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     AppComponent,
     IndividuListComponent,
     IndividuCreateComponent,
+    IndividuAccountComponent,
     LoginComponent,
     DialogInfoComponent
   ],
@@ -35,7 +38,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
         MatCheckboxModule,
         BrowserAnimationsModule,
         ReactiveFormsModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatProgressSpinnerModule
     ],
   providers: [IndividuService, AuthGuardService],
   bootstrap: [AppComponent],

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Individu} from '../model/individu';
 import {MatDialog} from '@angular/material/dialog';
@@ -13,13 +13,14 @@ import {MatTableDataSource} from '@angular/material/table';
   templateUrl: './individu-list.component.html',
   styleUrls: ['./individu-list.component.css']
 })
-export class IndividuListComponent implements OnInit {
+export class IndividuListComponent implements AfterViewInit, OnInit {
 
- // individus: Array<Individu>;
+  loading: boolean = true;
   message: string;
   anonymousPic = 'assets/anonymous.jpg';
   displayedColumns: string[] = ['id', 'img', 'nom', 'prenom', 'email', 'N telephone', 'Supprimer'];
-  dataSource: MatTableDataSource<Individu> ;
+  dataSource: MatTableDataSource<Individu>;
+  individus: Array<Individu>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -57,22 +58,31 @@ export class IndividuListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+
   }
 
   ngOnInit() {
     if (!this.individuService.isAuthenticated()) {
       this.router.navigate(['/login']);
+    }else {
+      this.findIndividus();
     }
-    this.findIndividus();
   }
 
   findIndividus() {
+    this.loading = true;
     this.individuService.getAll().subscribe(data => {
-     // this.individus = data;
-      this.dataSource = new MatTableDataSource<Individu>(data);
-      this.dataSource.data.forEach(x => x.user_image = this.convertImage(x.user_image));
-    });
+       // this.individus = data;
+        //this.individus.forEach(x => x.user_image = this.convertImage(x.user_image));
+        this.dataSource = new MatTableDataSource<Individu>(data);
+        this.dataSource.data.forEach(x => x.user_image = this.convertImage(x.user_image));
+        this.dataSource.paginator = this.paginator;
+        this.loading = false;
+      },
+      error => {
+        console.log('Error while loading individus !');
+        this.loading = false;
+      });
   }
 
   delete(id: number): void {

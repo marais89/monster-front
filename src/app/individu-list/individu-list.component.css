@@ -9,6 +9,12 @@ table {
 .mat-table-sticky:last-child {
   border-left: 1px solid #e0e0e0;
 }
-.table-btn-size{
+
+.table-btn-size {
   width: 70px;
+}
+
+.transparent .mat-dialog-container {
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.0);
 }

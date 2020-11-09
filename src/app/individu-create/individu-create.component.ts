@@ -20,8 +20,7 @@ export class IndividuCreateComponent implements OnInit {
   anonymousPic = 'assets/anonymous.jpg';
   password: string;
   passwordConfirmation: string;
-  showDetails: boolean;
-   REGEX  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
+  REGEX  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 
   constructor(private individuService: IndividuService, public dialog: MatDialog, private router: Router) {
   }
@@ -29,15 +28,6 @@ export class IndividuCreateComponent implements OnInit {
  isConformPwd(): boolean{
    let bol = this.password === this.passwordConfirmation || this.passwordConfirmation == undefined;
    return bol;
- }
-
- isRegexConform(): boolean{
-  let bol = this.REGEX.test(this.password) &&  this.REGEX.test(this.passwordConfirmation);
-  return bol;
- }
-
- canValidatForm(): boolean{
-   return this.isConformPwd() && this.nameFormControl.invalid;
  }
 
   nameFormControl = new FormControl('', [
@@ -52,9 +42,6 @@ export class IndividuCreateComponent implements OnInit {
     pic.addEventListener('click', (e: Event) => picture.click());
     anonymousPic.addEventListener('click', (e: Event) => picture.click());
   }
-
-
-
   base64textString;
 
   onUploadChange(evt: any) {
@@ -77,8 +64,8 @@ export class IndividuCreateComponent implements OnInit {
 
     this.actualDate = new Date();
     this.individu.date_ceation = this.actualDate;
-    this.individu.statut = statut.attente;
-    this.individu.niveau = niveau.niveau1;
+    this.individu.statut = Statut.attente;
+    this.individu.niveau = Niveau.niveau1;
     const salt = bcrypt.genSaltSync(10);
     this.individu.pass = bcrypt.hashSync(this.password, salt);
     this.individuService.saveIndividu(this.individu).subscribe(
@@ -93,16 +80,17 @@ export class IndividuCreateComponent implements OnInit {
   }
 }
 
-enum niveau {
+enum Niveau {
   niveau1,
   niveau2,
   niveau3,
   niveau4,
+  niveau5,
 };
 
-enum statut {
+export enum Statut {
   attente = 'attente',
-  active = 'active',
+  active ='active',
   bloque = 'bloque',
   resilie = 'resilie'
 };

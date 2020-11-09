@@ -1,0 +1,20 @@
+.roundedImage{
+  overflow:hidden;
+  -webkit-border-radius:50px;
+  -moz-border-radius:50px;
+  border-radius:50px;
+  width:100px;
+  height:100px;
+  box-shadow: 1px 1px 12px #555;
+  cursor: pointer;
+}
+
+.verifiedImgSize{
+  height: 4em;
+  width: 4em;
+}
+
+.startSize{
+  height: 3em;
+  width: 3em;
+}
