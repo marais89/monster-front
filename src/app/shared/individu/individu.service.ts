@@ -1,93 +1,69 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {observable, Observable, of} from 'rxjs';
-import {Injectable} from '@angular/core';
-import {Individu} from '../../model/individu';
-import {UrlUtils} from '../../utils/url-utils';
-import {User} from '../../login/login.component';
-import {StringUtils} from '../../utils/string-utils';
 import {CookiesUtils} from '../../utils/cookies-utils';
-import * as bcrypt from 'bcryptjs';
-
+import {StringUtils} from '../../utils/string-utils';
+import {Individu} from '../../model/individu';
+import {Injectable} from '@angular/core';
+import {IndividuApiService} from './individu-api.service';
+import {Observable, of} from 'rxjs';
+import {UserStatutAction} from '../../utils/user-statut-action';
 
 @Injectable()
 export class IndividuService {
 
-  private httpOptions = this.buildHeader();
-  private individu: Individu;
+  connectedUserInfo: Individu;
 
-  private buildHeader() {
-    return {
-      headers: new HttpHeaders({Authorization: 'Basic ' + CookiesUtils.getCookie('token')})
-    };
-  }
-
-  private buildCustomHeader(name: string, value: string) {
-    return {
-      headers: new HttpHeaders({Authorization: 'Basic ' + name + ':' + value})
-    };
-  }
-
-  private buildHeaderWithoutCokies() {
-    return {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
-    };
-  }
-
-  constructor(private http: HttpClient) {
-  }
-
-  getAll(): Observable<Individu[]> {
-    return this.http.get<Individu[]>(UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL, this.buildHeader());
-    //TODO CATCH exception
-  }
-
-  saveIndividu(individu: Individu): Observable<any> {
-    let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
-    return this.http.post(url, JSON.stringify(individu), this.buildHeader());
-    //TODO CATCH exception
-  };
-
-  updateIndividu(individu: Individu): Observable<Individu> {
-    let url = UrlUtils.BASE_URL + UrlUtils.UPDATE_URL;
-    return this.http.post<Individu>(url, individu, this.buildHeader());
-    //TODO CATCH exception
-  };
-
-  deleteIndividu(id: number): Observable<Object> {
-    let url = UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL + UrlUtils.DELETE_URL + id;
-    return this.http.delete(url, this.buildHeader());
-    //TODO CATCH exception
-  }
-
-  retrieveIndividu(login: string): Observable<Individu>{
-    let url = UrlUtils.BASE_URL + UrlUtils.RETRIEVE_INDIVIDU_URL+login;
-    return this.http.get<Individu>(url, this.buildHeader());
-  }
-
-  getLoggedUser(user: User): Observable<User> {
-    let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
-    return this.http.post<User>(url,
-       user.login,
-     );
+  constructor(private individuApiService: IndividuApiService) {
   }
 
   isAuthenticated(): boolean {
-    let token = CookiesUtils.getCookie('token');
-    return !StringUtils.isNullOrUndefined(token);
+    // TODO verify if login and pwd are correct !
+    return !StringUtils.isNullOrUndefined(this.getLoginFromToken());
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  private getLoginFromToken(): string {
 
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+    let token = CookiesUtils.getCookie('token');
+    if (token) {
+      return atob(token).split(':')[0];
+    }
+    return null;
+  }
 
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
+  chargeLogedUserInfo(): Observable<Individu> {
+    return this.connectedUserInfo ? of(this.connectedUserInfo) : this.getLoggedUserFromToken();
+  }
 
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  public getLoggedUserFromToken(): Observable<Individu> {
+
+    let login = this.getLoginFromToken();
+    if (login) {
+      return this.individuApiService.retrieveIndividu(login);
+    } else {
+      console.log('No TOKEN found !');
+      return null;
+    }
+  }
+
+  public updateUserStatus(login: string, action: UserStatutAction) {
+    switch (action) {
+      case UserStatutAction.SUSPEND : {
+        return this.individuApiService.SuspendUser(login);
+      }
+      case UserStatutAction.RESUME : {
+        return this.individuApiService.resumeUser(login);
+      }
+      case UserStatutAction.DEACTIVATE : {
+        return this.individuApiService.deactivateUser(login);
+      }
+      default : {
+        console.log('Action: ' + action + ' is not knwon');
+        break;
+      }
+    }
+  }
+
+  logout() {
+    CookiesUtils.deleteCookie('token');
+    this.connectedUserInfo = null;
   }
 
 }

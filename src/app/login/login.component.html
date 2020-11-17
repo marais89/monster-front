@@ -1,8 +1,11 @@
-<div class="main-div">
+<div class="main-div bg">
   <mat-card class="container login-container text-center m-5">
-    <h5 class=" mb-5 text-center text-capitalize"><span>Login </span></h5>
+    <h5 class=" mb-5 text-center text-capitalize title"><span>Login </span></h5>
     <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
       Login ou mot de passe incorrect !
+    </div>
+    <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
+      Votre compte est désactivé, veuillez contacter le service client !
     </div>
     <div class="w-75 mx-auto">
       <mat-form-field floatLabel="never" class=" mb-5 w-100">

@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { IndividuService } from './individu.service';
+import { IndividuApiService } from './individu-api.service';
 
 describe('IndividuService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [IndividuService]
+      providers: [IndividuApiService]
     });
   });
 
-  it('should be created', inject([IndividuService], (service: IndividuService) => {
+  it('should be created', inject([IndividuApiService], (service: IndividuApiService) => {
     expect(service).toBeTruthy();
   }));
 });

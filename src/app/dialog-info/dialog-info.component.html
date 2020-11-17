@@ -1,9 +1,11 @@
 <h1 mat-dialog-title>{{dialogInfo.titre}}</h1>
 <div mat-dialog-content>
-  <p>{{dialogInfo.message1}}</p>
+  <p [innerHTML]="dialogInfo.message1"></p>
 </div>
 
-<div mat-dialog-actions class="float-right" >
-  <button type="button" class="btn dialog-btn-return mx-3" (click)="onNoClick()">{{dialogInfo.noLbl}}</button>
-  <button type="button" class="btn btn-success dialog-btn-succes" (click)="ok()">{{dialogInfo.okLbl}}</button>
+<div mat-dialog-actions class="float-right">
+  <button *ngIf="dialogInfo.noLbl" type="button" class="btn dialog-btn-return mx-3"
+          (click)="onNoClick()">{{dialogInfo.noLbl}}</button>
+  <button *ngIf="dialogInfo.okLbl" type="button" class="btn btn-success dialog-btn-succes"
+          (click)="ok()">{{dialogInfo.okLbl}}</button>
 </div>

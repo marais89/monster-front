@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {IndividuService} from '../shared/individu/individu.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {Individu} from '../model/individu';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
@@ -7,36 +7,42 @@ import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {IndividuService} from '../shared/individu/individu.service';
+import {UserStatutAction} from '../utils/user-statut-action';
+import {Wording} from '../shared/wording';
 
 @Component({
   selector: 'app-individu-list',
   templateUrl: './individu-list.component.html',
   styleUrls: ['./individu-list.component.css']
 })
-export class IndividuListComponent implements AfterViewInit, OnInit {
+export class IndividuListComponent implements OnInit {
 
+  WORDING = Wording;
   loading: boolean = true;
-  message: string;
   anonymousPic = 'assets/anonymous.jpg';
-  displayedColumns: string[] = ['id', 'img', 'nom', 'prenom', 'email', 'N telephone', 'Supprimer'];
+  displayedColumns: string[] = ['id', 'img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
-  individus: Array<Individu>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private individuService: IndividuService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  public get userStatusAction(): typeof UserStatutAction {
+    return UserStatutAction;
   }
 
-  convertImage(data: any) {
-    if (data) {
-      let objectURL = 'data:image/png;base64,' + data;
-      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  }
+
+  ngOnInit() {
+    if (!this.individuService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.findIndividus();
     }
-    return null;
   }
 
-  openDialog(id: number): void {
-    let dialogInformation = this.buildDialogInfo(id);
+  perfermActions(login: string, action: UserStatutAction): void {
+    let dialogInformation = this.buildDialogInfo(login, action);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
       width: '40%'
     });
@@ -47,33 +53,19 @@ export class IndividuListComponent implements AfterViewInit, OnInit {
   }
 
 
-  buildDialogInfo(id: number): DialogInformation {
+  buildDialogInfo(login: string, action: UserStatutAction): DialogInformation {
     let dialogInfo = new DialogInformation();
     dialogInfo.titre = 'Confirmation';
-    dialogInfo.message1 = 'voulez vous vraiment supprimer ce client';
+    dialogInfo.message1 = this.WORDING.dialog.message[action].info;
     dialogInfo.okLbl = 'Valider';
     dialogInfo.noLbl = 'Annuler';
-    dialogInfo.onClickAction = () => this.delete(id);
+    dialogInfo.onClickAction = () => this.updateIndividuStatus(login, action);
     return dialogInfo;
-  }
-
-  ngAfterViewInit() {
-
-  }
-
-  ngOnInit() {
-    if (!this.individuService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-    }else {
-      this.findIndividus();
-    }
   }
 
   findIndividus() {
     this.loading = true;
-    this.individuService.getAll().subscribe(data => {
-       // this.individus = data;
-        //this.individus.forEach(x => x.user_image = this.convertImage(x.user_image));
+    this.individuApiService.getAll().subscribe(data => {
         this.dataSource = new MatTableDataSource<Individu>(data);
         this.dataSource.data.forEach(x => x.user_image = this.convertImage(x.user_image));
         this.dataSource.paginator = this.paginator;
@@ -85,13 +77,61 @@ export class IndividuListComponent implements AfterViewInit, OnInit {
       });
   }
 
-  delete(id: number): void {
-    this.individuService.deleteIndividu(id).subscribe(() =>
-      this.findIndividus());
+  updateIndividuStatus(login: string, action: UserStatutAction) {
+    this.individuService.updateUserStatus(login, action).subscribe(
+      data => {
+        if (data) {
+          this.dataSource.data = data;
+          this.openInfoDialog(this.WORDING.dialog.message[action].success);
+        } else {
+          this.openInfoDialog(this.WORDING.dialog.message[action].error);
+          console.log('Error when ' + action + ' individu');
+        }
+      }, error => {
+        this.openInfoDialog(this.WORDING.dialog.message[action].error);
+        console.log('Error when ' + action + ' individu');
+      });
   }
 
-  view(id: number) {
-    alert('view client number' + id);
+  openInfoDialog(msg: string): void {
+    let dialogInformation = this.buildConfirmationDialog(msg);
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      width: '40%'
+    });
+    dialogRef.componentInstance.dialogInfo = dialogInformation;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
+
+  buildConfirmationDialog(msg: string): DialogInformation {
+    let dialogInfo = new DialogInformation();
+    dialogInfo.titre = 'Confirmation';
+    dialogInfo.message1 = msg;
+    dialogInfo.noLbl = 'Fermer';
+    return dialogInfo;
+  }
+
+  convertImage(data: any) {
+    if (data) {
+      let objectURL = 'data:image/png;base64,' + data;
+      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    }
+    return null;
+  }
+
+  isDeasbledSuspend(status: string): boolean{
+    return status != 'active' ? true : false;
+  }
+
+  isDesabledResume(status: string): boolean{
+    return (status == 'active' || status == 'resilie') ? true : false;
+  }
+
+  isDesabledDeactivate(status: string):boolean{
+    return status == 'resilie' ? true : false;
+  }
+
+  //TODO on click sur ligne voir les details de l'utilisateur
 }

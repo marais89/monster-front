@@ -1,14 +1,15 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {IndividuService} from '../shared/individu/individu.service';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {CookiesUtils} from '../utils/cookies-utils';
 import * as bcrypt from 'bcryptjs';
-import {Individu} from '../model/individu';
+import {IndividuService} from '../shared/individu/individu.service';
+import {IndividuApiService} from '../shared/individu/individu-api.service';
 
 export class User {
   login: string;
   password: string;
+  enabled: boolean;
 }
 
 @Component({
@@ -19,9 +20,12 @@ export class User {
 export class LoginComponent implements OnInit {
   private user: User;
   displayLoginErrorMsg: boolean = false;
-  constructor(private individuService: IndividuService, private router: Router) {
+  isUserDesabledErrorMsg: boolean = false;
+
+  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, private router: Router) {
   }
 
+  //TODO remove
   nameFormControl = new FormControl('', [
     Validators.required,
   ]);
@@ -31,22 +35,30 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.individuService.getLoggedUser(this.user).subscribe(u => {
+    this.individuApiService.getLoggedUser(this.user).subscribe(u => {
       if (u) {
         if (bcrypt.compareSync(this.user.password, u.password)) {
+          if (!u.enabled) {
+            this.displayErrorMessage(false);
+            return;
+          }
           CookiesUtils.setCookie('token', btoa(this.user.login + ':' + this.user.password));
-          this.router.navigate(['']);
+          this.individuApiService.retrieveIndividu(this.user.login).subscribe(indiv => {
+            this.individuService.connectedUserInfo = indiv;
+            this.router.navigate(['']);
+          });
         } else {
-          this.displayLoginErrorMsg = true;
+          this.displayErrorMessage(true);
         }
       } else {
-        this.displayLoginErrorMsg = true;
+        this.displayErrorMessage(true);
       }
     });
   }
 
-  logout() {
-    CookiesUtils.deleteCookie('token');
+  displayErrorMessage(isLogginError: boolean) {
+    this.displayLoginErrorMsg = isLogginError;
+    this.isUserDesabledErrorMsg = !isLogginError;
   }
 
 }

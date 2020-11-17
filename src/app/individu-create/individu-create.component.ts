@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
-import {IndividuService} from '../shared/individu/individu.service';
+import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -22,7 +22,7 @@ export class IndividuCreateComponent implements OnInit {
   passwordConfirmation: string;
   REGEX  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 
-  constructor(private individuService: IndividuService, public dialog: MatDialog, private router: Router) {
+  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
 
  isConformPwd(): boolean{
@@ -68,7 +68,7 @@ export class IndividuCreateComponent implements OnInit {
     this.individu.niveau = Niveau.niveau1;
     const salt = bcrypt.genSaltSync(10);
     this.individu.pass = bcrypt.hashSync(this.password, salt);
-    this.individuService.saveIndividu(this.individu).subscribe(
+    this.individuApiService.saveIndividu(this.individu).subscribe(
       data => {
         console.log('individu saved ');
         this.router.navigate(['/login']);

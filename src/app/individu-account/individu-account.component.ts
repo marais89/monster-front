@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
-import {IndividuService} from '../shared/individu/individu.service';
+import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
-import {CookiesUtils} from '../utils/cookies-utils';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Statut} from '../individu-create/individu-create.component';
-import {root} from 'rxjs/internal-compatibility';
+import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
+import {IndividuService} from '../shared/individu/individu.service';
 
 @Component({
   selector: 'app-individu-account',
@@ -16,17 +15,19 @@ import {root} from 'rxjs/internal-compatibility';
 })
 export class IndividuAccountComponent implements OnInit {
 
-  individu: Individu = new Individu();
+  individu: Individu;
   displayErrorMsg: boolean = false;
-  actualDate: Date;
   anonymousPic = 'assets/anonymous.jpg';
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
-  base64textString;
-  statut: Statut;
-  private user_image: any;
 
-  constructor(private individuService: IndividuService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  private static MESSAGE_OK: string = 'Vos Informations ont été mis a jouravec succée';
+  private static MESSAGE_KO: string = 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement';
+  private static MESSAGE_TECK: string = 'Un problème technique est survenue, veuillez contacter notre service client';
+  private user_image: any;
+  private base64image: any;
+
+  constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
   }
 
   nameFormControl = new FormControl('', [
@@ -34,29 +35,33 @@ export class IndividuAccountComponent implements OnInit {
   ]);
 
   ngOnInit() {
-    this.chargeLogedUserInfo();
-    let pic = document.getElementById('OpenImgUpload1');
-    let anonymousPic = document.getElementById('OpenImgUpload2');
-    let picture = document.getElementById('imgupload');
-    pic.addEventListener('click', (e: Event) => picture.click());
-    anonymousPic.addEventListener('click', (e: Event) => picture.click());
+    if (!this.individuService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.chargeLogedUserInfo();
+      let pic = document.getElementById('OpenImgUpload1');
+      let anonymousPic = document.getElementById('OpenImgUpload2');
+      let picture = document.getElementById('imgupload');
+      pic.addEventListener('click', (e: Event) => picture.click());
+      anonymousPic.addEventListener('click', (e: Event) => picture.click());
+    }
   }
 
+  //TODO refactor
   chargeLogedUserInfo() {
-    let token = CookiesUtils.getCookie('token');
-    if (token) {
-      let login = atob(token).split(':')[0];
-      this.individuService.retrieveIndividu(login).subscribe(
-        indiv => {
-          if (indiv) {
-            this.individu = indiv;
-            this.user_image = this.convertImage(this.individu.user_image);
-          }
+
+    this.individuService.chargeLogedUserInfo().subscribe(ind => {
+      if (ind) {
+        this.individu = ind;
+        if (ind.user_image) {
+          this.user_image = this.convertImage(ind.user_image);
         }
-      );
-    } else {
-      this.router.navigate(['/login']);
-    }
+      } else {
+        this.router.navigate(['/login']);
+        this.openDialog(IndividuAccountComponent.MESSAGE_TECK);
+      }
+    });
+
   }
 
   convertImage(data: any) {
@@ -68,14 +73,36 @@ export class IndividuAccountComponent implements OnInit {
   }
 
   updateIndividuAccountInformations() {
-    this.individuService.updateIndividu(this.individu).subscribe(
+    this.individu.user_image = this.base64image;
+    this.individuApiService.updateIndividu(this.individu).subscribe(
       data => {
-        console.log('individu updated');
+        this.individuService.connectedUserInfo = data;
+        this.openDialog(IndividuAccountComponent.MESSAGE_OK);
       },
       error1 => {
-        this.displayErrorMsg;
+        this.openDialog(IndividuAccountComponent.MESSAGE_KO);
       }
     );
+  }
+
+  openDialog(msg: string): void {
+    let dialogInformation = this.buildConfirmationDialog(msg);
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      width: '30%'
+    });
+    dialogRef.componentInstance.dialogInfo = dialogInformation;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+
+  buildConfirmationDialog(msg: string): DialogInformation {
+    let dialogInfo = new DialogInformation();
+    dialogInfo.titre = 'Confirmation';
+    dialogInfo.message1 = msg;
+    dialogInfo.noLbl = 'Fermer';
+    return dialogInfo;
   }
 
   onUploadChange(evt: any) {
@@ -90,7 +117,7 @@ export class IndividuAccountComponent implements OnInit {
 
   handleReaderLoaded(e) {
     this.user_image = ('data:image/png;base64,' + btoa(e.target.result));
-    this.individu.user_image = btoa(e.target.result);
+    this.base64image = btoa(e.target.result);
   }
 
 }

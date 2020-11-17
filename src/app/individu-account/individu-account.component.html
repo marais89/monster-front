@@ -1,4 +1,5 @@
 <div class="main-div">
+  <app-header-info></app-header-info>
   <mat-card class="container m-5 text-center">
     <h5 class="card-title mb-5">Mon profile </h5>
     <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
@@ -88,7 +89,7 @@
 
     <div class="mb-5 w-100">
       <button class="btn btn-success w-100" type="submit" (click)="updateIndividuAccountInformations()">Valider</button>
-      <a class="w-100 mt-3" type="button" routerLink="/" >Retour</a>
+      <div class="mt-3" ><a routerLink="/" class="text-center text-capitalize text-dark" >Annuler</a></div>
     </div>
 
   </mat-card>
