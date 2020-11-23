@@ -1,6 +1,6 @@
 <div class="main-div">
   <app-header-info></app-header-info>
-  <mat-card class="container m-5 text-center">
+  <mat-card *ngIf="individu" class="container m-5 text-center">
     <h5 class="card-title mb-5">Mon profile </h5>
     <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
       Un probléme est survenue lors du sauvgarde !

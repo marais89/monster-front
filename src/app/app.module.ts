@@ -19,6 +19,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {IndividuAccountComponent} from './individu-account/individu-account.component';
 import {HeaderInfoComponent} from './header-info/header-info.component';
 import {IndividuService} from './shared/individu/individu.service';
+import {UserInfosComponent} from './user-infos/user-infos.component';
+import {MatListModule} from '@angular/material';
+import {SafePipe} from './shared/safe-pipe';
 
 
 @NgModule({
@@ -26,10 +29,12 @@ import {IndividuService} from './shared/individu/individu.service';
     AppComponent,
     IndividuListComponent,
     IndividuCreateComponent,
+    UserInfosComponent,
     IndividuAccountComponent,
     LoginComponent,
     DialogInfoComponent,
-    HeaderInfoComponent
+    HeaderInfoComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -42,11 +47,12 @@ import {IndividuService} from './shared/individu/individu.service';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatListModule
   ],
   providers: [IndividuService, IndividuApiService, AuthGuardService],
   bootstrap: [AppComponent],
-  entryComponents: [DialogInfoComponent]
+  entryComponents: [DialogInfoComponent, UserInfosComponent]
 })
 export class AppModule {
 }

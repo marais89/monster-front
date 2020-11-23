@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {IndividuService} from '../shared/individu/individu.service';
 import {UserStatutAction} from '../utils/user-statut-action';
 import {Wording} from '../shared/wording';
+import {UserInfosComponent} from '../user-infos/user-infos.component';
 
 @Component({
   selector: 'app-individu-list',
@@ -21,7 +22,7 @@ export class IndividuListComponent implements OnInit {
   WORDING = Wording;
   loading: boolean = true;
   anonymousPic = 'assets/anonymous.jpg';
-  displayedColumns: string[] = ['id', 'img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
+  displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,6 +33,8 @@ export class IndividuListComponent implements OnInit {
 
   constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
   }
+
+  //TODO faire un min width dans le html / gerer le respensive de la page
 
   ngOnInit() {
     if (!this.individuService.isAuthenticated()) {
@@ -121,17 +124,25 @@ export class IndividuListComponent implements OnInit {
     return null;
   }
 
-  isDeasbledSuspend(status: string): boolean{
+  isDeasbledSuspend(status: string): boolean {
     return status != 'active' ? true : false;
   }
 
-  isDesabledResume(status: string): boolean{
+  isDesabledResume(status: string): boolean {
     return (status == 'active' || status == 'resilie') ? true : false;
   }
 
-  isDesabledDeactivate(status: string):boolean{
+  isDesabledDeactivate(status: string): boolean {
     return status == 'resilie' ? true : false;
   }
 
-  //TODO on click sur ligne voir les details de l'utilisateur
+  displayUserInfoPopup(individu: Individu) {
+    const dialogRef = this.dialog.open(UserInfosComponent, {
+      minWidth: '25em', width: '30%'
+    });
+    dialogRef.componentInstance.individu = individu;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog user infos was closed');
+    });
+  }
 }

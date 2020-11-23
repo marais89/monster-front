@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
 import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import {IndividuService} from '../shared/individu/individu.service';
   templateUrl: './individu-account.component.html',
   styleUrls: ['./individu-account.component.css']
 })
-export class IndividuAccountComponent implements OnInit {
+export class IndividuAccountComponent implements OnInit, AfterViewInit {
 
   individu: Individu;
   displayErrorMsg: boolean = false;
@@ -39,12 +39,12 @@ export class IndividuAccountComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
       this.chargeLogedUserInfo();
-      let pic = document.getElementById('OpenImgUpload1');
-      let anonymousPic = document.getElementById('OpenImgUpload2');
-      let picture = document.getElementById('imgupload');
-      pic.addEventListener('click', (e: Event) => picture.click());
-      anonymousPic.addEventListener('click', (e: Event) => picture.click());
+
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.prepareclickedPic();
   }
 
   //TODO refactor
@@ -118,6 +118,14 @@ export class IndividuAccountComponent implements OnInit {
   handleReaderLoaded(e) {
     this.user_image = ('data:image/png;base64,' + btoa(e.target.result));
     this.base64image = btoa(e.target.result);
+  }
+
+  prepareclickedPic() {
+    let pic = document.getElementById('OpenImgUpload1');
+    let anonymousPic = document.getElementById('OpenImgUpload2');
+    let picture = document.getElementById('imgupload');
+    pic.addEventListener('click', (e: Event) => picture.click());
+    anonymousPic.addEventListener('click', (e: Event) => picture.click());
   }
 
 }

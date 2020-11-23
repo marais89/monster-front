@@ -1,6 +1,17 @@
 table {
   width: 100%;
 }
+.mat-row{
+  cursor: pointer;
+}
+
+.mat-row:hover {
+  background-color: rgba(121, 85, 72, 0.08);
+}
+
+.token-list-selected {
+  background-color: rgba(121, 85, 72, 0.3);
+}
 
 .mat-table-sticky:first-child {
   border-right: 1px solid #e0e0e0;
