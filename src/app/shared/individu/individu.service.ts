@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {IndividuApiService} from './individu-api.service';
 import {Observable, of} from 'rxjs';
 import {UserStatutAction} from '../../utils/user-statut-action';
+import {concatMap} from 'rxjs/operators';
 
 @Injectable()
 export class IndividuService {
@@ -37,13 +38,13 @@ export class IndividuService {
 
     let login = this.getLoginFromToken();
     if (login) {
-      this.individuApiService.retrieveIndividu(login).subscribe(data => {
-        this.connectedUserInfo = data.individu;
-        this.connectedUserRole = data.role;
-        return of(this.connectedUserInfo);
-      });
+      return this.individuApiService.retrieveIndividu(login).pipe(
+        concatMap(data => {
+          this.connectedUserInfo = data.individu;
+          this.connectedUserRole = data.role;
+          return of(this.connectedUserInfo);
+        }));
     } else {
-      console.log('No TOKEN found !');
       return null;
     }
   }

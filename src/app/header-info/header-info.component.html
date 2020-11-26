@@ -5,9 +5,10 @@
   </a>
   <a routerLink="/" class="align-middle logo">MONSTER</a>
   <div class="toolbar-menu-right">
-    <a class="menu-btn" routerLink="/"><span>Accueil</span></a>
-    <a class="menu-btn" routerLink="/"><span>Produits</span></a>
-    <a class="menu-btn" *ngIf="role =='ADMIN'" routerLink="users"><span>Users</span></a>
+    <a class="menu-btn" matTooltip="Accueil" routerLink="/"><span>Accueil</span></a>
+    <a class="menu-btn" matTooltip="Liste des produits" routerLink="/"><span>Produits</span></a>
+    <a class="menu-btn" matTooltip="Liste des utilisateurs" *ngIf="role =='ADMIN'"
+       routerLink="/users"><span>Users</span></a>
 
     <a id="mainNav" [matMenuTriggerFor]="menu"><a><span class="mr-2">Bonjour {{retrieveDisplayedUserName()}}</span></a>
       <img class="roundedImage" [src]="retrieveUserPic()"/></a>

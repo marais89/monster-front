@@ -37,11 +37,7 @@ export class IndividuListComponent implements OnInit {
   //TODO faire un min width dans le html / gerer le respensive de la page
 
   ngOnInit() {
-    if (!this.individuService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-    } else {
-      this.findIndividus();
-    }
+    this.findIndividus();
   }
 
   perfermActions(login: string, action: UserStatutAction): void {
@@ -142,7 +138,6 @@ export class IndividuListComponent implements OnInit {
     });
     dialogRef.componentInstance.individu = individu;
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog user infos was closed');
     });
   }
 }

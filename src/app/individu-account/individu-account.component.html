@@ -7,10 +7,9 @@
     </div>
 
     <br>
-    <a id="OpenImgUpload1" title="select your picture"> <img class="roundedImage" *ngIf="user_image"
-                                                             [src]=user_image alt="1"> </a>
-    <a id="OpenImgUpload2" title="select your picture"> <img class="roundedImage" *ngIf="!user_image"
-                                                             [src]="anonymousPic" alt="1"/> </a>
+
+    <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="displayUserPic()"
+                                                                       alt="1"/> </a>
     <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
            style="display:none"/>
     <div class="d-flex justify-content-center w-100">
@@ -76,7 +75,8 @@
             class="mx-auto mt-5 text-capitalize"> date d'inscription: {{individu.date_ceation | date: 'dd/MM/yyyy'}}</span>
         <div>
           <div class="mt-3">
-            <span class="text-danger" *ngIf="individu.statut == 'attente'">Votre compte est en attente d'activation</span>
+            <span class="text-danger"
+                  *ngIf="individu.statut == 'attente'">Votre compte est en attente d'activation</span>
             <span class="text-info" *ngIf="individu.statut == 'active'">Votre compte est active</span>
             <span class="text-danger" *ngIf="individu.statut == 'bloque'">Votre compte est bloqué</span>
             <span class="text-danger" *ngIf="individu.statut == 'resilie'">Votre compte est résilié</span>
@@ -89,7 +89,7 @@
 
     <div class="mb-5 w-100">
       <button class="btn btn-success w-100" type="submit" (click)="updateIndividuAccountInformations()">Valider</button>
-      <div class="mt-3" ><a routerLink="/" class="text-center text-capitalize text-dark" >Annuler</a></div>
+      <div class="mt-3"><a routerLink="/" class="text-center text-capitalize text-dark">Annuler</a></div>
     </div>
 
   </mat-card>

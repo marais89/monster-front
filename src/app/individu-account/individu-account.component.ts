@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
 import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import {IndividuService} from '../shared/individu/individu.service';
   templateUrl: './individu-account.component.html',
   styleUrls: ['./individu-account.component.css']
 })
-export class IndividuAccountComponent implements OnInit, AfterViewInit {
+export class IndividuAccountComponent implements OnInit {
 
   individu: Individu;
   displayErrorMsg: boolean = false;
@@ -25,7 +25,6 @@ export class IndividuAccountComponent implements OnInit, AfterViewInit {
   private static MESSAGE_KO: string = 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement';
   private static MESSAGE_TECK: string = 'Un problème technique est survenue, veuillez contacter notre service client';
   private user_image: any;
-  private base64image: any;
 
   constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
   }
@@ -35,45 +34,25 @@ export class IndividuAccountComponent implements OnInit, AfterViewInit {
   ]);
 
   ngOnInit() {
-    if (!this.individuService.isAuthenticated()) {
-      this.router.navigate(['/login']);
-    } else {
-      this.chargeLogedUserInfo();
-
-    }
+    this.chargeLogedUserInfo();
   }
 
-  ngAfterViewInit(): void {
-    this.prepareclickedPic();
-  }
-
-  //TODO refactor
   chargeLogedUserInfo() {
-
     this.individuService.chargeLogedUserInfo().subscribe(data => {
       if (data) {
         this.individu = data;
         if (data.user_image) {
-          this.user_image = this.convertImage(data.user_image);
+          this.user_image = data.user_image;
         }
       } else {
         this.router.navigate(['/login']);
         this.openDialog(IndividuAccountComponent.MESSAGE_TECK);
       }
     });
-
-  }
-
-  convertImage(data: any) {
-    if (data) {
-      let objectURL = 'data:image/png;base64,' + data;
-      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    }
-    return null;
   }
 
   updateIndividuAccountInformations() {
-    this.individu.user_image = this.base64image;
+    this.individu.user_image = this.user_image;
     this.individuApiService.updateIndividu(this.individu).subscribe(
       data => {
         this.individuService.connectedUserInfo = data;
@@ -106,8 +85,8 @@ export class IndividuAccountComponent implements OnInit, AfterViewInit {
   }
 
   onUploadChange(evt: any) {
-    const file = evt.target.files[0];
 
+    const file = evt.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = this.handleReaderLoaded.bind(this);
@@ -116,16 +95,24 @@ export class IndividuAccountComponent implements OnInit, AfterViewInit {
   }
 
   handleReaderLoaded(e) {
-    this.user_image = ('data:image/png;base64,' + btoa(e.target.result));
-    this.base64image = btoa(e.target.result);
+    this.user_image = btoa(e.target.result);
   }
 
   prepareclickedPic() {
-    let pic = document.getElementById('OpenImgUpload1');
-    let anonymousPic = document.getElementById('OpenImgUpload2');
-    let picture = document.getElementById('imgupload');
-    pic.addEventListener('click', (e: Event) => picture.click());
-    anonymousPic.addEventListener('click', (e: Event) => picture.click());
+    let clickedInputPic = document.getElementById('imgupload');
+    clickedInputPic.click();
+  }
+
+  convertImage(data: any) {
+    if (data) {
+      let objectURL = 'data:image/png;base64,' + data;
+      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    }
+    return null;
+  }
+
+  displayUserPic() {
+    return this.user_image ? this.convertImage(this.user_image) : this.anonymousPic;
   }
 
 }
