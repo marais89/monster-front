@@ -1,35 +1,35 @@
 <div class="main-div bg">
   <mat-card class="container login-container text-center m-5">
-    <h5 class=" mb-5 text-center text-capitalize title"><span>Login </span></h5>
+    <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
     <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
-      Login ou mot de passe incorrect !
+      {{WORDING.login.error1}}
     </div>
     <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
-      Votre compte est désactivé, veuillez contacter le service client !
+      {{WORDING.login.error2}}
     </div>
     <div class="w-75 mx-auto">
       <mat-form-field floatLabel="never" class=" mb-5 w-100">
-        <input type="text" matInput placeholder="Login" [(ngModel)]="user.login" required>
+        <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.login" required>
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          Le login est <strong>obligatoire</strong>
+         {{WORDING.login.mondatory}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field floatLabel="never" class=" w-100">
-        <input type="password" matInput placeholder="Password" [(ngModel)]="user.password" required
+        <input type="password" matInput placeholder="{{WORDING.login.pwd}}" [(ngModel)]="user.password" required
                name="password">
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          le mot de passe est <strong>obligatoire</strong>
+          {{WORDING.login.mondatory}}
         </mat-error>
       </mat-form-field>
-      <mat-checkbox class="mb-5 float-left">Remember me</mat-checkbox>
+      <mat-checkbox class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
 
       <div class=" mb-5 w-100">
-        <button class="btn btn-success w-100" type="submit" (click)="login()">Valider</button>
+        <button class="btn btn-success w-100" type="submit" title="{{WORDING.login.confirm}}" (click)="login()">{{WORDING.login.confirm}}</button>
       </div>
       <div>
-        <span class="w-100">Don't have an account?  <a routerLink="/create">Sign Up </a></span></div>
-      <div class="w-100"><a href="#">Forgot your password?</a></div>
+        <span class="w-100">{{WORDING.login.signUp_msg}} <a routerLink="/create">{{WORDING.login.signUp}}</a></span></div>
+      <div class="w-100"><a href="#">{{WORDING.login.forgot_pwd}}</a></div>
     </div>
     <div>
     </div>

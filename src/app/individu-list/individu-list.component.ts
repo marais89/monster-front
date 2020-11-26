@@ -47,17 +47,16 @@ export class IndividuListComponent implements OnInit {
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
 
   buildDialogInfo(login: string, action: UserStatutAction): DialogInformation {
     let dialogInfo = new DialogInformation();
-    dialogInfo.titre = 'Confirmation';
+    dialogInfo.titre = this.WORDING.dialog.title.confirm;
     dialogInfo.message1 = this.WORDING.dialog.message[action].info;
-    dialogInfo.okLbl = 'Valider';
-    dialogInfo.noLbl = 'Annuler';
+    dialogInfo.okLbl = this.WORDING.dialog.button.confirm;
+    dialogInfo.noLbl = this.WORDING.dialog.button.concel;
     dialogInfo.onClickAction = () => this.updateIndividuStatus(login, action);
     return dialogInfo;
   }
@@ -99,16 +98,15 @@ export class IndividuListComponent implements OnInit {
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
 
   buildConfirmationDialog(msg: string): DialogInformation {
     let dialogInfo = new DialogInformation();
-    dialogInfo.titre = 'Confirmation';
+    dialogInfo.titre = this.WORDING.dialog.title.confirm;
     dialogInfo.message1 = msg;
-    dialogInfo.noLbl = 'Fermer';
+    dialogInfo.noLbl = this.WORDING.dialog.button.close;
     return dialogInfo;
   }
 

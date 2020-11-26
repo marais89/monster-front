@@ -5,6 +5,8 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import * as bcrypt from 'bcryptjs';
+import {Wording} from '../shared/wording';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-individu-create',
@@ -14,21 +16,24 @@ import * as bcrypt from 'bcryptjs';
 
 export class IndividuCreateComponent implements OnInit {
 
+
+  //TODO pour tout les pages gérer les attributs private ou sans private
+  WORDING = Wording;
   private individu: Individu;
   displayErrorMsg: boolean = false;
   actualDate: Date;
   anonymousPic = 'assets/anonymous.jpg';
   password: string;
   passwordConfirmation: string;
-  REGEX  = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
+  REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 
-  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
+  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
   }
 
- isConformPwd(): boolean{
-   let bol = this.password === this.passwordConfirmation || this.passwordConfirmation == undefined;
-   return bol;
- }
+  isConformPwd(): boolean {
+    let bol = this.password === this.passwordConfirmation || this.passwordConfirmation == undefined;
+    return bol;
+  }
 
   nameFormControl = new FormControl('', [
     Validators.required,
@@ -36,13 +41,7 @@ export class IndividuCreateComponent implements OnInit {
 
   ngOnInit() {
     this.individu = new Individu();
-    let pic = document.getElementById('OpenImgUpload1');
-    let anonymousPic = document.getElementById('OpenImgUpload2');
-    let picture = document.getElementById('imgupload');
-    pic.addEventListener('click', (e: Event) => picture.click());
-    anonymousPic.addEventListener('click', (e: Event) => picture.click());
   }
-  base64textString;
 
   onUploadChange(evt: any) {
     const file = evt.target.files[0];
@@ -55,8 +54,24 @@ export class IndividuCreateComponent implements OnInit {
   }
 
   handleReaderLoaded(e) {
-    this.base64textString = ('data:image/png;base64,' + btoa(e.target.result));
     this.individu.user_image = btoa(e.target.result);
+  }
+
+  prepareclickedPic() {
+    let clickedInputPic = document.getElementById('imgupload');
+    clickedInputPic.click();
+  }
+
+  convertImage(data: any) {
+    if (data) {
+      let objectURL = 'data:image/png;base64,' + data;
+      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    }
+    return null;
+  }
+
+  displayUserPic() {
+    return this.individu.user_image ? this.convertImage(this.individu.user_image) : this.anonymousPic;
   }
 
 
@@ -70,7 +85,6 @@ export class IndividuCreateComponent implements OnInit {
     this.individu.pass = bcrypt.hashSync(this.password, salt);
     this.individuApiService.saveIndividu(this.individu).subscribe(
       data => {
-        console.log('individu saved ');
         this.router.navigate(['/login']);
       },
       error1 => {
@@ -90,7 +104,7 @@ enum Niveau {
 
 export enum Statut {
   attente = 'attente',
-  active ='active',
+  active = 'active',
   bloque = 'bloque',
   resilie = 'resilie'
 };

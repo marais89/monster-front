@@ -1,9 +1,9 @@
 <div class="main-div">
   <app-header-info></app-header-info>
   <mat-card *ngIf="individu" class="container m-5 text-center">
-    <h5 class="card-title mb-5">Mon profile </h5>
+    <h2 class="card-title mb-5">{{WORDING.individu_account.title}} </h2>
     <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
-      Un probléme est survenue lors du sauvgarde !
+     {{WORDING.problem}}
     </div>
 
     <br>
@@ -21,50 +21,50 @@
     <div class="d-flex justify-content-start w-100">
       <div class="p-2 w-50">
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre nom" >
-          <input type="text" [disabled]="true" matInput placeholder="Nom" [(ngModel)]="individu.nom" required>
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.lastName}}" >
+          <input type="text" [disabled]="true" matInput placeholder="{{WORDING.individu.attributs.lastName}}" [(ngModel)]="individu.nom" required>
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            Le nom est <strong>obligatoire</strong>
+             <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre prènom" >
-          <input type="text" [disabled]="true" matInput placeholder="Prenom" [(ngModel)]="individu.prenom" required
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.firstName}}" >
+          <input type="text" [disabled]="true" matInput placeholder="{{WORDING.individu.attributs.firstName}}" [(ngModel)]="individu.prenom" required
                  name="prenom">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            Le prénom est <strong>obligatoire</strong>
+            <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre adresse e-mail" >
-          <input type="email" matInput [disabled]="true" placeholder="E-mail" [(ngModel)]="individu.email" required
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.email}}" >
+          <input type="email" matInput [disabled]="true" placeholder="{{WORDING.individu.attributs.email}}" [(ngModel)]="individu.email" required
                  name="email">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            L'enail est <strong>obligatoire</strong>
+            <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-5 w-100" title="Votre date de naissance" >
-          <input type="date" [disabled]="true" matInput placeholder="Date de naissance"
+        <mat-form-field floatLabel="never" class="row mb-5 w-100" title="{{WORDING.individu.attributs.bornDate}}" >
+          <input type="date" [disabled]="true" matInput placeholder="{{WORDING.individu.attributs.bornDate}}"
                  [(ngModel)]="individu.date_naissance" required
                  name="dateNaissance">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            La date de naissance est <strong>obligatoire</strong>
+            <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre numéro de téléphone" >
-          <input type="text" matInput placeholder="Telephone" [(ngModel)]="individu.numeroTel"
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.tel}}" >
+          <input type="text" required matInput placeholder="{{WORDING.individu.attributs.tel}}" [(ngModel)]="individu.numeroTel"
                  name="telephone">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            Le prénom est <strong>obligatoire</strong>
+            <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre adresse" >
-          <input type="text" matInput placeholder="Adresse" [(ngModel)]="individu.adresse"
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.address}}" >
+          <input type="text" required matInput placeholder="{{WORDING.individu.attributs.address}}" [(ngModel)]="individu.adresse"
                  name="Adresse">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            Le prénom est <strong>obligatoire</strong>
+            <strong>{{WORDING.individu_account.mondatory}}</strong>
           </mat-error>
         </mat-form-field>
 
@@ -72,14 +72,14 @@
 
       <div class="p-2 pt-5 w-50">
           <span
-            class="mx-auto mt-5 text-capitalize"> date d'inscription: {{individu.date_ceation | date: 'dd/MM/yyyy'}}</span>
+            class="mx-auto mt-5 text-capitalize"> {{WORDING.individu_account.sous_date}}: {{individu.date_ceation | date: 'dd/MM/yyyy'}}</span>
         <div>
           <div class="mt-3">
             <span class="text-danger"
-                  *ngIf="individu.statut == 'attente'">Votre compte est en attente d'activation</span>
-            <span class="text-info" *ngIf="individu.statut == 'active'">Votre compte est active</span>
-            <span class="text-danger" *ngIf="individu.statut == 'bloque'">Votre compte est bloqué</span>
-            <span class="text-danger" *ngIf="individu.statut == 'resilie'">Votre compte est résilié</span>
+                  *ngIf="individu.statut == 'attente'">{{WORDING.individu_account.account_status.waiting}}</span>
+            <span class="text-info" *ngIf="individu.statut == 'active'">{{WORDING.individu_account.account_status.active}}</span>
+            <span class="text-danger" *ngIf="individu.statut == 'bloque'">{{WORDING.individu_account.account_status.blocked}}</span>
+            <span class="text-danger" *ngIf="individu.statut == 'resilie'">{{WORDING.individu_account.account_status.canceled}}</span>
             <img class="verifiedImgSize " *ngIf="individu.statut == 'active' && individu.niveau > 2"
                  [src]="verifiedLogo"/>
           </div>
@@ -88,8 +88,8 @@
     </div>
 
     <div class="mb-5 w-100">
-      <button class="btn btn-success w-100" type="submit" (click)="updateIndividuAccountInformations()">Valider</button>
-      <div class="mt-3"><a routerLink="/" class="text-center text-capitalize text-dark">Annuler</a></div>
+      <button class="btn btn-success w-100" type="submit" (click)="updateIndividuAccountInformations()">{{WORDING.dialog.button.confirm}}</button>
+      <div class="mt-3"><a routerLink="/" class="text-center text-capitalize text-dark">{{WORDING.dialog.button.concel}}</a></div>
     </div>
 
   </mat-card>

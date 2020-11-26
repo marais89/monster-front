@@ -7,6 +7,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {IndividuService} from '../shared/individu/individu.service';
+import {Wording} from '../shared/wording';
 
 @Component({
   selector: 'app-individu-account',
@@ -15,15 +16,12 @@ import {IndividuService} from '../shared/individu/individu.service';
 })
 export class IndividuAccountComponent implements OnInit {
 
+  WORDING = Wording;
   individu: Individu;
   displayErrorMsg: boolean = false;
   anonymousPic = 'assets/anonymous.jpg';
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
-
-  private static MESSAGE_OK: string = 'Vos Informations ont été mis a jouravec succée';
-  private static MESSAGE_KO: string = 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement';
-  private static MESSAGE_TECK: string = 'Un problème technique est survenue, veuillez contacter notre service client';
   private user_image: any;
 
   constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
@@ -37,6 +35,8 @@ export class IndividuAccountComponent implements OnInit {
     this.chargeLogedUserInfo();
   }
 
+  retriveType;
+
   chargeLogedUserInfo() {
     this.individuService.chargeLogedUserInfo().subscribe(data => {
       if (data) {
@@ -46,7 +46,7 @@ export class IndividuAccountComponent implements OnInit {
         }
       } else {
         this.router.navigate(['/login']);
-        this.openDialog(IndividuAccountComponent.MESSAGE_TECK);
+        this.openDialog(this.WORDING.problem);
       }
     });
   }
@@ -56,10 +56,10 @@ export class IndividuAccountComponent implements OnInit {
     this.individuApiService.updateIndividu(this.individu).subscribe(
       data => {
         this.individuService.connectedUserInfo = data;
-        this.openDialog(IndividuAccountComponent.MESSAGE_OK);
+        this.openDialog(this.WORDING.dialog.message.update.ok);
       },
       error1 => {
-        this.openDialog(IndividuAccountComponent.MESSAGE_KO);
+        this.openDialog(this.WORDING.dialog.message.update.ko);
       }
     );
   }
@@ -71,16 +71,15 @@ export class IndividuAccountComponent implements OnInit {
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
 
   buildConfirmationDialog(msg: string): DialogInformation {
     let dialogInfo = new DialogInformation();
-    dialogInfo.titre = 'Confirmation';
+    dialogInfo.titre = this.WORDING.dialog.title.confirm;
     dialogInfo.message1 = msg;
-    dialogInfo.noLbl = 'Fermer';
+    dialogInfo.noLbl = this.WORDING.dialog.button.close;
     return dialogInfo;
   }
 

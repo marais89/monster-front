@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Individu} from '../model/individu';
+import {Wording} from '../shared/wording';
 
 @Component({
   selector: 'app-header-info',
@@ -10,9 +11,9 @@ import {Individu} from '../model/individu';
 })
 export class HeaderInfoComponent implements OnInit {
 
+  WORDING = Wording;
   individu: Individu;
   role: string;
-
   anonymousPic = 'assets/anonymous.jpg';
   private user_pic: any;
   private display_name: string;
