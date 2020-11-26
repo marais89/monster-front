@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Individu} from '../model/individu';
 import {IndividuService} from '../shared/individu/individu.service';
+import {Individu} from '../model/individu';
 
 @Component({
   selector: 'app-header-info',
@@ -11,6 +11,7 @@ import {IndividuService} from '../shared/individu/individu.service';
 export class HeaderInfoComponent implements OnInit {
 
   individu: Individu;
+  role: string;
 
   anonymousPic = 'assets/anonymous.jpg';
   private user_pic: any;
@@ -24,6 +25,7 @@ export class HeaderInfoComponent implements OnInit {
     if (!this.individu) {
       this.individuService.chargeLogedUserInfo().subscribe(data => {
           this.individu = data;
+          this.role= this.individuService.connectedUserRole;
           this.user_pic = this.retrieveUserPic();
           this.display_name = this.retrieveDisplayedUserName();
         }

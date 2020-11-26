@@ -1,0 +1,56 @@
+<mat-card class="main-div container m-0 text-center">
+  <div class="alert alert-danger w-100" *ngIf="!individu" role="alert">
+    Un probléme technique est survenu !
+  </div>
+  <div class="w-100 mx-auto" *ngIf="individu">
+
+
+    <img class="roundedImage" [src]="retrieveUserPic()" alt="1">
+
+    <div class="row d-flex justify-content-start mt-5 mb-4 w-100">
+      <span class="w-50 text-lg-left">Nom :</span>
+      <span class="w-50 text-lg-left">{{individu.nom}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Prénom :</span>
+      <span class="w-50 text-lg-left">{{individu.prenom}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Date naissance :</span>
+      <span class="w-50 text-lg-left">{{individu.date_naissance}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">E-mail :</span>
+      <span class="w-50 text-lg-left">{{individu.email}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">N° Téléphone :</span>
+      <span class="w-50 text-lg-left">{{individu.numeroTel}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Adresse :</span>
+      <span class="w-50 text-lg-left">{{individu.adresse}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Niveau :</span>
+      <span class="w-50 text-lg-left">{{individu.niveau}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Statut :</span>
+      <span class="w-50 text-lg-left">{{individu.statut}}</span>
+    </div>
+
+    <div class="row d-flex justify-content-start mb-4 w-100">
+      <span class="w-50 text-lg-left">Date creation :</span>
+      <span class="w-50 text-lg-left">{{individu.date_ceation}}</span>
+    </div>
+
+  </div>
+</mat-card>

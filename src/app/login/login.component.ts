@@ -5,6 +5,7 @@ import {CookiesUtils} from '../utils/cookies-utils';
 import * as bcrypt from 'bcryptjs';
 import {IndividuService} from '../shared/individu/individu.service';
 import {IndividuApiService} from '../shared/individu/individu-api.service';
+import {concatMap} from 'rxjs/operators';
 
 export class User {
   login: string;
@@ -44,7 +45,8 @@ export class LoginComponent implements OnInit {
           }
           CookiesUtils.setCookie('token', btoa(this.user.login + ':' + this.user.password));
           this.individuApiService.retrieveIndividu(this.user.login).subscribe(indiv => {
-            this.individuService.connectedUserInfo = indiv;
+            this.individuService.connectedUserInfo = indiv.individu;
+            this.individuService.connectedUserRole = indiv.role;
             this.router.navigate(['']);
           });
         } else {

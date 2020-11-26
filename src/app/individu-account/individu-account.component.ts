@@ -50,11 +50,11 @@ export class IndividuAccountComponent implements OnInit, AfterViewInit {
   //TODO refactor
   chargeLogedUserInfo() {
 
-    this.individuService.chargeLogedUserInfo().subscribe(ind => {
-      if (ind) {
-        this.individu = ind;
-        if (ind.user_image) {
-          this.user_image = this.convertImage(ind.user_image);
+    this.individuService.chargeLogedUserInfo().subscribe(data => {
+      if (data) {
+        this.individu = data;
+        if (data.user_image) {
+          this.user_image = this.convertImage(data.user_image);
         }
       } else {
         this.router.navigate(['/login']);

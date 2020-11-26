@@ -22,11 +22,13 @@ import {IndividuService} from './shared/individu/individu.service';
 import {UserInfosComponent} from './user-infos/user-infos.component';
 import {MatListModule} from '@angular/material';
 import {SafePipe} from './shared/safe-pipe';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     IndividuListComponent,
     IndividuCreateComponent,
     UserInfosComponent,

@@ -5,12 +5,14 @@ import {IndividuCreateComponent} from './individu-create/individu-create.compone
 import {LoginComponent} from './login/login.component';
 import {AuthGuardService as AuthGuard} from './authGuardService';
 import {IndividuAccountComponent} from './individu-account/individu-account.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 export const routes: Routes = [
-  {path: '', component: IndividuListComponent, canActivate: [AuthGuard] },
+  {path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  {path: 'users', component: IndividuListComponent, canActivate: [AuthGuard] },
   {path: 'create', component: IndividuCreateComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'account', component: IndividuAccountComponent},
+  {path: 'account', component: IndividuAccountComponent, canActivate: [AuthGuard] },
   {path: '**', redirectTo: ''}
 ];
 

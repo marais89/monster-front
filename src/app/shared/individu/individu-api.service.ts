@@ -5,6 +5,7 @@ import {Individu} from '../../model/individu';
 import {UrlUtils} from '../../utils/url-utils';
 import {User} from '../../login/login.component';
 import {CookiesUtils} from '../../utils/cookies-utils';
+import {IndividuGlobaleInfos} from '../../model/individu-globale-infos';
 
 
 @Injectable()
@@ -37,7 +38,7 @@ export class IndividuApiService {
 
   SuspendUser(login: string): Observable<Individu[]> {
     let url = UrlUtils.BASE_URL + UrlUtils.SUSPEND_URL + login;
-    return this.http.post<Individu[]>(url,login, this.buildHeader());
+    return this.http.post<Individu[]>(url, login, this.buildHeader());
   };
 
   resumeUser(login: string): Observable<Individu[]> {
@@ -50,9 +51,9 @@ export class IndividuApiService {
     return this.http.post<Individu[]>(url, login, this.buildHeader());
   };
 
-  retrieveIndividu(login: string): Observable<Individu> {
+  retrieveIndividu(login: string): Observable<IndividuGlobaleInfos> {
     let url = UrlUtils.BASE_URL + UrlUtils.RETRIEVE_INDIVIDU_URL + login;
-    return this.http.get<Individu>(url, this.buildHeader());
+    return this.http.get<IndividuGlobaleInfos>(url, this.buildHeader());
   }
 
   getLoggedUser(user: User): Observable<User> {

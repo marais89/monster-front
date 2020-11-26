@@ -10,6 +10,7 @@ import {UserStatutAction} from '../../utils/user-statut-action';
 export class IndividuService {
 
   connectedUserInfo: Individu;
+  connectedUserRole: string;
 
   constructor(private individuApiService: IndividuApiService) {
   }
@@ -36,7 +37,11 @@ export class IndividuService {
 
     let login = this.getLoginFromToken();
     if (login) {
-      return this.individuApiService.retrieveIndividu(login);
+      this.individuApiService.retrieveIndividu(login).subscribe(data => {
+        this.connectedUserInfo = data.individu;
+        this.connectedUserRole = data.role;
+        return of(this.connectedUserInfo);
+      });
     } else {
       console.log('No TOKEN found !');
       return null;

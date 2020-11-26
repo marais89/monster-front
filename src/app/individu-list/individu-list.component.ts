@@ -99,7 +99,7 @@ export class IndividuListComponent implements OnInit {
   openInfoDialog(msg: string): void {
     let dialogInformation = this.buildConfirmationDialog(msg);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
-      width: '40%'
+      width: '35%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
