@@ -21,14 +21,14 @@
     <div class="d-flex justify-content-start w-100">
       <div class="p-2 w-50">
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre nom" >
           <input type="text" [disabled]="true" matInput placeholder="Nom" [(ngModel)]="individu.nom" required>
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
             Le nom est <strong>obligatoire</strong>
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre prènom" >
           <input type="text" [disabled]="true" matInput placeholder="Prenom" [(ngModel)]="individu.prenom" required
                  name="prenom">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
@@ -36,7 +36,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre adresse e-mail" >
           <input type="email" matInput [disabled]="true" placeholder="E-mail" [(ngModel)]="individu.email" required
                  name="email">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
@@ -44,7 +44,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-5 w-100">
+        <mat-form-field floatLabel="never" class="row mb-5 w-100" title="Votre date de naissance" >
           <input type="date" [disabled]="true" matInput placeholder="Date de naissance"
                  [(ngModel)]="individu.date_naissance" required
                  name="dateNaissance">
@@ -53,14 +53,14 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre numéro de téléphone" >
           <input type="text" matInput placeholder="Telephone" [(ngModel)]="individu.numeroTel"
                  name="telephone">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
             Le prénom est <strong>obligatoire</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <mat-form-field floatLabel="never" class="row mb-4 w-100" title="Votre adresse" >
           <input type="text" matInput placeholder="Adresse" [(ngModel)]="individu.adresse"
                  name="Adresse">
           <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
