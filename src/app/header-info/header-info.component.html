@@ -5,20 +5,27 @@
   </a>
   <a routerLink="/" class="align-middle logo">MONSTER</a>
   <div class="toolbar-menu-right">
-    <a class="menu-btn" title="{{WORDING.header_toolBar.home}}" routerLink="/"><span>{{WORDING.header_toolBar.home}}</span></a>
-    <a class="menu-btn" title="{{WORDING.header_toolBar.product}}" routerLink="/"><span>{{WORDING.header_toolBar.product}}</span></a>
-    <a class="menu-btn" title="{{WORDING.header_toolBar.administration}}" *ngIf="role =='ADMIN'"
+    <a class="menu-btn" title="{{WORDING.header_toolBar.home}}"
+       routerLink="/"><span>{{WORDING.header_toolBar.home}}</span></a>
+    <a class="menu-btn" title="{{WORDING.header_toolBar.product}}"
+       routerLink="/"><span>{{WORDING.header_toolBar.product}}</span></a>
+    <a class="menu-btn" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
        routerLink="/users"><span>{{WORDING.header_toolBar.administration}}</span></a>
 
-    <a id="mainNav" [matMenuTriggerFor]="menu"><a><span class="mr-2">{{WORDING.header_toolBar.welcome}} {{retrieveDisplayedUserName()}}</span></a>
+    <a id="mainNav" [matMenuTriggerFor]="menu"><a><span
+      class="mr-2">{{WORDING.header_toolBar.welcome}} {{retrieveDisplayedUserName()}}</span></a>
       <img class="roundedImage" [src]="retrieveUserPic()"/></a>
     <mat-menu #menu="matMenu" yPosition="below" class="providers-menu">
-      <a mat-menu-item><i class="material-icons align-middle">storefront</i><span class="ml-2">{{WORDING.header_toolBar.order}}</span></a>
-      <a mat-menu-item routerLink="/account"><i class="material-icons align-middle">person</i><span class="ml-2">{{WORDING.header_toolBar.account}}</span></a>
-      <a mat-menu-item><i class="material-icons align-middle">language</i><span class="ml-2">{{WORDING.header_toolBar.language}}</span></a>
+      <a mat-menu-item><i class="material-icons align-middle">storefront</i><span
+        class="ml-2">{{WORDING.header_toolBar.order}}</span></a>
+      <a mat-menu-item routerLink="/account"><i class="material-icons align-middle">person</i><span
+        class="ml-2">{{WORDING.header_toolBar.account}}</span></a>
+      <a mat-menu-item><i class="material-icons align-middle">language</i><span
+        class="ml-2">{{WORDING.header_toolBar.language}}</span></a>
       <a mat-menu-item routerLink="/login" (click)="logout()"><i class="material-icons align-middle">logout</i><span
         class="ml-2">{{WORDING.header_toolBar.logout}}</span></a>
-      <a mat-menu-item><i class="material-icons align-middle">help</i><span class="ml-2">{{WORDING.header_toolBar.help}}</span></a>
+      <a mat-menu-item><i class="material-icons align-middle">help</i><span
+        class="ml-2">{{WORDING.header_toolBar.help}}</span></a>
     </mat-menu>
   </div>
 </mat-toolbar>

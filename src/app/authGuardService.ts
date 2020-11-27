@@ -4,14 +4,29 @@ import {IndividuService} from './shared/individu/individu.service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  constructor(public auth: IndividuService, public router: Router) {
+  constructor(public individuService: IndividuService, public router: Router) {
   }
 
   canActivate(): boolean {
-    if (!this.auth.isAuthenticated()) {
+    if (!this.individuService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return false;
     }
     return true;
   }
+}
+
+@Injectable()
+export class RoleGuardService implements CanActivate {
+  constructor(public individuService: IndividuService, public router: Router) {
+  }
+
+  canActivate(): boolean {
+    if (this.individuService.isAdmin()) {
+      return true;
+    }
+    this.router.navigate(['/']);
+    return false;
+  }
+
 }

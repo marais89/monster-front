@@ -12,7 +12,7 @@ import {RouterModule} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {DialogInfoComponent} from './dialog-info/dialog-info.component';
-import {AuthGuardService} from './authGuardService';
+import {AuthGuardService, RoleGuardService} from './authGuardService';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -52,7 +52,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
     MatProgressSpinnerModule,
     MatListModule
   ],
-  providers: [IndividuService, IndividuApiService, AuthGuardService],
+  providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]
 })

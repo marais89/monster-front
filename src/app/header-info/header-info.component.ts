@@ -13,7 +13,6 @@ export class HeaderInfoComponent implements OnInit {
 
   WORDING = Wording;
   individu: Individu;
-  role: string;
   anonymousPic = 'assets/anonymous.jpg';
   private user_pic: any;
   private display_name: string;
@@ -26,7 +25,6 @@ export class HeaderInfoComponent implements OnInit {
     if (!this.individu) {
       this.individuService.chargeLogedUserInfo().subscribe(data => {
           this.individu = data;
-          this.role= this.individuService.connectedUserRole;
           this.user_pic = this.retrieveUserPic();
           this.display_name = this.retrieveDisplayedUserName();
         }
@@ -35,6 +33,10 @@ export class HeaderInfoComponent implements OnInit {
       this.user_pic = this.retrieveUserPic();
       this.display_name = this.retrieveDisplayedUserName();
     }
+  }
+
+  isAdmin(): boolean {
+    return this.individuService.isAdmin();
   }
 
   retrieveUserPic() {
