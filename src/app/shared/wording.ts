@@ -19,7 +19,8 @@ export const Wording = {
       update: {
         ok: 'Vos Informations ont été mis a jour avec succée',
         ko: 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement',
-      }
+      },
+      authorities_error: 'Vous n\'avez pas les droits nécessaires pour cette fonctionnalité',
     },
     button: {
       confirm: 'Valider',
@@ -54,12 +55,12 @@ export const Wording = {
   },
   individu_create: {
     title: 'Informations Client',
-    pw_regex:'Le mot de passe doit contenir <strong>lettre MAJ, lettre min, chiffre, caractére spécial</strong>',
+    pw_regex: 'Le mot de passe doit contenir <strong>lettre MAJ, lettre min, chiffre, caractére spécial</strong>',
     pw_identique: 'Le mot de passe <strong>doit étre identique</strong>',
     create_btn: 'Créer mon compte',
     return_btn: 'Retour'
   },
-  login:{
+  login: {
     title: 'Login',
     error1: 'Login ou mot de passe incorrect !',
     error2: 'Votre compte est désactivé, veuillez contacter le service client !',

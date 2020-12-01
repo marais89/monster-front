@@ -20,7 +20,6 @@ import {UserInfosComponent} from '../user-infos/user-infos.component';
 export class IndividuListComponent implements OnInit {
 
   WORDING = Wording;
-  loading: boolean = true;
   anonymousPic = 'assets/anonymous.jpg';
   displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
@@ -62,16 +61,18 @@ export class IndividuListComponent implements OnInit {
   }
 
   findIndividus() {
-    this.loading = true;
     this.individuApiService.getAll().subscribe(data => {
         this.dataSource = new MatTableDataSource<Individu>(data);
         this.dataSource.data.forEach(x => x.user_image = this.convertImage(x.user_image));
         this.dataSource.paginator = this.paginator;
-        this.loading = false;
       },
       error => {
-        console.log('Error while loading individus !');
-        this.loading = false;
+        console.log('Error while loading individus !'+ error.status);
+        if(error.status == "403"){
+          this.openInfoDialog(this.WORDING.dialog.message.authorities_error, "Erreur")
+        }else{
+          this.openInfoDialog(this.WORDING.problem, "Erreur");
+        }
       });
   }
 
@@ -80,19 +81,19 @@ export class IndividuListComponent implements OnInit {
       data => {
         if (data) {
           this.dataSource.data = data;
-          this.openInfoDialog(this.WORDING.dialog.message[action].success);
+          this.openInfoDialog(this.WORDING.dialog.message[action].success, this.WORDING.dialog.title.confirm);
         } else {
-          this.openInfoDialog(this.WORDING.dialog.message[action].error);
+          this.openInfoDialog(this.WORDING.dialog.message[action].error, "Erreur");
           console.log('Error when ' + action + ' individu');
         }
       }, error => {
-        this.openInfoDialog(this.WORDING.dialog.message[action].error);
+        this.openInfoDialog(this.WORDING.dialog.message[action].error, "Erreur");
         console.log('Error when ' + action + ' individu');
       });
   }
 
-  openInfoDialog(msg: string): void {
-    let dialogInformation = this.buildConfirmationDialog(msg);
+  openInfoDialog(msg: string, title: string): void {
+    let dialogInformation = this.buildConfirmationDialog(msg, title);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
       width: '35%'
     });
@@ -102,9 +103,9 @@ export class IndividuListComponent implements OnInit {
   }
 
 
-  buildConfirmationDialog(msg: string): DialogInformation {
+  buildConfirmationDialog(msg: string, title: string): DialogInformation {
     let dialogInfo = new DialogInformation();
-    dialogInfo.titre = this.WORDING.dialog.title.confirm;
+    dialogInfo.titre = title;
     dialogInfo.message1 = msg;
     dialogInfo.noLbl = this.WORDING.dialog.button.close;
     return dialogInfo;

@@ -73,11 +73,11 @@ export class IndividuService {
   }
 
   isAdmin(): boolean {
-    return this.connectedUserRole == 'ADMIN';
+    return this.connectedUserRole == 'ROLE_ADMIN';
   }
 
   isSuperUser(): boolean {
-    return this.connectedUserRole == 'SUPERUSER';
+    return this.connectedUserRole == 'ROLE_SUPERUSER';
   }
 
 }

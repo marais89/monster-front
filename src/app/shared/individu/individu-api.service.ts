@@ -22,13 +22,20 @@ export class IndividuApiService {
     };
   }
 
+  private buildStandardHeader() {
+    return {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+  }
+
   getAll(): Observable<Individu[]> {
     return this.http.get<Individu[]>(UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL, this.buildHeader());
   }
 
+
   saveIndividu(individu: Individu): Observable<any> {
     let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
-    return this.http.post(url, JSON.stringify(individu), this.buildHeader());
+    return this.http.post(url, JSON.stringify(individu), this.buildStandardHeader());
   };
 
   updateIndividu(individu: Individu): Observable<Individu> {
