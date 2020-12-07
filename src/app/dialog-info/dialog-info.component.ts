@@ -1,5 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {DialogType} from '../individu-create/individu-create.component';
+import {ColorUtils} from '../utils/color-utils';
 
 export interface DialogData {
   message: string;
@@ -11,6 +13,7 @@ export class DialogInformation {
   titre: string;
   message1: string;
   message2: string;
+  dialogType: DialogType;
   noLbl: string;
   okLbl: string;
   onClickAction: () => void;
@@ -34,7 +37,11 @@ export class DialogInfoComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  ok(){
+  findTextColorFromDialogType(type: DialogType): string {
+    return ColorUtils.COLORFROMTYPE(type);
+  }
+
+  ok() {
     this.dialogInfo.onClickAction();
     this.dialogRef.close();
   }

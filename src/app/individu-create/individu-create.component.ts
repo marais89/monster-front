@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import * as bcrypt from 'bcryptjs';
 import {Wording} from '../shared/wording';
 import {DomSanitizer} from '@angular/platform-browser';
+import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-individu-create',
@@ -53,6 +54,24 @@ export class IndividuCreateComponent implements OnInit {
     }
   }
 
+  openDialog(msg1: string, msg2: string, type: DialogType): void {
+    let dialogInformation = this.buildConfirmationDialog(msg1, msg2, type);
+    const dialogRef = this.dialog.open(DialogInfoComponent);
+    dialogRef.componentInstance.dialogInfo = dialogInformation;
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+
+  buildConfirmationDialog(msg1: string, msg2: string, type: DialogType): DialogInformation {
+    let dialogInfo = new DialogInformation();
+    dialogInfo.message1 = msg1;
+    dialogInfo.message2 = msg2;
+    dialogInfo.dialogType = type;
+    dialogInfo.noLbl = this.WORDING.dialog.button.close;
+    return dialogInfo;
+  }
+
   handleReaderLoaded(e) {
     this.individu.user_image = btoa(e.target.result);
   }
@@ -79,15 +98,17 @@ export class IndividuCreateComponent implements OnInit {
 
     this.actualDate = new Date();
     this.individu.date_ceation = this.actualDate;
-    this.individu.statut = Statut.attente;
+    this.individu.statut = Status.attente;
     this.individu.niveau = Niveau.niveau1;
     const salt = bcrypt.genSaltSync(10);
     this.individu.pass = bcrypt.hashSync(this.password, salt);
     this.individuApiService.saveIndividu(this.individu).subscribe(
       data => {
+        this.openDialog(this.WORDING.dialog.message.create_user_1, this.WORDING.dialog.message.create_user_2, DialogType.SUCCESS);
         this.router.navigate(['/login']);
       },
       error1 => {
+        this.openDialog(this.WORDING.problem, null, DialogType.ERROR);
         this.displayErrorMsg;
       }
     );
@@ -102,9 +123,15 @@ enum Niveau {
   niveau5,
 };
 
-export enum Statut {
+export enum Status {
   attente = 'attente',
   active = 'active',
   bloque = 'bloque',
   resilie = 'resilie'
 };
+
+export enum DialogType {
+  INFO = 'info',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}

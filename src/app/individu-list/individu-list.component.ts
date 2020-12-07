@@ -11,6 +11,8 @@ import {IndividuService} from '../shared/individu/individu.service';
 import {UserStatutAction} from '../utils/user-statut-action';
 import {Wording} from '../shared/wording';
 import {UserInfosComponent} from '../user-infos/user-infos.component';
+import {Status} from '../individu-create/individu-create.component';
+import {ColorUtils} from '../utils/color-utils';
 
 @Component({
   selector: 'app-individu-list',
@@ -67,11 +69,11 @@ export class IndividuListComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       },
       error => {
-        console.log('Error while loading individus !'+ error.status);
-        if(error.status == "403"){
-          this.openInfoDialog(this.WORDING.dialog.message.authorities_error, "Erreur")
-        }else{
-          this.openInfoDialog(this.WORDING.problem, "Erreur");
+        console.log('Error while loading individus !' + error.status);
+        if (error.status == '403') {
+          this.openInfoDialog(this.WORDING.dialog.message.authorities_error, 'Erreur');
+        } else {
+          this.openInfoDialog(this.WORDING.problem, 'Erreur');
         }
       });
   }
@@ -83,11 +85,11 @@ export class IndividuListComponent implements OnInit {
           this.dataSource.data = data;
           this.openInfoDialog(this.WORDING.dialog.message[action].success, this.WORDING.dialog.title.confirm);
         } else {
-          this.openInfoDialog(this.WORDING.dialog.message[action].error, "Erreur");
+          this.openInfoDialog(this.WORDING.dialog.message[action].error, 'Erreur');
           console.log('Error when ' + action + ' individu');
         }
       }, error => {
-        this.openInfoDialog(this.WORDING.dialog.message[action].error, "Erreur");
+        this.openInfoDialog(this.WORDING.dialog.message[action].error, 'Erreur');
         console.log('Error when ' + action + ' individu');
       });
   }
@@ -138,5 +140,9 @@ export class IndividuListComponent implements OnInit {
     dialogRef.componentInstance.individu = individu;
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  findColorOfStatus(status: Status) {
+    return ColorUtils.COLOROFSTATUS(status);
   }
 }

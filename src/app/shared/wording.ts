@@ -20,6 +20,8 @@ export const Wording = {
         ok: 'Vos Informations ont été mis a jour avec succée',
         ko: 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement',
       },
+      create_user_1: 'Votre compte a été bien créé.',
+      create_user_2: 'Vous pouvez dès maintenant vous connecter en utilisant votre login et mot de passe',
       authorities_error: 'Vous n\'avez pas les droits nécessaires pour cette fonctionnalité',
     },
     button: {

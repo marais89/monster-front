@@ -38,7 +38,7 @@
         <ng-container matColumnDef="statut">
           <th mat-header-cell *matHeaderCellDef>{{WORDING.individu.attributs.status}}</th>
           <td mat-cell class="text-capitalize" *matCellDef="let element" (click)="displayUserInfoPopup(element)" >
-            <span class="mr-4">{{element.statut}} </span>
+            <span class="mr-4" [ngStyle]="{'color': findColorOfStatus(element.statut)}" >{{element.statut}} </span>
           </td>
         </ng-container>
 
