@@ -6,7 +6,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import * as bcrypt from 'bcryptjs';
 import {Wording} from '../shared/wording';
-import {DomSanitizer} from '@angular/platform-browser';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 
 @Component({
@@ -23,12 +22,10 @@ export class IndividuCreateComponent implements OnInit {
   private individu: Individu;
   displayErrorMsg: boolean = false;
   actualDate: Date;
-  anonymousPic = 'assets/anonymous.jpg';
   password: string;
   passwordConfirmation: string;
-  REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 
-  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
 
   isConformPwd(): boolean {
@@ -46,7 +43,6 @@ export class IndividuCreateComponent implements OnInit {
 
   onUploadChange(evt: any) {
     const file = evt.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.onload = this.handleReaderLoaded.bind(this);
@@ -80,19 +76,6 @@ export class IndividuCreateComponent implements OnInit {
     let clickedInputPic = document.getElementById('imgupload');
     clickedInputPic.click();
   }
-
-  convertImage(data: any) {
-    if (data) {
-      let objectURL = 'data:image/png;base64,' + data;
-      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    }
-    return null;
-  }
-
-  displayUserPic() {
-    return this.individu.user_image ? this.convertImage(this.individu.user_image) : this.anonymousPic;
-  }
-
 
   createIndividu(): void {
 

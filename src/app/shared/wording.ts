@@ -85,6 +85,7 @@ export const Wording = {
     language: 'Language',
     logout: 'Déconnexion',
     help: 'Aide',
+    connect: 'Connectez-vous'
   },
   individu: {
     attributs: {

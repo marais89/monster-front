@@ -4,7 +4,6 @@ import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
-import {DomSanitizer} from '@angular/platform-browser';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Wording} from '../shared/wording';
@@ -19,12 +18,11 @@ export class IndividuAccountComponent implements OnInit {
   WORDING = Wording;
   individu: Individu;
   displayErrorMsg: boolean = false;
-  anonymousPic = 'assets/anonymous.jpg';
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
   private user_image: any;
 
-  constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
 
   nameFormControl = new FormControl('', [
@@ -34,8 +32,6 @@ export class IndividuAccountComponent implements OnInit {
   ngOnInit() {
     this.chargeLogedUserInfo();
   }
-
-  retriveType;
 
   chargeLogedUserInfo() {
     this.individuService.chargeLogedUserInfo().subscribe(data => {
@@ -74,7 +70,6 @@ export class IndividuAccountComponent implements OnInit {
     });
   }
 
-
   buildConfirmationDialog(msg: string): DialogInformation {
     let dialogInfo = new DialogInformation();
     dialogInfo.titre = this.WORDING.dialog.title.confirm;
@@ -101,17 +96,4 @@ export class IndividuAccountComponent implements OnInit {
     let clickedInputPic = document.getElementById('imgupload');
     clickedInputPic.click();
   }
-
-  convertImage(data: any) {
-    if (data) {
-      let objectURL = 'data:image/png;base64,' + data;
-      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    }
-    return null;
-  }
-
-  displayUserPic() {
-    return this.user_image ? this.convertImage(this.user_image) : this.anonymousPic;
-  }
-
 }

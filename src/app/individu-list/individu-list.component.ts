@@ -3,8 +3,6 @@ import {IndividuApiService} from '../shared/individu/individu-api.service';
 import {Individu} from '../model/individu';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
-import {Router} from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {IndividuService} from '../shared/individu/individu.service';
@@ -22,7 +20,6 @@ import {ColorUtils} from '../utils/color-utils';
 export class IndividuListComponent implements OnInit {
 
   WORDING = Wording;
-  anonymousPic = 'assets/anonymous.jpg';
   displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
 
@@ -32,7 +29,7 @@ export class IndividuListComponent implements OnInit {
     return UserStatutAction;
   }
 
-  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, public dialog: MatDialog, private router: Router, private sanitizer: DomSanitizer) {
+  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, public dialog: MatDialog) {
   }
 
   //TODO faire un min width dans le html / gerer le respensive de la page
@@ -65,7 +62,6 @@ export class IndividuListComponent implements OnInit {
   findIndividus() {
     this.individuApiService.getAll().subscribe(data => {
         this.dataSource = new MatTableDataSource<Individu>(data);
-        this.dataSource.data.forEach(x => x.user_image = this.convertImage(x.user_image));
         this.dataSource.paginator = this.paginator;
       },
       error => {
@@ -104,21 +100,12 @@ export class IndividuListComponent implements OnInit {
     });
   }
 
-
   buildConfirmationDialog(msg: string, title: string): DialogInformation {
     let dialogInfo = new DialogInformation();
     dialogInfo.titre = title;
     dialogInfo.message1 = msg;
     dialogInfo.noLbl = this.WORDING.dialog.button.close;
     return dialogInfo;
-  }
-
-  convertImage(data: any) {
-    if (data) {
-      let objectURL = 'data:image/png;base64,' + data;
-      return this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    }
-    return null;
   }
 
   isDeasbledSuspend(status: string): boolean {

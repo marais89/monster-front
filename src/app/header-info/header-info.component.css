@@ -28,7 +28,7 @@ a {
 }
 
 .menu-btn :hover {
-  color: white;
+  color: #d8d8d8;
   cursor: pointer;
   border: 1px white;
 }
@@ -103,5 +103,9 @@ a {
   cursor: pointer;
   font-size: xx-large;
   float: right;
+}
+
+.toolBar{
+  height: 4em;
 }
 

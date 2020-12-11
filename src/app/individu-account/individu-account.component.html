@@ -8,7 +8,7 @@
 
     <br>
 
-    <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="displayUserPic()"
+    <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="user_image | safeImage"
                                                                        alt="1"/> </a>
     <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
            style="display:none"/>

@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
+import {Wording} from '../shared/wording';
 
 @Component({
   selector: 'app-user-infos',
@@ -8,8 +9,8 @@ import {Individu} from '../model/individu';
 })
 export class UserInfosComponent implements OnInit, AfterViewInit {
 
+  WORDING = Wording;
   individu: Individu;
-  anonymousPic = 'assets/anonymous.jpg';
 
   constructor() {
   }
@@ -18,9 +19,5 @@ export class UserInfosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-  }
-
-  retrieveUserPic(){
-    return this.individu && this.individu.user_image ? this.individu.user_image : this.anonymousPic;
   }
 }

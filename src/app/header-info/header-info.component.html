@@ -1,20 +1,25 @@
-<mat-toolbar layout="row" color="primary" class="fixed-top">
+<mat-toolbar layout="row" color="primary" class="fixed-top toolBar">
 
   <a (click)="drawer.toggle()">
     <i class="material-icons burger">chat</i>
   </a>
   <a routerLink="/" class="align-middle logo">MONSTER</a>
-  <div class="toolbar-menu-right">
-    <a class="menu-btn" title="{{WORDING.header_toolBar.home}}"
+  <div class="toolbar-menu-right mr-2">
+    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.home}}"
        routerLink="/"><span>{{WORDING.header_toolBar.home}}</span></a>
-    <a class="menu-btn" title="{{WORDING.header_toolBar.product}}"
+    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.product}}"
        routerLink="/"><span>{{WORDING.header_toolBar.product}}</span></a>
-    <a class="menu-btn" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
+    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
        routerLink="/users"><span>{{WORDING.header_toolBar.administration}}</span></a>
 
-    <a id="mainNav" [matMenuTriggerFor]="menu"><a><span
-      class="mr-2">{{WORDING.header_toolBar.welcome}} {{retrieveDisplayedUserName()}}</span></a>
-      <img class="roundedImage" [src]="retrieveUserPic()"/></a>
+    <a *ngIf="!individu" class="ml-5">
+      <span class="mr-2">{{WORDING.header_toolBar.connect}} </span>
+    </a>
+
+    <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-5" >
+      <span class="mr-2">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
+      <img class="roundedImage" [src]="individu.user_image | safeImage"/>
+    </a>
     <mat-menu #menu="matMenu" yPosition="below" class="providers-menu">
       <a mat-menu-item><i class="material-icons align-middle">storefront</i><span
         class="ml-2">{{WORDING.header_toolBar.order}}</span></a>
