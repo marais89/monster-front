@@ -7,6 +7,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Wording} from '../shared/wording';
+import {StringUtils} from '../utils/string-utils';
 
 @Component({
   selector: 'app-individu-account',
@@ -21,6 +22,7 @@ export class IndividuAccountComponent implements OnInit {
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
   private user_image: any;
+  displayMaxSizeImage: boolean = false;
 
   constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
@@ -82,6 +84,10 @@ export class IndividuAccountComponent implements OnInit {
 
     const file = evt.target.files[0];
     if (file) {
+      if (file.size > StringUtils.FILE_MAX_SIZE) {
+        this.displayMaxSizeImage = true;
+        return;
+      }
       const reader = new FileReader();
       reader.onload = this.handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
@@ -93,6 +99,7 @@ export class IndividuAccountComponent implements OnInit {
   }
 
   prepareclickedPic() {
+    this.displayMaxSizeImage = false;
     let clickedInputPic = document.getElementById('imgupload');
     clickedInputPic.click();
   }

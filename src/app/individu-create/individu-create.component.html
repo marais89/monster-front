@@ -11,6 +11,7 @@
       <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="individu.user_image | safeImage" alt="1"/> </a>
       <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
              style="display:none"/>
+      <div><span class="alert-danger"  *ngIf="displayMaxSizeImage" [innerHTML]="WORDING.individu.attributs.img_max_size_msg"  > </span></div>
 
       <mat-form-field floatLabel="never" class="row mb-4 w-100">
         <input type="text" matInput placeholder="{{WORDING.individu.attributs.lastName}}" [(ngModel)]="individu.nom" name="nom" required>

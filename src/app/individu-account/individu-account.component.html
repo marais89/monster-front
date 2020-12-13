@@ -8,10 +8,10 @@
 
     <br>
 
-    <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="user_image | safeImage"
-                                                                       alt="1"/> </a>
-    <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
-           style="display:none"/>
+    <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="user_image | safeImage" alt="1"/> </a>
+    <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg" style="display:none"/>
+    <div><span class="alert-danger"  *ngIf="displayMaxSizeImage" [innerHTML]="WORDING.individu.attributs.img_max_size_msg"  > </span></div>
+
     <div class="d-flex justify-content-center w-100">
       <img class="startSize" *ngIf="individu.niveau > 1" [src]="star"/>
       <img class="startSize" *ngIf="individu.niveau > 2" [src]="star"/>

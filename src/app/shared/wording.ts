@@ -98,6 +98,7 @@ export const Wording = {
       tel: 'numéro de téléphone',
       pwd: 'Mot de passe',
       confirm_pwd: 'Confirmation du mot de passe',
+      img_max_size_msg: 'La taille maximale de l\'image autorisée ne doit pas dépasser <strong>2 MO</strong>',
     }
   },
   problem: ' Un probléme technique est survenue !'

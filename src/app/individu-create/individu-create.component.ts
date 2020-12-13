@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import * as bcrypt from 'bcryptjs';
 import {Wording} from '../shared/wording';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
+import {StringUtils} from '../utils/string-utils';
 
 @Component({
   selector: 'app-individu-create',
@@ -24,6 +25,7 @@ export class IndividuCreateComponent implements OnInit {
   actualDate: Date;
   password: string;
   passwordConfirmation: string;
+  displayMaxSizeImage: boolean = false;
 
   constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
@@ -44,6 +46,10 @@ export class IndividuCreateComponent implements OnInit {
   onUploadChange(evt: any) {
     const file = evt.target.files[0];
     if (file) {
+      if (file.size > StringUtils.FILE_MAX_SIZE) {
+        this.displayMaxSizeImage = true;
+        return;
+      }
       const reader = new FileReader();
       reader.onload = this.handleReaderLoaded.bind(this);
       reader.readAsBinaryString(file);
@@ -73,6 +79,7 @@ export class IndividuCreateComponent implements OnInit {
   }
 
   prepareclickedPic() {
+    this.displayMaxSizeImage = false;
     let clickedInputPic = document.getElementById('imgupload');
     clickedInputPic.click();
   }
