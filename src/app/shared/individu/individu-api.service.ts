@@ -6,6 +6,7 @@ import {UrlUtils} from '../../utils/url-utils';
 import {User} from '../../login/login.component';
 import {CookiesUtils} from '../../utils/cookies-utils';
 import {IndividuGlobaleInfos} from '../../model/individu-globale-infos';
+import {SavingResponse} from '../../model/saving_response';
 
 
 @Injectable()
@@ -33,9 +34,9 @@ export class IndividuApiService {
   }
 
 
-  saveIndividu(individu: Individu): Observable<any> {
+  saveIndividu(individu: Individu): Observable<SavingResponse> {
     let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
-    return this.http.post(url, JSON.stringify(individu), this.buildStandardHeader());
+    return this.http.post<SavingResponse>(url, individu, this.buildStandardHeader());
   };
 
   updateIndividu(individu: Individu): Observable<Individu> {

@@ -94,8 +94,22 @@ export class IndividuCreateComponent implements OnInit {
     this.individu.pass = bcrypt.hashSync(this.password, salt);
     this.individuApiService.saveIndividu(this.individu).subscribe(
       data => {
-        this.openDialog(this.WORDING.dialog.message.create_user_1, this.WORDING.dialog.message.create_user_2, DialogType.SUCCESS);
-        this.router.navigate(['/login']);
+        switch (data.responseCode) {
+          case '00' :
+            this.openDialog(this.WORDING.dialog.message.create_user_1, this.WORDING.dialog.message.create_user_2, DialogType.SUCCESS);
+            this.router.navigate(['/login']);
+            break;
+          case '01' :
+            this.openDialog(this.WORDING.problem, null, DialogType.ERROR);
+            break;
+          case '02' :
+            this.openDialog(this.WORDING.dialog.message.create_user_existe, null, DialogType.ERROR);
+            break;
+          case '03' :
+            this.openDialog(this.WORDING.problem, null, DialogType.ERROR);
+            break;
+        }
+
       },
       error1 => {
         this.openDialog(this.WORDING.problem, null, DialogType.ERROR);
