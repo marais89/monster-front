@@ -6,8 +6,10 @@ import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {IndividuService} from '../shared/individu/individu.service';
-import {Wording} from '../shared/wording';
+import {Wording_FR} from '../shared/wording_FR';
 import {StringUtils} from '../utils/string-utils';
+import {Town} from '../model/town';
+import {Adress} from '../model/adress';
 
 @Component({
   selector: 'app-individu-account',
@@ -16,15 +18,26 @@ import {StringUtils} from '../utils/string-utils';
 })
 export class IndividuAccountComponent implements OnInit {
 
-  WORDING = Wording;
+  WORDING = Wording_FR;
   individu: Individu;
   displayErrorMsg: boolean = false;
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
   private user_image: any;
   displayMaxSizeImage: boolean = false;
+  private allAdress: Adress[];
+  private gouvernorats: Town[];
+  private adress: Adress = new Adress();
+  private selectedGouvernorat: Town = new Town();
+  private selectedVille: string;
 
   constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
+  }
+
+  findAdressByTown() {
+    this.individuApiService.getAdressByGouvernorat(this.selectedGouvernorat.id).subscribe(data => {
+      this.allAdress = data;
+    });
   }
 
   nameFormControl = new FormControl('', [
@@ -33,6 +46,15 @@ export class IndividuAccountComponent implements OnInit {
 
   ngOnInit() {
     this.chargeLogedUserInfo();
+    this.retrieveAllTown();
+  }
+
+  retrieveAllTown() {
+    this.individuApiService.getAllTown().subscribe(data => {
+      if (data) {
+        this.gouvernorats = data;
+      }
+    });
   }
 
   chargeLogedUserInfo() {

@@ -23,6 +23,7 @@ import {UserInfosComponent} from './user-infos/user-infos.component';
 import {MatListModule} from '@angular/material';
 import {SafePipe} from './shared/safe-pipe';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
@@ -38,20 +39,21 @@ import {DashboardComponent} from './dashboard/dashboard.component';
     HeaderInfoComponent,
     SafePipe
   ],
-  imports: [
-    BrowserModule,
-    MaterialModule,
-    HttpClientModule,
-    FormsModule,
-    AppRoutingModule,
-    RouterModule,
-    MatCheckboxModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatListModule
-  ],
+    imports: [
+        BrowserModule,
+        MaterialModule,
+        HttpClientModule,
+        FormsModule,
+        AppRoutingModule,
+        RouterModule,
+        MatCheckboxModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        MatListModule,
+        MatSelectModule
+    ],
   providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]

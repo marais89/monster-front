@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
-import {Wording} from '../shared/wording';
+import {Wording_FR} from '../shared/wording_FR';
 
 @Component({
   selector: 'app-user-infos',
@@ -9,7 +9,7 @@ import {Wording} from '../shared/wording';
 })
 export class UserInfosComponent implements OnInit, AfterViewInit {
 
-  WORDING = Wording;
+  WORDING = Wording_FR;
   individu: Individu;
 
   constructor() {

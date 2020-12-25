@@ -7,7 +7,8 @@ import {User} from '../../login/login.component';
 import {CookiesUtils} from '../../utils/cookies-utils';
 import {IndividuGlobaleInfos} from '../../model/individu-globale-infos';
 import {SavingResponse} from '../../model/saving_response';
-
+import {Adress} from '../../model/adress';
+import {Town} from '../../model/town';
 
 @Injectable()
 export class IndividuApiService {
@@ -25,7 +26,7 @@ export class IndividuApiService {
 
   private buildStandardHeader() {
     return {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
   }
 
@@ -67,6 +68,14 @@ export class IndividuApiService {
   getLoggedUser(user: User): Observable<User> {
     let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
     return this.http.post<User>(url, user.login);
+  }
+
+  getAdressByGouvernorat(gouvernorat: number): Observable<Adress[]> {
+    return this.http.get<Adress[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ADRESS_URL + gouvernorat, this.buildHeader());
+  }
+
+  getAllTown(): Observable<Town[]> {
+    return this.http.get<Town[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ALLTOWN_URL , this.buildHeader());
   }
 
 }

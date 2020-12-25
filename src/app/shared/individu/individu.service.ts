@@ -11,6 +11,7 @@ import {concatMap} from 'rxjs/operators';
 export class IndividuService {
 
   connectedUserInfo: Individu;
+  language: string = 'FR';
   connectedUserRole: string;
 
   constructor(private individuApiService: IndividuApiService) {

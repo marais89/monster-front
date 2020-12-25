@@ -1,4 +1,4 @@
-export const Wording = {
+export const Wording_FR = {
   dialog: {
     message: {
       suspend: {
@@ -95,6 +95,8 @@ export const Wording = {
       bornDate: 'Date de naissance',
       email: 'E-mail',
       address: 'Adresse',
+      ville: 'Ville',
+      code_postale: 'Code postale',
       status: 'Statut',
       tel: 'numéro de téléphone',
       pwd: 'Mot de passe',

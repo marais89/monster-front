@@ -7,7 +7,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {IndividuService} from '../shared/individu/individu.service';
 import {UserStatutAction} from '../utils/user-statut-action';
-import {Wording} from '../shared/wording';
+import {Wording_FR} from '../shared/wording_FR';
 import {UserInfosComponent} from '../user-infos/user-infos.component';
 import {Status} from '../individu-create/individu-create.component';
 import {ColorUtils} from '../utils/color-utils';
@@ -19,7 +19,7 @@ import {ColorUtils} from '../utils/color-utils';
 })
 export class IndividuListComponent implements OnInit {
 
-  WORDING = Wording;
+  WORDING = Wording_FR;
   displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
 

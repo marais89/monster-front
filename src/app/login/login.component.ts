@@ -5,7 +5,7 @@ import {CookiesUtils} from '../utils/cookies-utils';
 import * as bcrypt from 'bcryptjs';
 import {IndividuService} from '../shared/individu/individu.service';
 import {IndividuApiService} from '../shared/individu/individu-api.service';
-import {Wording} from '../shared/wording';
+import {Wording_FR} from '../shared/wording_FR';
 
 export class User {
   login: string;
@@ -20,7 +20,7 @@ export class User {
 })
 export class LoginComponent implements OnInit {
 
-  WORDING = Wording;
+  WORDING = Wording_FR;
   private user: User;
   displayLoginErrorMsg: boolean = false;
   isUserDesabledErrorMsg: boolean = false;

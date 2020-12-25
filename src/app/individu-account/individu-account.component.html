@@ -83,6 +83,34 @@
             <img class="verifiedImgSize " *ngIf="individu.statut == 'active' && individu.niveau > 2"
                  [src]="verifiedLogo"/>
           </div>
+
+          <!-- adress -->
+          <mat-form-field>
+            <mat-label>Gouvernorat</mat-label>
+            <mat-select [(ngModel)]="selectedGouvernorat">
+              <mat-option *ngFor="let town of gouvernorats" (click)="findAdressByTown()" [value]="town"  >
+               {{town.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Ville</mat-label>
+            <mat-select [(ngModel)]="selectedVille" [disabled]="!allAdress" >
+              <mat-option *ngFor="let adress of allAdress"  [value]="adress.ville"  >
+                {{adress.ville}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field floatLabel="never" class="row mb-4 w-100" title="{{WORDING.individu.attributs.address}}" >
+            <input type="text" required matInput placeholder="{{WORDING.individu.attributs.address}}" [(ngModel)]="individu.adresse"
+                   name="Adresse">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <strong>{{WORDING.individu_account.mondatory}}</strong>
+            </mat-error>
+          </mat-form-field>
+
         </div>
       </div>
     </div>

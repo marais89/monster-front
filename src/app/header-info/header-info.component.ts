@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Individu} from '../model/individu';
-import {Wording} from '../shared/wording';
+import {Wording_FR} from '../shared/wording_FR';
 
 @Component({
   selector: 'app-header-info',
@@ -10,7 +10,7 @@ import {Wording} from '../shared/wording';
 })
 export class HeaderInfoComponent implements OnInit {
 
-  WORDING = Wording;
+  WORDING = Wording_FR;
   individu: Individu;
 
   constructor(private individuService: IndividuService) {

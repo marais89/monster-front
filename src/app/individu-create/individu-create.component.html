@@ -44,6 +44,25 @@
         </mat-error>
       </mat-form-field>
 
+      <!-- adresse -->
+      <mat-form-field floatLabel="never" class="row mb-5 w-100">
+        <input type="text" matInput placeholder="{{WORDING.individu.attributs.address}}" [(ngModel)]="individu.adresse" required
+               name="adresse">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-5 w-100">
+        <input type="text" matInput placeholder="{{WORDING.individu.attributs.ville}}" [(ngModel)]="individu.ville" required
+               name="ville">
+        <input type="text" matInput placeholder="{{WORDING.individu.attributs.code_postale}}" [(ngModel)]="individu.code_postale" required
+               name="codePostale">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
+        </mat-error>
+      </mat-form-field>
+
       <!-- Password validation -->
       <mat-form-field floatLabel="never" class="row mb-5 w-100">
         <input type="password" matInput placeholder="{{WORDING.individu.attributs.pwd}}" [(ngModel)]="password" required minlength="8"
