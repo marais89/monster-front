@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IndividuService} from '../shared/individu/individu.service';
 import {Individu} from '../model/individu';
-import {Wording_FR} from '../shared/wording_FR';
+import {LanguageEnum, LanguageUtils} from '../utils/language-utils';
 
 @Component({
   selector: 'app-header-info',
@@ -10,8 +10,16 @@ import {Wording_FR} from '../shared/wording_FR';
 })
 export class HeaderInfoComponent implements OnInit {
 
-  WORDING = Wording_FR;
+  WORDING = LanguageUtils.getWordingLanguage();
   individu: Individu;
+  flag_fr = 'assets/france.png';
+  flag_en = 'assets/britsh.png';
+
+  @Output() changeLanguageEvent = new EventEmitter<string>();
+
+  changeLanguage(value) {
+    this.changeLanguageEvent.emit(value);
+  }
 
   constructor(private individuService: IndividuService) {
   }
@@ -28,6 +36,18 @@ export class HeaderInfoComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.individuService.isAdmin();
+  }
+
+  setFranshLanguage() {
+    LanguageUtils.setLanguage(LanguageEnum.FR);
+    this.WORDING = LanguageUtils.whichWording(LanguageEnum.FR);
+    this.changeLanguage(LanguageEnum.FR);
+  }
+
+  setEnglishLanguage() {
+    LanguageUtils.setLanguage(LanguageEnum.EN);
+    this.WORDING = LanguageUtils.whichWording(LanguageEnum.EN);
+    this.changeLanguage(LanguageEnum.EN);
   }
 
   logout() {

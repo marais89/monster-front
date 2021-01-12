@@ -55,6 +55,7 @@ export const Wording_FR = {
       blocked: 'Votre compte est bloqué',
       canceled: 'Votre compte est résilié'
     },
+    informations_perso: 'Informations personelles',
   },
   individu_create: {
     title: 'Informations Client',
@@ -83,7 +84,11 @@ export const Wording_FR = {
     welcome: 'Bonjour',
     order: 'Mes commandes',
     account: 'Mon compte',
-    language: 'Language',
+    language: {
+      title: 'Language',
+      fr: 'Francais',
+      en: 'Anglais',
+    },
     logout: 'Déconnexion',
     help: 'Aide',
     connect: 'Connectez-vous'
@@ -103,6 +108,14 @@ export const Wording_FR = {
       confirm_pwd: 'Confirmation du mot de passe',
       img_max_size_msg: 'La taille maximale de l\'image autorisée ne doit pas dépasser <strong>2 MO</strong>',
     }
+  },
+  address:{
+    title: 'adresse',
+    gouvernorat: 'Gouvernorat',
+    ville: 'Ville',
+    city: 'Cité',
+    postal_code: 'Code postale',
+    invalide_adr: 'Votre adresse est incomplète sélectionnez <strong>(Gouvernorat, Ville, cité)</strong> et écrire <strong>le numéro et le nom de votre rue</strong>',
   },
   problem: ' Un probléme technique est survenue !'
 };

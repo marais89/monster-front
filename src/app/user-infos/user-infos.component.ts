@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Individu} from '../model/individu';
-import {Wording_FR} from '../shared/wording_FR';
+import {LanguageUtils} from '../utils/language-utils';
 
 @Component({
   selector: 'app-user-infos',
@@ -9,7 +9,7 @@ import {Wording_FR} from '../shared/wording_FR';
 })
 export class UserInfosComponent implements OnInit, AfterViewInit {
 
-  WORDING = Wording_FR;
+  WORDING = LanguageUtils.getWordingLanguage();
   individu: Individu;
 
   constructor() {

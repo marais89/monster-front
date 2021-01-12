@@ -7,10 +7,10 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {IndividuService} from '../shared/individu/individu.service';
 import {UserStatutAction} from '../utils/user-statut-action';
-import {Wording_FR} from '../shared/wording_FR';
 import {UserInfosComponent} from '../user-infos/user-infos.component';
 import {Status} from '../individu-create/individu-create.component';
 import {ColorUtils} from '../utils/color-utils';
+import {LanguageUtils} from '../utils/language-utils';
 
 @Component({
   selector: 'app-individu-list',
@@ -19,7 +19,7 @@ import {ColorUtils} from '../utils/color-utils';
 })
 export class IndividuListComponent implements OnInit {
 
-  WORDING = Wording_FR;
+  WORDING = LanguageUtils.getWordingLanguage();
   displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
   dataSource: MatTableDataSource<Individu>;
 
@@ -131,5 +131,9 @@ export class IndividuListComponent implements OnInit {
 
   findColorOfStatus(status: Status) {
     return ColorUtils.COLOROFSTATUS(status);
+  }
+
+  public updateWordingLanguage(language) {
+    this.WORDING = LanguageUtils.whichWording(language);
   }
 }

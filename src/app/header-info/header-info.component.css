@@ -93,6 +93,12 @@ a {
   cursor: pointer;
 }
 
+.roundedflag {
+  width: 1.8em;
+  height: 1.8em;
+  cursor: pointer;
+}
+
 .burger {
   cursor: pointer;
   font-size: xx-large;

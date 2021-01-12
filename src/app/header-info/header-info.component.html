@@ -20,17 +20,24 @@
       <span class="mr-2">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
       <img class="roundedImage" [src]="individu.user_image | safeImage"/>
     </a>
-    <mat-menu #menu="matMenu" yPosition="below" class="providers-menu">
+    <mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="providers-menu">
       <a mat-menu-item><i class="material-icons align-middle">storefront</i><span
         class="ml-2">{{WORDING.header_toolBar.order}}</span></a>
       <a mat-menu-item routerLink="/account"><i class="material-icons align-middle">person</i><span
         class="ml-2">{{WORDING.header_toolBar.account}}</span></a>
-      <a mat-menu-item><i class="material-icons align-middle">language</i><span
-        class="ml-2">{{WORDING.header_toolBar.language}}</span></a>
+      <a mat-menu-item mat-menu-item [matMenuTriggerFor]="language" ><i class="material-icons align-middle">language</i><span
+        class="ml-2">{{WORDING.header_toolBar.language.title}}</span></a>
       <a mat-menu-item routerLink="/login" (click)="logout()"><i class="material-icons align-middle">logout</i><span
         class="ml-2">{{WORDING.header_toolBar.logout}}</span></a>
       <a mat-menu-item><i class="material-icons align-middle">help</i><span
         class="ml-2">{{WORDING.header_toolBar.help}}</span></a>
+    </mat-menu>
+
+    <mat-menu #language="matMenu" yPosition="below" xPosition="before" class="providers-menu">
+      <a mat-menu-item (click)="setFranshLanguage()"><img class="roundedflag" [src]="flag_fr"/><span
+        class="ml-2">{{WORDING.header_toolBar.language.fr}}</span></a>
+      <a mat-menu-item (click)="setEnglishLanguage()" ><img class="roundedflag" [src]="flag_en"/><span
+        class="ml-2">{{WORDING.header_toolBar.language.en}}</span></a>
     </mat-menu>
   </div>
 </mat-toolbar>

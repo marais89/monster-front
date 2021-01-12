@@ -3,7 +3,9 @@ export class Individu {
   nom: string;
   prenom: string;
   adresse: string;
+  gouvernorat: string
   ville: string;
+  cite: string
   code_postale: number;
   email: string;
   numeroTel: string;

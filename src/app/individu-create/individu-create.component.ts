@@ -5,9 +5,9 @@ import {FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import * as bcrypt from 'bcryptjs';
-import {Wording_FR} from '../shared/wording_FR';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {StringUtils} from '../utils/string-utils';
+import {LanguageUtils} from '../utils/language-utils';
 
 @Component({
   selector: 'app-individu-create',
@@ -19,7 +19,7 @@ export class IndividuCreateComponent implements OnInit {
 
 
   //TODO pour tout les pages gérer les attributs private ou sans private
-  WORDING = Wording_FR;
+  WORDING = LanguageUtils.getWordingLanguage();
   private individu: Individu;
   displayErrorMsg: boolean = false;
   actualDate: Date;

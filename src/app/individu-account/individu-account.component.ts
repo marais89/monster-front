@@ -6,10 +6,10 @@ import {Router} from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {IndividuService} from '../shared/individu/individu.service';
-import {Wording_FR} from '../shared/wording_FR';
 import {StringUtils} from '../utils/string-utils';
 import {Town} from '../model/town';
 import {Adress} from '../model/adress';
+import {LanguageUtils} from '../utils/language-utils';
 
 @Component({
   selector: 'app-individu-account',
@@ -18,7 +18,7 @@ import {Adress} from '../model/adress';
 })
 export class IndividuAccountComponent implements OnInit {
 
-  WORDING = Wording_FR;
+  WORDING = LanguageUtils.getWordingLanguage();
   individu: Individu;
   displayErrorMsg: boolean = false;
   verifiedLogo = 'assets/verified.png';
@@ -26,18 +26,60 @@ export class IndividuAccountComponent implements OnInit {
   private user_image: any;
   displayMaxSizeImage: boolean = false;
   private allAdress: Adress[];
+  private allAdress2: Adress[] = new Array<Adress>();
+  private allAdress3: Adress[] = new Array<Adress>();
   private gouvernorats: Town[];
-  private adress: Adress = new Adress();
   private selectedGouvernorat: Town = new Town();
-  private selectedVille: string;
+  private filtedVilles: Set<string> = new Set<string>();
+  private filtedCity: Set<string> = new Set<string>();
+  private displayAddressError: boolean = false;
 
   constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
   }
 
-  findAdressByTown() {
-    this.individuApiService.getAdressByGouvernorat(this.selectedGouvernorat.id).subscribe(data => {
+  findAdressByGouvernorat(id: number) {
+    this.individuApiService.getAdressByGouvernorat(id).subscribe(data => {
+      this.reinitVilleAndCity();
       this.allAdress = data;
+      this.allAdress.forEach(adr => {
+        this.filtedVilles.add(adr.ville);
+        this.allAdress2.push(adr);
+      });
     });
+  }
+
+  reinitVilleAndCity() {
+    this.filtedVilles = new Set<string>();
+    this.filtedCity = new Set<string>();
+    this.individu.ville = null;
+    this.individu.cite = null;
+    this.individu.code_postale = null;
+  }
+
+  findAdressByGouvernoratAndVille() {
+    this.filtedCity = new Set<string>();
+    this.individu.cite = null;
+    this.individu.code_postale = null;
+    this.allAdress3 = new Array<Adress>();
+    this.allAdress2.forEach(adr => this.insertCity(adr));
+  }
+
+  findPostalCode() {
+    this.allAdress3.forEach(adr => this.findCp(adr));
+  }
+
+  findCp(adr: Adress) {
+    if (adr.cite === this.individu.cite) {
+      this.individu.code_postale = adr.code;
+      return;
+    }
+  }
+
+  insertCity(adr: Adress) {
+    if (adr.ville === this.individu.ville) {
+      this.filtedCity.add(adr.cite);
+      this.allAdress3.push(adr);
+    }
   }
 
   nameFormControl = new FormControl('', [
@@ -49,12 +91,27 @@ export class IndividuAccountComponent implements OnInit {
     this.retrieveAllTown();
   }
 
+  public updateWordingLanguage(language) {
+    this.WORDING = LanguageUtils.whichWording(language);
+  }
+
   retrieveAllTown() {
     this.individuApiService.getAllTown().subscribe(data => {
       if (data) {
         this.gouvernorats = data;
+        this.selectedGouvernorat = this.findGouvernoratByName(this.individu.gouvernorat);
       }
     });
+  }
+
+  findGouvernoratByName(gouvernorat: string): Town {
+    let gouv: Town = new Town();
+    this.gouvernorats.forEach(g => {
+      if (g.name === gouvernorat) {
+        gouv = g;
+      }
+    });
+    return gouv;
   }
 
   chargeLogedUserInfo() {
@@ -64,6 +121,11 @@ export class IndividuAccountComponent implements OnInit {
         if (data.user_image) {
           this.user_image = data.user_image;
         }
+        if (this.individu.gouvernorat) {
+          this.selectedGouvernorat.name = this.individu.gouvernorat;
+        }
+        this.filtedVilles.add(this.individu.ville);
+        this.filtedCity.add(this.individu.cite);
       } else {
         this.router.navigate(['/login']);
         this.openDialog(this.WORDING.problem);
@@ -72,6 +134,12 @@ export class IndividuAccountComponent implements OnInit {
   }
 
   updateIndividuAccountInformations() {
+    this.individu.gouvernorat = this.selectedGouvernorat.name;
+    if (!this.checkAddressValidity()) {
+      this.displayAddressError = true;
+      return;
+    }
+    this.displayAddressError = false;
     this.individu.user_image = this.user_image;
     this.individuApiService.updateIndividu(this.individu).subscribe(
       data => {
@@ -124,5 +192,11 @@ export class IndividuAccountComponent implements OnInit {
     this.displayMaxSizeImage = false;
     let clickedInputPic = document.getElementById('imgupload');
     clickedInputPic.click();
+  }
+
+  private checkAddressValidity(): boolean {
+    return StringUtils.isNullOrUndefined(this.individu.gouvernorat) === StringUtils.isNullOrUndefined(this.individu.ville)
+      && StringUtils.isNullOrUndefined(this.individu.cite) === StringUtils.isNullOrUndefined(this.individu.code_postale)
+      && StringUtils.isNullOrUndefined(this.individu.gouvernorat) === StringUtils.isNullOrUndefined(this.individu.cite);
   }
 }

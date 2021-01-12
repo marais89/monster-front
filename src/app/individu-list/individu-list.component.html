@@ -1,5 +1,5 @@
 <div class="main-div">
-  <app-header-info></app-header-info>
+  <app-header-info (changeLanguageEvent)="updateWordingLanguage($event)" ></app-header-info>
   <mat-card class="container m-5">
     <h2 class="card-title mb-5">{{WORDING.individu_list.title}}</h2>
     <div class=" mx-auto">
