@@ -50,6 +50,11 @@ export class IndividuApiService {
     return this.http.post<Individu[]>(url, login, this.buildHeader());
   };
 
+  verifyKey(login: string, key: string): Observable<boolean> {
+    let url = UrlUtils.BASE_URL + '/individus/login/'+login+'/key/'+key+'/validation';
+    return this.http.post<boolean>(url,login, this.buildHeader());
+  };
+
   resumeUser(login: string): Observable<Individu[]> {
     let url = UrlUtils.BASE_URL + UrlUtils.RESUME_URL + login;
     return this.http.post<Individu[]>(url, login, this.buildHeader());

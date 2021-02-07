@@ -24,6 +24,9 @@ export const Wording_EN = {
       create_user_2: 'You can now log in using your login and password',
       create_user_existe: 'An account already exists with this e-mail address',
       authorities_error: 'You do not have the necessary rights for this functionality',
+      valitation_account: 'Your account has been successfully activated',
+      validation_account_error: 'Your validation code has expired or is not valid',
+      send_msg_error: 'We could not send you your validation E-mail, check if your E-mail address is correct!',
     },
     button: {
       confirm: 'Validate',

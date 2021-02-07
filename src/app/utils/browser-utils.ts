@@ -1,12 +1,13 @@
-import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
-import {Observable} from 'rxjs';
-
 export class BrowserUtils {
+
+  public static position: Position;
 
   public static findBrowserType(): string {
     const agent = window.navigator.userAgent.toLowerCase();
     switch (true) {
       case agent.indexOf('edge') > -1:
+        return 'edge';
+      case agent.indexOf('edg') > -1:
         return 'edge';
       case agent.indexOf('opr') > -1 && !!(<any>window).opr:
         return 'opera';
@@ -31,7 +32,7 @@ export class BrowserUtils {
     }
   }
 
-  public static findOs() {
+  public static findOs(): string {
 
     const appVersion = window.navigator.appVersion;
     switch (true) {
@@ -49,10 +50,12 @@ export class BrowserUtils {
   }
 
   public static getPosition() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log("position: latitude" + position.coords.latitude+ "|" + "longitude" + position.coords.longitude);
-      return position;
-    });
+    return this.position ? this.position :
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log('position: latitude' + position.coords.latitude + '|' + 'longitude' + position.coords.longitude);
+        this.position = position;
+        return position;
+      });
   }
 
   public static getIpAddress() {

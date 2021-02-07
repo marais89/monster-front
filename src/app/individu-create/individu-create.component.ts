@@ -108,8 +108,10 @@ export class IndividuCreateComponent implements OnInit {
           case '03' :
             this.openDialog(this.WORDING.problem, null, DialogType.ERROR);
             break;
+          case '04' :
+            this.openDialog(this.WORDING.dialog.message.create_user_1, this.WORDING.dialog.message.send_msg_error, DialogType.ERROR);
+            break;
         }
-
       },
       error1 => {
         this.openDialog(this.WORDING.problem, null, DialogType.ERROR);

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CookiesUtils} from '../utils/cookies-utils';
 import * as bcrypt from 'bcryptjs';
 import {IndividuService} from '../shared/individu/individu.service';
@@ -24,8 +24,9 @@ export class LoginComponent implements OnInit {
   private user: User;
   displayLoginErrorMsg: boolean = false;
   isUserDesabledErrorMsg: boolean = false;
+  returnUrl: string;
 
-  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, private router: Router) {
+  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, private router: Router, private route: ActivatedRoute) {
   }
 
   //TODO remove
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.user = new User();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   login(): void {
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
           this.individuApiService.retrieveIndividu(this.user.login).subscribe(indiv => {
             this.individuService.connectedUserInfo = indiv.individu;
             this.individuService.connectedUserRole = indiv.role;
-            this.router.navigate(['']);
+            this.router.navigateByUrl(this.returnUrl);
           });
         } else {
           this.displayErrorMessage(true);
