@@ -22,7 +22,7 @@
           {{WORDING.login.mondatory}}
         </mat-error>
       </mat-form-field>
-      <mat-checkbox class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
+      <mat-checkbox  [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
 
       <div class=" mb-5 w-100">
         <button class="btn btn-success w-100" type="submit" title="{{WORDING.login.confirm}}" (click)="login()">{{WORDING.login.confirm}}</button>
