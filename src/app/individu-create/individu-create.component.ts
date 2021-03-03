@@ -17,17 +17,17 @@ import {LanguageUtils} from '../utils/language-utils';
 
 export class IndividuCreateComponent implements OnInit {
 
-
-  //TODO pour tout les pages gérer les attributs private ou sans private
   WORDING = LanguageUtils.getWordingLanguage();
-  private individu: Individu;
+  individu: Individu;
   displayErrorMsg: boolean = false;
   actualDate: Date;
   password: string;
   passwordConfirmation: string;
   displayMaxSizeImage: boolean = false;
 
-  constructor(private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
+  constructor(private individuApiService: IndividuApiService,
+              private dialog: MatDialog,
+              private router: Router) {
   }
 
   isConformPwd(): boolean {
@@ -110,6 +110,9 @@ export class IndividuCreateComponent implements OnInit {
             break;
           case '04' :
             this.openDialog(this.WORDING.dialog.message.create_user_1, this.WORDING.dialog.message.send_msg_error, DialogType.ERROR);
+            break;
+          case '05' :
+            this.openDialog(this.WORDING.dialog.message.create_email_existe, null, DialogType.ERROR);
             break;
         }
       },

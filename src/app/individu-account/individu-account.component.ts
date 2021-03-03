@@ -23,18 +23,21 @@ export class IndividuAccountComponent implements OnInit {
   displayErrorMsg: boolean = false;
   verifiedLogo = 'assets/verified.png';
   star = 'assets/star.png';
-  private user_image: any;
+  user_image: any;
   displayMaxSizeImage: boolean = false;
-  private allAdress: Adress[];
-  private allAdress2: Adress[] = new Array<Adress>();
-  private allAdress3: Adress[] = new Array<Adress>();
-  private gouvernorats: Town[];
-  private selectedGouvernorat: Town = new Town();
-  private filtedVilles: Set<string> = new Set<string>();
-  private filtedCity: Set<string> = new Set<string>();
-  private displayAddressError: boolean = false;
+  allAdress: Adress[];
+  allAdress2: Adress[] = new Array<Adress>();
+  allAdress3: Adress[] = new Array<Adress>();
+  gouvernorats: Town[];
+  selectedGouvernorat: Town = new Town();
+  filtedVilles: Set<string> = new Set<string>();
+  filtedCity: Set<string> = new Set<string>();
+  displayAddressError: boolean = false;
 
-  constructor(private individuService: IndividuService, private individuApiService: IndividuApiService, public dialog: MatDialog, private router: Router) {
+  constructor(private individuService: IndividuService,
+              private individuApiService: IndividuApiService,
+              private dialog: MatDialog,
+              private router: Router) {
   }
 
   findAdressByGouvernorat(id: number) {
@@ -146,7 +149,7 @@ export class IndividuAccountComponent implements OnInit {
         this.individuService.connectedUserInfo = data;
         this.openDialog(this.WORDING.dialog.message.update.ok);
       },
-      error1 => {
+      () => {
         this.openDialog(this.WORDING.dialog.message.update.ko);
       }
     );
@@ -158,7 +161,7 @@ export class IndividuAccountComponent implements OnInit {
       width: '30%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
     });
   }
 

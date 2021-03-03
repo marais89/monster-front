@@ -9,7 +9,7 @@
     </div>
     <div class="w-75 mx-auto">
       <mat-form-field floatLabel="never" class=" mb-5 w-100">
-        <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.login" required>
+        <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.username" required>
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
          {{WORDING.login.mondatory}}
         </mat-error>

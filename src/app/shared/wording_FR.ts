@@ -22,7 +22,8 @@ export const Wording_FR = {
       },
       create_user_1: 'Votre compte a été bien créé.',
       create_user_2: 'Vous pouvez dès maintenant vous connecter en utilisant votre login et mot de passe',
-      create_user_existe: 'Un compte existe déja avec cette adresse e-mail',
+      create_user_existe: 'Un compte existe déja avec ce pseudonyme',
+      create_email_existe: 'Un compte existe déja avec cette adresse e-mail',
       authorities_error: 'Vous n\'avez pas les droits nécessaires pour cette fonctionnalité',
       valitation_account: 'Votre compte a été activé avec succés',
       validation_account_error: 'Votre code de validation est expiré ou n\'est pas valide',
@@ -52,6 +53,7 @@ export const Wording_FR = {
     title: 'Mon profile',
     mondatory: 'Ce champ est <strong>Obligatoire</strong>',
     sous_date: 'Date d\'inscription',
+    last_connection_date: 'Dernière connexion',
     account_status: {
       waiting: 'Votre compte est en attente d\'activation',
       active: 'Votre compte est active',
@@ -100,6 +102,7 @@ export const Wording_FR = {
     attributs: {
       firstName: 'Prénom',
       lastName: 'Nom',
+      username: 'Pseudonyme',
       bornDate: 'Date de naissance',
       email: 'E-mail',
       address: 'Adresse',
@@ -112,7 +115,7 @@ export const Wording_FR = {
       img_max_size_msg: 'La taille maximale de l\'image autorisée ne doit pas dépasser <strong>2 MO</strong>',
     }
   },
-  address:{
+  address: {
     title: 'adresse',
     gouvernorat: 'Gouvernorat',
     ville: 'Ville',

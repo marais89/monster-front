@@ -9,11 +9,14 @@ import {IndividuGlobaleInfos} from '../../model/individu-globale-infos';
 import {SavingResponse} from '../../model/saving_response';
 import {Adress} from '../../model/adress';
 import {Town} from '../../model/town';
+import {BrowserUtils} from '../../utils/browser-utils';
+import {IndividuRequest} from '../../model/individu-request';
+import {UpdateStatusRequest} from '../../model/update-status-request';
+import {ValidateKeyRequest} from '../../model/validate-key-request';
+import {LoginRequest} from '../../model/login-request';
 
 @Injectable()
 export class IndividuApiService {
-
-  private httpOptions = this.buildHeader();
 
   constructor(private http: HttpClient) {
   }
@@ -37,42 +40,47 @@ export class IndividuApiService {
 
   saveIndividu(individu: Individu): Observable<SavingResponse> {
     let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
-    return this.http.post<SavingResponse>(url, individu, this.buildStandardHeader());
+    let individuRequest = this.buildIndividuRequest(individu);
+    individuRequest.requestContext.username = individu.username;
+    return this.http.post<SavingResponse>(url, individuRequest, this.buildStandardHeader());
   };
 
   updateIndividu(individu: Individu): Observable<Individu> {
     let url = UrlUtils.BASE_URL + UrlUtils.UPDATE_URL;
-    return this.http.post<Individu>(url, individu, this.buildHeader());
+    let individuRequest = this.buildIndividuRequest(individu);
+    return this.http.post<Individu>(url, individuRequest, this.buildHeader());
   };
 
-  SuspendUser(login: string): Observable<Individu[]> {
-    let url = UrlUtils.BASE_URL + UrlUtils.SUSPEND_URL + login;
-    return this.http.post<Individu[]>(url, login, this.buildHeader());
+  SuspendUser(username: string): Observable<Individu[]> {
+    let url = UrlUtils.BASE_URL + UrlUtils.SUSPEND_URL + username;
+    return this.http.post<Individu[]>(url, this.buildUpdateRequestContext(username), this.buildHeader());
   };
 
-  verifyKey(login: string, key: string): Observable<boolean> {
-    let url = UrlUtils.BASE_URL + '/individus/login/'+login+'/key/'+key+'/validation';
-    return this.http.post<boolean>(url,login, this.buildHeader());
+  resumeUser(username: string): Observable<Individu[]> {
+    let url = UrlUtils.BASE_URL + UrlUtils.RESUME_URL + username;
+    return this.http.post<Individu[]>(url, this.buildUpdateRequestContext(username), this.buildHeader());
   };
 
-  resumeUser(login: string): Observable<Individu[]> {
-    let url = UrlUtils.BASE_URL + UrlUtils.RESUME_URL + login;
-    return this.http.post<Individu[]>(url, login, this.buildHeader());
+  deactivateUser(username: string): Observable<Individu[]> {
+    let url = UrlUtils.BASE_URL + UrlUtils.DEACTIVATE_URL + username;
+    return this.http.post<Individu[]>(url, this.buildUpdateRequestContext(username), this.buildHeader());
   };
 
-  deactivateUser(login: string): Observable<Individu[]> {
-    let url = UrlUtils.BASE_URL + UrlUtils.DEACTIVATE_URL + login;
-    return this.http.post<Individu[]>(url, login, this.buildHeader());
+  verifyKey(username: string, key: string): Observable<boolean> {
+    let url = UrlUtils.BASE_URL + '/individus/username/' + username + '/key/validate';
+    let validationkeyRequest: ValidateKeyRequest = this.buildValidationKeyRequest(username, key);
+    return this.http.post<boolean>(url, validationkeyRequest, this.buildHeader());
   };
 
-  retrieveIndividu(login: string): Observable<IndividuGlobaleInfos> {
-    let url = UrlUtils.BASE_URL + UrlUtils.RETRIEVE_INDIVIDU_URL + login;
+  retrieveIndividu(username: string): Observable<IndividuGlobaleInfos> {
+    let url = UrlUtils.BASE_URL + UrlUtils.RETRIEVE_INDIVIDU_URL + username;
     return this.http.get<IndividuGlobaleInfos>(url, this.buildHeader());
   }
 
   getLoggedUser(user: User): Observable<User> {
     let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
-    return this.http.post<User>(url, user.login);
+    let loginInfo: string = btoa(user.username + ':' + user.password);
+    return this.http.post<User>(url, this.buildLoginRequest(loginInfo));
   }
 
   getAdressByGouvernorat(gouvernorat: number): Observable<Adress[]> {
@@ -80,7 +88,36 @@ export class IndividuApiService {
   }
 
   getAllTown(): Observable<Town[]> {
-    return this.http.get<Town[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ALLTOWN_URL , this.buildHeader());
+    return this.http.get<Town[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ALLTOWN_URL, this.buildHeader());
+  }
+
+  private buildIndividuRequest(individu: Individu) {
+    let individuRequest: IndividuRequest = new IndividuRequest();
+    individuRequest.individu = individu;
+    individuRequest.requestContext = BrowserUtils.buildRequestContext();
+    return individuRequest;
+  }
+
+  private buildUpdateRequestContext(username: string): UpdateStatusRequest {
+    let updateReequestContext = new UpdateStatusRequest();
+    updateReequestContext.username = username;
+    updateReequestContext.requestContext = BrowserUtils.buildRequestContext();
+    return updateReequestContext;
+  }
+
+  private buildLoginRequest(loginInfos: string): LoginRequest {
+    let loginRequest: LoginRequest = new LoginRequest();
+    loginRequest.loginInfos = loginInfos;
+    loginRequest.requestContext = BrowserUtils.buildRequestContext();
+    return loginRequest;
+  }
+
+  private buildValidationKeyRequest(username: string, key: string): ValidateKeyRequest {
+    let validateKeyRequest = new ValidateKeyRequest();
+    validateKeyRequest.username = username;
+    validateKeyRequest.key = key;
+    validateKeyRequest.requestContext = BrowserUtils.buildRequestContext();
+    return validateKeyRequest;
   }
 
 }

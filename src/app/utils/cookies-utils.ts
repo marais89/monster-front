@@ -38,4 +38,13 @@ export class CookiesUtils {
     // Set it
     document.cookie = name + '=; expires=' + date.toUTCString() + '; path=/';
   }
+
+  static getLoginFromToken(): string {
+
+    let token = this.getCookie('token');
+    if (token) {
+      return atob(token).split(':')[0];
+    }
+    return null;
+  }
 }

@@ -29,7 +29,9 @@ export class IndividuListComponent implements OnInit {
     return UserStatutAction;
   }
 
-  constructor(private individuApiService: IndividuApiService, private individuService: IndividuService, public dialog: MatDialog) {
+  constructor(private individuApiService: IndividuApiService,
+              private individuService: IndividuService,
+              private dialog: MatDialog) {
   }
 
   //TODO faire un min width dans le html / gerer le respensive de la page

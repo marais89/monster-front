@@ -1,3 +1,7 @@
+import {Observable, of} from 'rxjs';
+import {RequestContext} from '../model/request-context';
+import {CookiesUtils} from './cookies-utils';
+
 export class BrowserUtils {
 
   public static position: Position;
@@ -49,16 +53,35 @@ export class BrowserUtils {
     }
   }
 
-  public static getPosition() {
-    return this.position ? this.position :
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log('position: latitude' + position.coords.latitude + '|' + 'longitude' + position.coords.longitude);
-        this.position = position;
-        return position;
+  public static getPosition(): Observable<Position> {
+    return this.position ? of(this.position) :
+      new Observable(obs => {
+        navigator.geolocation.getCurrentPosition(
+          success => {
+            obs.next(success);
+            obs.complete();
+          },
+          error => {
+            obs.error(error);
+          }
+        );
       });
   }
 
   public static getIpAddress() {
     //TODO verify if it's possible to get user ip adress
   }
+
+  public static buildRequestContext(): RequestContext {
+    let request: RequestContext = new RequestContext();
+    request.username = CookiesUtils.getLoginFromToken();
+    request.browserName = this.findBrowserType();
+    request.osName = this.findOs();
+    if (this.position && this.position.coords) {
+      request.location = this.position.coords.latitude + '#' + this.position.coords.longitude;
+    }
+
+    return request;
+  }
+
 }

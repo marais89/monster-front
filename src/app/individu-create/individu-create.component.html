@@ -29,6 +29,14 @@
       </mat-form-field>
 
       <mat-form-field floatLabel="never" class="row mb-4 w-100">
+        <input type="text" matInput placeholder="{{WORDING.individu.attributs.username}}" [(ngModel)]="individu.username" required
+               name="pseudo">
+        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field floatLabel="never" class="row mb-4 w-100">
         <input type="email" [email]="true" matInput placeholder="{{WORDING.individu.attributs.email}}" [(ngModel)]="individu.email" required
                name="email">
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">

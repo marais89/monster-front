@@ -22,7 +22,8 @@ export const Wording_EN = {
       },
       create_user_1: 'Your account has been successfully created.',
       create_user_2: 'You can now log in using your login and password',
-      create_user_existe: 'An account already exists with this e-mail address',
+      create_user_existe: 'An account already exists with this pseudonym',
+      create_email_existe: 'An account already exists with this e-mail address',
       authorities_error: 'You do not have the necessary rights for this functionality',
       valitation_account: 'Your account has been successfully activated',
       validation_account_error: 'Your validation code has expired or is not valid',
@@ -52,6 +53,7 @@ export const Wording_EN = {
     title: 'my profile',
     mondatory: '<strong> Mandatory </strong> field',
     sous_date: 'Registration date',
+    last_connection_date: 'Last connection',
     account_status: {
       waiting: 'Your account is awaiting activation',
       active: 'Your account is active',
@@ -100,6 +102,7 @@ export const Wording_EN = {
     attributs: {
       firstName: 'First name',
       lastName: 'Last name',
+      username: 'Pseudonym',
       bornDate: 'Birthday',
       email: 'E-mail',
       address: 'Address',
@@ -112,7 +115,7 @@ export const Wording_EN = {
       img_max_size_msg: 'The maximum image size allowed must not exceed <strong> 2 MB </strong>',
     }
   },
-  address:{
+  address: {
     title: 'address',
     gouvernorat: 'Governorate',
     ville: 'Town',

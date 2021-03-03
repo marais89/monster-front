@@ -21,7 +21,10 @@ export class DashboardComponent implements OnInit {
   individu: Individu;
   accountVerifyed: boolean = false;
 
-  constructor(private dialog: MatDialog, private activatedRoute: ActivatedRoute, private individuServiceApi: IndividuApiService, private individuService: IndividuService) {
+  constructor(private dialog: MatDialog,
+              private activatedRoute: ActivatedRoute,
+              private individuServiceApi: IndividuApiService,
+              private individuService: IndividuService) {
   }
 
   ngOnInit() {
@@ -29,8 +32,17 @@ export class DashboardComponent implements OnInit {
 
     console.log('browser:' + BrowserUtils.findBrowserType());
     console.log('OS:' + BrowserUtils.findOs());
-    BrowserUtils.getPosition();
+    BrowserUtils.getPosition().subscribe(
+      (data) => {
+        BrowserUtils.position = data;
+        console.log('position: ' + data.coords.longitude);
+      },
+      (error) => {
+        console.log('error position');
+      }
+    );
   }
+
 
   chargeLogedUserInfo() {
     this.individuService.chargeLogedUserInfo().subscribe(data => {

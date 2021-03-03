@@ -19,16 +19,7 @@ export class IndividuService {
 
   isAuthenticated(): boolean {
     // TODO verify if login and pwd are correct !
-    return !StringUtils.isNullOrUndefined(this.getLoginFromToken());
-  }
-
-  private getLoginFromToken(): string {
-
-    let token = CookiesUtils.getCookie('token');
-    if (token) {
-      return atob(token).split(':')[0];
-    }
-    return null;
+    return !StringUtils.isNullOrUndefined(CookiesUtils.getLoginFromToken());
   }
 
   chargeLogedUserInfo(): Observable<Individu> {
@@ -37,9 +28,9 @@ export class IndividuService {
 
   public getLoggedUserFromToken(): Observable<Individu> {
 
-    let login = this.getLoginFromToken();
-    if (login) {
-      return this.individuApiService.retrieveIndividu(login).pipe(
+    let username = CookiesUtils.getLoginFromToken();
+    if (username) {
+      return this.individuApiService.retrieveIndividu(username).pipe(
         concatMap(data => {
           this.connectedUserInfo = data.individu;
           this.connectedUserRole = data.role;
@@ -50,16 +41,16 @@ export class IndividuService {
     }
   }
 
-  public updateUserStatus(login: string, action: UserStatutAction) {
+  public updateUserStatus(username: string, action: UserStatutAction) {
     switch (action) {
       case UserStatutAction.SUSPEND : {
-        return this.individuApiService.SuspendUser(login);
+        return this.individuApiService.SuspendUser(username);
       }
       case UserStatutAction.RESUME : {
-        return this.individuApiService.resumeUser(login);
+        return this.individuApiService.resumeUser(username);
       }
       case UserStatutAction.DEACTIVATE : {
-        return this.individuApiService.deactivateUser(login);
+        return this.individuApiService.deactivateUser(username);
       }
       default : {
         console.log('Action: ' + action + ' is not knwon');
