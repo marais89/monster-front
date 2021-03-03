@@ -7,17 +7,17 @@
     <img class="roundedImage" [src]="individu.user_image | safeImage" alt="1">
 
     <div class="row d-flex justify-content-start mt-5 mb-4 w-100">
-      <span class="w-50 text-lg-left">Nom :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.lastName}} :</span>
       <span class="w-50 text-lg-left">{{individu.nom}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Prénom :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.firstName}} :</span>
       <span class="w-50 text-lg-left">{{individu.prenom}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Date naissance :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.bornDate}} :</span>
       <span class="w-50 text-lg-left">{{individu.date_naissance}}</span>
     </div>
 
@@ -27,27 +27,27 @@
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">N° Téléphone :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.tel}} :</span>
       <span class="w-50 text-lg-left">{{individu.numeroTel}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Adresse :</span>
-      <span class="w-50 text-lg-left">{{individu.adresse}}</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.address}} :</span>
+      <span class="w-50 text-lg-left">{{individu.adresse}}, {{individu.cite}}, {{individu.ville}}, {{individu.gouvernorat}}, {{individu.code_postale}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Niveau :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.level}} :</span>
       <span class="w-50 text-lg-left">{{individu.niveau}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Statut :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu.attributs.status}} :</span>
       <span class="w-50 text-lg-left">{{individu.statut}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">
-      <span class="w-50 text-lg-left">Date creation :</span>
+      <span class="w-50 text-lg-left">{{WORDING.individu_account.sous_date}} :</span>
       <span class="w-50 text-lg-left">{{individu.date_ceation}}</span>
     </div>
   </div>

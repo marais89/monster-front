@@ -109,6 +109,7 @@ export const Wording_EN = {
       ville: 'CITY',
       code_postale: 'ZIP code',
       status: 'Status',
+      level: 'Level',
       tel: 'phone number',
       pwd: 'Password',
       confirm_pwd: 'Password Confirmation',
