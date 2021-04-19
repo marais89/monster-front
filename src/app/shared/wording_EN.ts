@@ -26,6 +26,7 @@ export const Wording_EN = {
       create_email_existe: 'An account already exists with this e-mail address',
       authorities_error: 'You do not have the necessary rights for this functionality',
       valitation_account: 'Your account has been successfully activated',
+      update_password: "Your password has successfully been updated",
       validation_account_error: 'Your validation code has expired or is not valid',
       send_msg_error: 'We could not send you your validation E-mail, check if your E-mail address is correct!',
     },
@@ -69,10 +70,17 @@ export const Wording_EN = {
     create_btn: 'Create my account',
     return_btn: 'Return'
   },
+  password_update: {
+    old_password: 'Old password',
+    new_password: 'New password',
+    new_password_confirm: 'New password confirmation',
+  },
   login: {
     title: 'Login',
     error1: 'Incorrect login or password !',
     error2: 'Your account is deactivated, please contact customer service !',
+    attempts_worning: 'After 5 incorrect attempts, your account will be blocked,',
+    attempts_remaining: 'Connection attempt remaining.',
     userName: 'Username',
     pwd: 'Password',
     mondatory: 'Mandatory field',
@@ -94,6 +102,7 @@ export const Wording_EN = {
       fr: 'French',
       en: 'English',
     },
+    updatePwd: 'change my password',
     logout: 'Logout',
     help: 'Help',
     connect: 'Log in'

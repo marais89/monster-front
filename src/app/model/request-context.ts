@@ -4,4 +4,5 @@ export class RequestContext {
   browserName: string;
   osName: string;
   location: string;
+  channel: string;
 }

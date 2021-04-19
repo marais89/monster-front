@@ -26,6 +26,7 @@ export const Wording_FR = {
       create_email_existe: 'Un compte existe déja avec cette adresse e-mail',
       authorities_error: 'Vous n\'avez pas les droits nécessaires pour cette fonctionnalité',
       valitation_account: 'Votre compte a été activé avec succés',
+      update_password: "Votre mot de passe à été modifié avec succée",
       validation_account_error: 'Votre code de validation est expiré ou n\'est pas valide',
       send_msg_error: 'Nous n\'avans pas pu vous envoyer votre E-mail de validation, vérifiez si votre adresse E-mail est bonne !',
     },
@@ -69,10 +70,17 @@ export const Wording_FR = {
     create_btn: 'Créer mon compte',
     return_btn: 'Retour'
   },
+  password_update: {
+    old_password: 'Ancien mot de passe',
+    new_password: 'Nouveau mot de passe',
+    new_password_confirm: 'Nouveau mot de passe confirmation',
+  },
   login: {
     title: 'Login',
     error1: 'Login ou mot de passe incorrect !',
     error2: 'Votre compte est désactivé, veuillez contacter le service client !',
+    attempts_worning: 'Au bout de 5 tentatives erronées, votre compte sera bloqué,',
+    attempts_remaining: 'Tentative de connexion restante.',
     userName: 'nom d\'utilisateur',
     pwd: 'Mot de passe',
     mondatory: 'Ce champ est obligatoire',
@@ -94,6 +102,7 @@ export const Wording_FR = {
       fr: 'Francais',
       en: 'Anglais',
     },
+    updatePwd: 'Changer mon mot de passe',
     logout: 'Déconnexion',
     help: 'Aide',
     connect: 'Connectez-vous'

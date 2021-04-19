@@ -1,84 +1,98 @@
 <div class="main-div">
-  <mat-card class="container m-5 text-center" >
-    <form name="form1" #createForm="ngForm" >
-    <h2 class="card-title mb-5">{{WORDING.individu_create.title}} </h2>
-    <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
-      {{WORDING.problem}}
-    </div>
-    <div class="w-50 mx-auto">
-
-      <br>
-      <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage" [src]="individu.user_image | safeImage" alt="1"/> </a>
-      <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
-             style="display:none"/>
-      <div><span class="alert-danger"  *ngIf="displayMaxSizeImage" [innerHTML]="WORDING.individu.attributs.img_max_size_msg"  > </span></div>
-
-      <mat-form-field floatLabel="never" class="row mb-4 w-100">
-        <input type="text" matInput placeholder="{{WORDING.individu.attributs.lastName}}" [(ngModel)]="individu.nom" name="nom" required>
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field floatLabel="never" class="row mb-4 w-100">
-        <input type="text" matInput placeholder="{{WORDING.individu.attributs.firstName}}" [(ngModel)]="individu.prenom" required
-               name="prenom">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field floatLabel="never" class="row mb-4 w-100">
-        <input type="text" matInput placeholder="{{WORDING.individu.attributs.username}}" [(ngModel)]="individu.username" required
-               name="pseudo">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field floatLabel="never" class="row mb-4 w-100">
-        <input type="email" [email]="true" matInput placeholder="{{WORDING.individu.attributs.email}}" [(ngModel)]="individu.email" required
-               name="email">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field floatLabel="never" class="row mb-5 w-100">
-        <input type="date" matInput placeholder="{{WORDING.individu.attributs.bornDate}}" [(ngModel)]="individu.date_naissance" required
-               name="dateNaissance">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_account.mondatory" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <!-- Password validation -->
-      <mat-form-field floatLabel="never" class="row mb-5 w-100">
-        <input type="password" matInput placeholder="{{WORDING.individu.attributs.pwd}}" [(ngModel)]="password" required minlength="8"
-               pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
-               name="pwd">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-         <span [innerHTML]="WORDING.individu_create.pw_regex" ></span>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field floatLabel="never" class="row mb-1 w-100">
-        <input type="password" matInput placeholder="{{WORDING.individu.attributs.confirm_pwd}}" [(ngModel)]="passwordConfirmation" required
-               minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
-               name="pwdConfirm">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_create.pw_regex" ></span>
-        </mat-error>
-      </mat-form-field>
-      <div *ngIf="!isConformPwd()" class=" text-danger mb-5" role="alert">
-        <span [innerHTML]="WORDING.individu_create.pw_identique" ></span>
+  <mat-card class="container m-5 text-center">
+    <form name="form1" #createForm="ngForm">
+      <h2 class="card-title mb-5">{{WORDING.individu_create.title}} </h2>
+      <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
+        {{WORDING.problem}}
       </div>
+      <div class="w-50 mx-auto">
 
-      <div class=" mt-5 mb-5 w-100">
-        <button class="btn btn-success w-100" [disabled]="!createForm.form.valid" type="submit" title="{{WORDING.individu_create.create_btn}}" (click)="createIndividu()">{{WORDING.individu_create.create_btn}}</button>
-        <div class="mt-3"><a routerLink="/" title="{{WORDING.individu_create.return_btn}}" class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a></div>
+        <br>
+        <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage"
+                                                                           [src]="individu.user_image | safeImage"
+                                                                           alt="1"/> </a>
+        <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
+               style="display:none"/>
+        <div><span class="alert-danger" *ngIf="displayMaxSizeImage"
+                   [innerHTML]="WORDING.individu.attributs.img_max_size_msg"> </span></div>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" matInput placeholder="{{WORDING.individu.attributs.lastName}}" [(ngModel)]="individu.nom"
+                 name="nom" required>
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" matInput placeholder="{{WORDING.individu.attributs.firstName}}"
+                 [(ngModel)]="individu.prenom" required
+                 name="prenom">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="text" matInput placeholder="{{WORDING.individu.attributs.username}}"
+                 [(ngModel)]="individu.username" required
+                 name="pseudo">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-4 w-100">
+          <input type="email" [email]="true" matInput placeholder="{{WORDING.individu.attributs.email}}"
+                 [(ngModel)]="individu.email" required
+                 name="email">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-5 w-100">
+          <input type="date" matInput placeholder="{{WORDING.individu.attributs.bornDate}}"
+                 [(ngModel)]="individu.date_naissance" required
+                 name="dateNaissance">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password validation -->
+        <mat-form-field floatLabel="never" class="row mb-5 w-100">
+          <input type="password" matInput placeholder="{{WORDING.individu.attributs.pwd}}" [(ngModel)]="password"
+                 required minlength="8"
+                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                 name="pwd">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-1 w-100">
+          <input type="password" matInput placeholder="{{WORDING.individu.attributs.confirm_pwd}}"
+                 [(ngModel)]="passwordConfirmation" required
+                 minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                 name="pwdConfirm">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="!isConformPwd()" class=" text-danger mb-5" role="alert">
+          <span [innerHTML]="WORDING.individu_create.pw_identique"></span>
+        </div>
+
+        <div class=" mt-5 mb-5 w-100">
+          <button class="btn btn-success w-100" [disabled]="!createForm.form.valid || !isConformPwd()" type="submit"
+                  title="{{WORDING.individu_create.create_btn}}"
+                  (click)="createIndividu()">{{WORDING.individu_create.create_btn}}</button>
+          <div class="mt-3"><a routerLink="/" title="{{WORDING.individu_create.return_btn}}"
+                               class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>
+          </div>
+        </div>
       </div>
-    </div>
     </form>
   </mat-card>
 </div>

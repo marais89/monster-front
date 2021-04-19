@@ -2,10 +2,15 @@
   <mat-card class="container login-container text-center m-5">
     <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
     <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
-      {{WORDING.login.error1}}
+      {{WORDING.login.error1}} <br>
+     <span>  {{WORDING.login.attempts_worning}}</span> <br>
+      <span><strong>{{restTentativeCount}}</strong> {{WORDING.login.attempts_remaining}}</span>
     </div>
     <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
       {{WORDING.login.error2}}
+    </div>
+    <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
+      {{WORDING.problem}}
     </div>
     <div class="w-75 mx-auto">
       <mat-form-field floatLabel="never" class=" mb-5 w-100">

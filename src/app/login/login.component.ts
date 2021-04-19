@@ -23,8 +23,10 @@ export class LoginComponent implements OnInit {
   user: User;
   displayLoginErrorMsg: boolean = false;
   isUserDesabledErrorMsg: boolean = false;
+  istechnicalErrorMsg: boolean = false;
   returnUrl: string;
   rememberMe: boolean = false;
+  restTentativeCount: number = 0;
 
   constructor(private individuApiService: IndividuApiService,
               private individuService: IndividuService,
@@ -46,19 +48,27 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.individuApiService.getLoggedUser(this.user).subscribe(u => {
       if (u) {
-        if (!u.enabled) {
+        if (u.isValidCredentials) {
+          CookiesUtils.setCookie('token', u.accessToken);
+          CookiesUtils.setCookie('user', btoa(this.user.username));
+          this.individuApiService.retrieveIndividu(this.user.username).subscribe(indiv => {
+            this.individuService.connectedUserInfo = indiv.individu;
+            this.individuService.connectedUserRole = indiv.role;
+            this.updateRememberMe();
+            this.router.navigateByUrl(this.returnUrl);
+          });
+        } else if (!u.isUserActive) {
+          //dispaluy user blocked
           this.displayErrorMessage(false);
           return;
+        } else {
+          //display incorrect password
+          this.restTentativeCount = u.failedTentativeCount < 5 ? 5 - u.failedTentativeCount : 0;
+          this.displayErrorMessage(true);
         }
-        CookiesUtils.setCookie('token', btoa(this.user.username + ':' + this.user.password));
-        this.individuApiService.retrieveIndividu(this.user.username).subscribe(indiv => {
-          this.individuService.connectedUserInfo = indiv.individu;
-          this.individuService.connectedUserRole = indiv.role;
-          this.updateRememberMe();
-          this.router.navigateByUrl(this.returnUrl);
-        });
       } else {
-        this.displayErrorMessage(true);
+        //technical error
+        this.displayTechnicalErrorMsg();
       }
     });
   }
@@ -83,6 +93,13 @@ export class LoginComponent implements OnInit {
   displayErrorMessage(isLogginError: boolean) {
     this.displayLoginErrorMsg = isLogginError;
     this.isUserDesabledErrorMsg = !isLogginError;
+    this.istechnicalErrorMsg = false;
+  }
+
+  displayTechnicalErrorMsg() {
+    this.displayLoginErrorMsg = false;
+    this.isUserDesabledErrorMsg = false;
+    this.istechnicalErrorMsg = true;
   }
 
 }

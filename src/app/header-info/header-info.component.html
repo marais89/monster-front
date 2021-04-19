@@ -12,31 +12,38 @@
     <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
        routerLink="/users"><span>{{WORDING.header_toolBar.administration}}</span></a>
 
-    <a *ngIf="!individu" class="ml-5">
-      <span class="mr-2">{{WORDING.header_toolBar.connect}} </span>
+    <a *ngIf="!individu" class="ml-5" routerLink="/login">
+      <span class="menu-btn mr-2">{{WORDING.header_toolBar.connect}} </span>
     </a>
 
-    <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-5" >
+    <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-5">
       <span class="mr-2">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
       <img class="roundedImage" [src]="individu.user_image | safeImage"/>
     </a>
     <mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="providers-menu">
-      <a mat-menu-item><i class="material-icons align-middle">storefront</i><span
+      <a mat-menu-item title="{{WORDING.header_toolBar.order}}"><i
+        class="material-icons align-middle">storefront</i><span
         class="ml-2">{{WORDING.header_toolBar.order}}</span></a>
-      <a mat-menu-item routerLink="/account"><i class="material-icons align-middle">person</i><span
+      <a mat-menu-item routerLink="/account" title="{{WORDING.header_toolBar.account}}"><i
+        class="material-icons align-middle">person</i><span
         class="ml-2">{{WORDING.header_toolBar.account}}</span></a>
-      <a mat-menu-item mat-menu-item [matMenuTriggerFor]="language" ><i class="material-icons align-middle">language</i><span
+      <a mat-menu-item mat-menu-item [matMenuTriggerFor]="language" title="{{WORDING.header_toolBar.language.title}}"><i
+        class="material-icons align-middle">language</i><span
         class="ml-2">{{WORDING.header_toolBar.language.title}}</span></a>
-      <a mat-menu-item routerLink="/login" (click)="logout()"><i class="material-icons align-middle">logout</i><span
+      <a mat-menu-item routerLink="/updatePwd" title="{{WORDING.header_toolBar.updatePwd}}"><i
+        class="material-icons align-middle">vpn_key</i><span
+        class="ml-2">{{WORDING.header_toolBar.updatePwd}}</span></a>
+      <a mat-menu-item routerLink="/login" title="{{WORDING.header_toolBar.logout}}" (click)="logout()"><i
+        class="material-icons align-middle">logout</i><span
         class="ml-2">{{WORDING.header_toolBar.logout}}</span></a>
-      <a mat-menu-item><i class="material-icons align-middle">help</i><span
+      <a mat-menu-item title="{{WORDING.header_toolBar.help}}"><i class="material-icons align-middle">help</i><span
         class="ml-2">{{WORDING.header_toolBar.help}}</span></a>
     </mat-menu>
 
     <mat-menu #language="matMenu" yPosition="below" xPosition="before" class="providers-menu">
       <a mat-menu-item (click)="setFranshLanguage()"><img class="roundedflag" [src]="flag_fr"/><span
         class="ml-2">{{WORDING.header_toolBar.language.fr}}</span></a>
-      <a mat-menu-item (click)="setEnglishLanguage()" ><img class="roundedflag" [src]="flag_en"/><span
+      <a mat-menu-item (click)="setEnglishLanguage()"><img class="roundedflag" [src]="flag_en"/><span
         class="ml-2">{{WORDING.header_toolBar.language.en}}</span></a>
     </mat-menu>
   </div>

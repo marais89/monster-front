@@ -80,6 +80,7 @@ export class BrowserUtils {
     if (this.position && this.position.coords) {
       request.location = this.position.coords.latitude + '#' + this.position.coords.longitude;
     }
+    request.channel = 'client';
 
     return request;
   }

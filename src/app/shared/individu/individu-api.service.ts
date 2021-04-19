@@ -14,6 +14,7 @@ import {IndividuRequest} from '../../model/individu-request';
 import {UpdateStatusRequest} from '../../model/update-status-request';
 import {ValidateKeyRequest} from '../../model/validate-key-request';
 import {LoginRequest} from '../../model/login-request';
+import {LoginResponse} from '../../model/login-response';
 
 @Injectable()
 export class IndividuApiService {
@@ -23,7 +24,7 @@ export class IndividuApiService {
 
   private buildHeader() {
     return {
-      headers: new HttpHeaders({Authorization: 'Basic ' + CookiesUtils.getCookie('token')})
+      headers: new HttpHeaders({Authorization: 'Bearer ' + CookiesUtils.getCookie('token')})
     };
   }
 
@@ -77,10 +78,10 @@ export class IndividuApiService {
     return this.http.get<IndividuGlobaleInfos>(url, this.buildHeader());
   }
 
-  getLoggedUser(user: User): Observable<User> {
+  getLoggedUser(user: User): Observable<LoginResponse> {
     let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
     let loginInfo: string = btoa(user.username + ':' + user.password);
-    return this.http.post<User>(url, this.buildLoginRequest(loginInfo));
+    return this.http.post<LoginResponse>(url, this.buildLoginRequest(loginInfo));
   }
 
   getAdressByGouvernorat(gouvernorat: number): Observable<Adress[]> {

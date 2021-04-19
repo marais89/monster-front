@@ -41,9 +41,9 @@ export class CookiesUtils {
 
   static getLoginFromToken(): string {
 
-    let token = this.getCookie('token');
-    if (token) {
-      return atob(token).split(':')[0];
+    let user = this.getCookie('user');
+    if (user) {
+      return atob(user);
     }
     return null;
   }

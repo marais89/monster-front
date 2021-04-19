@@ -24,6 +24,8 @@ import {MatListModule} from '@angular/material';
 import {SafePipe} from './shared/safe-pipe';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {MatSelectModule} from '@angular/material/select';
+import {PasswordUpdateComponent} from './password-update/password-update.component';
+import {AuthentApiService} from './shared/authent/authent-api.service';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import {MatSelectModule} from '@angular/material/select';
     LoginComponent,
     DialogInfoComponent,
     HeaderInfoComponent,
+    PasswordUpdateComponent,
     SafePipe
   ],
     imports: [
@@ -54,7 +57,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatListModule,
         MatSelectModule
     ],
-  providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService],
+  providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService, AuthentApiService],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]
 })

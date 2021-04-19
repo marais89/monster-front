@@ -13,6 +13,7 @@ export class UrlUtils {
   public static RETRIEVE_INDIVIDU_URL = '/individus/username/';
   public static RETRIEVE_ADRESS_URL = '/individus/adress/gouvernorat/';
   public static RETRIEVE_ALLTOWN_URL = '/individus/allTown';
+  public static UPDATE_PWD = '/updatePwd';
   public static ID = '';
 
 }
