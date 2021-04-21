@@ -30,3 +30,7 @@ body, html {
   color: black;
 }
 
+.input_password-format{
+  padding: 0;
+}
+

@@ -3,7 +3,7 @@
     <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
     <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
       {{WORDING.login.error1}} <br>
-     <span>  {{WORDING.login.attempts_worning}}</span> <br>
+      <span>  {{WORDING.login.attempts_worning}}</span> <br>
       <span><strong>{{restTentativeCount}}</strong> {{WORDING.login.attempts_remaining}}</span>
     </div>
     <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
@@ -16,24 +16,33 @@
       <mat-form-field floatLabel="never" class=" mb-5 w-100">
         <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.username" required>
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-         {{WORDING.login.mondatory}}
+          {{WORDING.login.mondatory}}
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field floatLabel="never" class=" w-100">
-        <input type="password" matInput placeholder="{{WORDING.login.pwd}}" [(ngModel)]="user.password" required
-               name="password">
+      <mat-form-field floatLabel="never" class="container w-100 input_password-format">
+        <div class="d-flex justify-content-start">
+          <input [type]="fieldTextType ? 'text' : 'password'" matInput placeholder="{{WORDING.login.pwd}}"
+                 [(ngModel)]="user.password" required name="password">
+          <div class="float-right">
+          <span class="">
+            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
+          </span>
+          </div>
+        </div>
         <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
           {{WORDING.login.mondatory}}
         </mat-error>
       </mat-form-field>
-      <mat-checkbox  [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
+      <mat-checkbox [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
 
       <div class=" mb-5 w-100">
-        <button class="btn btn-success w-100" type="submit" title="{{WORDING.login.confirm}}" (click)="login()">{{WORDING.login.confirm}}</button>
+        <button class="btn btn-success w-100" type="submit" title="{{WORDING.login.confirm}}"
+                (click)="login()">{{WORDING.login.confirm}}</button>
       </div>
       <div>
-        <span class="w-100">{{WORDING.login.signUp_msg}} <a routerLink="/create">{{WORDING.login.signUp}}</a></span></div>
+        <span class="w-100">{{WORDING.login.signUp_msg}} <a routerLink="/create">{{WORDING.login.signUp}}</a></span>
+      </div>
       <div class="w-100"><a href="#">{{WORDING.login.forgot_pwd}}</a></div>
     </div>
     <div>

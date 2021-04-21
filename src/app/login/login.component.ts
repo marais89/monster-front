@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   rememberMe: boolean = false;
   restTentativeCount: number = 0;
+  fieldTextType: boolean = false;
 
   constructor(private individuApiService: IndividuApiService,
               private individuService: IndividuService,
@@ -100,6 +101,10 @@ export class LoginComponent implements OnInit {
     this.displayLoginErrorMsg = false;
     this.isUserDesabledErrorMsg = false;
     this.istechnicalErrorMsg = true;
+  }
+
+  toggleFieldTextType(){
+    this.fieldTextType = !this.fieldTextType;
   }
 
 }
