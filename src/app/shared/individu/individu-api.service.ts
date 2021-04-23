@@ -15,6 +15,9 @@ import {UpdateStatusRequest} from '../../model/update-status-request';
 import {ValidateKeyRequest} from '../../model/validate-key-request';
 import {LoginRequest} from '../../model/login-request';
 import {LoginResponse} from '../../model/login-response';
+import {CheckUser} from '../../model/check-user';
+import {UpdatePwdWithKeyResponse} from '../../model/update-pwd-with-key-response';
+import {UpdatePwdWithKey} from '../../model/update-pwd-with-key';
 
 @Injectable()
 export class IndividuApiService {
@@ -78,6 +81,17 @@ export class IndividuApiService {
     return this.http.get<IndividuGlobaleInfos>(url, this.buildHeader());
   }
 
+  checkUserByEmail(email: string): Observable<CheckUser> {
+    let url = UrlUtils.BASE_URL + UrlUtils.CHECK_BY_EMAIL_INDIVIDU_URL;
+    return this.http.post<CheckUser>(url, this.buildCheckEmailRequest(email));
+  }
+
+  updatePwdWithKey(updatePwdWithKey: UpdatePwdWithKey): Observable<UpdatePwdWithKeyResponse> {
+    let url = UrlUtils.BASE_URL + UrlUtils.UPDAT_PWD_WITH_KEY_URL;
+    updatePwdWithKey.requestContext = BrowserUtils.buildRequestContext();
+    return this.http.post<UpdatePwdWithKeyResponse>(url, updatePwdWithKey);
+  }
+
   getLoggedUser(user: User): Observable<LoginResponse> {
     let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
     let loginInfo: string = btoa(user.username + ':' + user.password);
@@ -119,6 +133,14 @@ export class IndividuApiService {
     validateKeyRequest.key = key;
     validateKeyRequest.requestContext = BrowserUtils.buildRequestContext();
     return validateKeyRequest;
+  }
+
+  private buildCheckEmailRequest(email: string): UpdateStatusRequest {
+    let request = new UpdateStatusRequest();
+    request.username = email;
+    request.requestContext = BrowserUtils.buildRequestContext();
+    request.requestContext.username = email;
+    return request;
   }
 
 }

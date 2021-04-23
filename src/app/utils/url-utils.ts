@@ -11,6 +11,8 @@ export class UrlUtils {
   public static RESUME_URL = '/individus/resume/username/';
   public static DEACTIVATE_URL = '/individus/deactivate/username/';
   public static RETRIEVE_INDIVIDU_URL = '/individus/username/';
+  public static CHECK_BY_EMAIL_INDIVIDU_URL = '/individus/checkEmail';
+  public static UPDAT_PWD_WITH_KEY_URL = '/updatePwdWithKey';
   public static RETRIEVE_ADRESS_URL = '/individus/adress/gouvernorat/';
   public static RETRIEVE_ALLTOWN_URL = '/individus/allTown';
   public static UPDATE_PWD = '/updatePwd';
