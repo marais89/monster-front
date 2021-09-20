@@ -20,12 +20,14 @@ import {IndividuAccountComponent} from './individu-account/individu-account.comp
 import {HeaderInfoComponent} from './header-info/header-info.component';
 import {IndividuService} from './shared/individu/individu.service';
 import {UserInfosComponent} from './user-infos/user-infos.component';
-import {MatListModule} from '@angular/material';
+import {MatListModule, MatSortModule, MatTableModule, MatTabsModule} from '@angular/material';
 import {SafePipe} from './shared/safe-pipe';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {MatSelectModule} from '@angular/material/select';
 import {PasswordUpdateComponent} from './password-update/password-update.component';
 import {AuthentApiService} from './shared/authent/authent-api.service';
+import {HistoryApiService} from './shared/history/history-api.service';
+import { HistoryComponent } from './history/history.component';
 
 
 @NgModule({
@@ -40,24 +42,28 @@ import {AuthentApiService} from './shared/authent/authent-api.service';
     DialogInfoComponent,
     HeaderInfoComponent,
     PasswordUpdateComponent,
-    SafePipe
+    SafePipe,
+    HistoryComponent
   ],
-    imports: [
-        BrowserModule,
-        MaterialModule,
-        HttpClientModule,
-        FormsModule,
-        AppRoutingModule,
-        RouterModule,
-        MatCheckboxModule,
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatListModule,
-        MatSelectModule
-    ],
-  providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService, AuthentApiService],
+  imports: [
+    BrowserModule,
+    MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
+    RouterModule,
+    MatCheckboxModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatTableModule,
+    MatSortModule
+  ],
+  providers: [IndividuService, IndividuApiService, AuthGuardService, RoleGuardService, AuthentApiService, HistoryApiService],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]
 })

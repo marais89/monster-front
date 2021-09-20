@@ -18,4 +18,8 @@ export class UrlUtils {
   public static UPDATE_PWD = '/updatePwd';
   public static ID = '';
 
+  //Histories
+  public static USERNAME_FROM_HISTORIES_URL = '/history/usernameFromHistories';
+  public static RETRIEVE_EVENTS_OF_USER_URL = '/history/username/';
+
 }

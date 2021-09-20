@@ -1,7 +1,8 @@
 table {
   width: 100%;
 }
-.mat-row{
+
+.mat-row {
   cursor: pointer;
 }
 
@@ -19,10 +20,6 @@ table {
 
 .mat-table-sticky:last-child {
   border-left: 1px solid #e0e0e0;
-}
-
-.table-btn-size {
-  width: 70px;
 }
 
 .transparent .mat-dialog-container {

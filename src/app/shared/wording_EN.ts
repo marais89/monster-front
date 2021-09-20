@@ -48,6 +48,7 @@ export const Wording_EN = {
       suspend: 'Suspend',
       resume: 'Activate',
       deactivate: 'Deactivate',
+      history: 'History',
     }
   },
   individu_account: {

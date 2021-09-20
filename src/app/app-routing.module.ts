@@ -7,14 +7,16 @@ import {AuthGuardService as AuthGuard, RoleGuardService} from './authGuardServic
 import {IndividuAccountComponent} from './individu-account/individu-account.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {PasswordUpdateComponent} from './password-update/password-update.component';
+import {HistoryComponent} from './history/history.component';
 
 export const routes: Routes = [
-  {path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'users', component: IndividuListComponent, canActivate: [AuthGuard, RoleGuardService]},
   {path: 'create', component: IndividuCreateComponent},
   {path: 'login', component: LoginComponent},
   {path: 'updatePwd', component: PasswordUpdateComponent},
-  {path: 'account', component: IndividuAccountComponent, canActivate: [AuthGuard] },
+  {path: 'account', component: IndividuAccountComponent, canActivate: [AuthGuard]},
+  {path: 'history', component: HistoryComponent, canActivate: [AuthGuard, RoleGuardService]},
   {path: '**', redirectTo: ''}
 ];
 

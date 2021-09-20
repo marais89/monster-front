@@ -1,4 +1,7 @@
-<mat-card class="main-div container m-0 text-center">
+<mat-tab-group>
+  <mat-tab label="manage-users">
+
+  <mat-card class="main-div container m-0 text-center">
   <div class="alert alert-danger w-100" *ngIf="!individu" role="alert">
    {{WORDING.problem}}
   </div>
@@ -52,3 +55,11 @@
     </div>
   </div>
 </mat-card>
+
+  </mat-tab>
+
+  <mat-tab label="histories">
+
+  </mat-tab>
+
+</mat-tab-group>

@@ -1,7 +1,7 @@
+<app-header-info (changeLanguageEvent)="updateWordingLanguage($event)"></app-header-info>
 <div class="main-div">
-  <app-header-info (changeLanguageEvent)="updateWordingLanguage($event)" ></app-header-info>
-  <mat-card *ngIf="individu" class="container m-5 text-center">
-    <h2 class="card-title mb-5"></h2>
+  <mat-card *ngIf="individu" class="container m-4 text-center">
+    <h2 class="card-title mb-4"></h2>
     <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
       {{WORDING.problem}}
     </div>

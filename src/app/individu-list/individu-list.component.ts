@@ -11,6 +11,7 @@ import {UserInfosComponent} from '../user-infos/user-infos.component';
 import {Status} from '../individu-create/individu-create.component';
 import {ColorUtils} from '../utils/color-utils';
 import {LanguageUtils} from '../utils/language-utils';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-individu-list',
@@ -20,7 +21,7 @@ import {LanguageUtils} from '../utils/language-utils';
 export class IndividuListComponent implements OnInit {
 
   WORDING = LanguageUtils.getWordingLanguage();
-  displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate'];
+  displayedColumns: string[] = ['img', 'nom', 'prenom', 'email', 'statut', 'suspend', 'resume', 'deactivate', 'history'];
   dataSource: MatTableDataSource<Individu>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,7 +32,8 @@ export class IndividuListComponent implements OnInit {
 
   constructor(private individuApiService: IndividuApiService,
               private individuService: IndividuService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private router: Router) {
   }
 
   //TODO faire un min width dans le html / gerer le respensive de la page
@@ -95,7 +97,7 @@ export class IndividuListComponent implements OnInit {
   openInfoDialog(msg: string, title: string): void {
     let dialogInformation = this.buildConfirmationDialog(msg, title);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
-      width: '35%'
+      width: '25%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
@@ -124,11 +126,15 @@ export class IndividuListComponent implements OnInit {
 
   displayUserInfoPopup(individu: Individu) {
     const dialogRef = this.dialog.open(UserInfosComponent, {
-      minWidth: '25em', width: '30%'
+      minWidth: '25em', width: '50%'
     });
     dialogRef.componentInstance.individu = individu;
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  redirectToHistory(username: string) {
+    this.router.navigate(['/history'], {queryParams: {username: username}});
   }
 
   findColorOfStatus(status: Status) {
