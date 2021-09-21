@@ -149,10 +149,9 @@
     </div>
 
     <div class="mb-5 w-100">
-      <button class="btn btn-success w-100" type="submit"
+      <a routerLink="/" mat-button color="accent" >{{WORDING.dialog.button.return}}</a>
+      <button mat-button color="primary" type="submit"
               (click)="updateIndividuAccountInformations()">{{WORDING.dialog.button.confirm}}</button>
-      <div class="mt-3"><a routerLink="/"
-                           class="text-center text-capitalize text-dark">{{WORDING.dialog.button.return}}</a></div>
     </div>
   </mat-card>
 </div>

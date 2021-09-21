@@ -12,7 +12,7 @@ import {LanguageUtils} from '../utils/language-utils';
 @Component({
   selector: 'app-individu-create',
   templateUrl: './individu-create.component.html',
-  styleUrls: ['./individu-create.component.css']
+  styleUrls: ['./individu-create.component.scss']
 })
 
 export class IndividuCreateComponent implements OnInit {

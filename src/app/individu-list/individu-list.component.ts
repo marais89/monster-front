@@ -137,10 +137,6 @@ export class IndividuListComponent implements OnInit {
     this.router.navigate(['/history'], {queryParams: {username: username}});
   }
 
-  findColorOfStatus(status: Status) {
-    return ColorUtils.COLOROFSTATUS(status);
-  }
-
   public updateWordingLanguage(language) {
     this.WORDING = LanguageUtils.whichWording(language);
   }

@@ -1,5 +1,5 @@
 <div class="main-div bg">
-  <mat-card class="container login-container text-center m-5">
+  <mat-card class="container login-container text-center m-5" >
     <div *ngIf="!displayUpdatePwd && isLogin">
       <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
       <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
@@ -41,11 +41,11 @@
         <mat-checkbox [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
 
         <div class=" mb-5 w-100">
-          <button class="btn btn-success w-100" type="submit" title="{{WORDING.login.confirm}}"
+          <button class="w-100" mat-button color="primary" type="submit" title="{{WORDING.login.confirm}}"
                   (click)="login()">{{WORDING.login.confirm}}</button>
         </div>
         <div>
-          <span class="w-100">{{WORDING.login.signUp_msg}} <a routerLink="/create">{{WORDING.login.signUp}}</a></span>
+          <span class="w-100" >{{WORDING.login.signUp_msg}} <a class="primary-color" routerLink="/create">{{WORDING.login.signUp}}</a></span>
         </div>
         <div class="w-100"><a (click)="pwdForgotten()">{{WORDING.login.forgot_pwd}}</a></div>
       </div>
@@ -123,7 +123,7 @@
       </div>
 
         <div class="mt-4 mb-2 w-100">
-          <button class="btn btn-success w-100" (click)="updtePwdWithKey()" [disabled]="!isConformPwd()" type="submit" title="{{WORDING.login.confirm}}" >{{WORDING.login.confirm}}</button>
+          <button class="w-100" mat-button color="primary" (click)="updtePwdWithKey()" [disabled]="!isConformPwd()" type="submit" title="{{WORDING.login.confirm}}" >{{WORDING.login.confirm}}</button>
         </div>
       <div class="mt-1"><a routerLink="/"  (click)="switchToLogin()" title="{{WORDING.individu_create.return_btn}}"
                            class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>

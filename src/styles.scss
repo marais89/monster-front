@@ -1,5 +1,30 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/theming';
+@import './themes';
+
+.primary-color {
+  color: mat-color($candy-app-primary) !important;
+}
+
+.accent-color {
+  color: mat-color($candy-app-accent) !important;
+}
+
+.warn-color {
+  color: mat-color($candy-app-warn) !important;
+}
+
+.primary-dark-color {
+  color: mat-color($dark-primary) !important;
+}
+
+.accent-dark-color {
+  color: mat-color($dark-accent) !important;
+}
+
+.warn-dark-color {
+  color: mat-color($dark-warn) !important;
+}
 
 /* You can add global styles to this file, and also import other style files */
 .body-content_size {

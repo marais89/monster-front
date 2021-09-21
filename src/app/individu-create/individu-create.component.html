@@ -84,13 +84,13 @@
           <span [innerHTML]="WORDING.individu_create.pw_identique"></span>
         </div>
 
-        <div class=" mt-5 mb-5 w-100">
-          <button class="btn btn-success w-100" [disabled]="!createForm.form.valid || !isConformPwd()" type="submit"
+        <div class="mt-5 mb-5 w-100">
+
+          <button mat-button color="primary" class="float-right"  [disabled]="!createForm.form.valid || !isConformPwd()" type="submit"
                   title="{{WORDING.individu_create.create_btn}}"
                   (click)="createIndividu()">{{WORDING.individu_create.create_btn}}</button>
-          <div class="mt-3"><a routerLink="/" title="{{WORDING.individu_create.return_btn}}"
-                               class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>
-          </div>
+          <a routerLink="/" class="float-right mr-2" title="{{WORDING.individu_create.return_btn}}"
+             mat-button color="accent">{{WORDING.individu_create.return_btn}}</a>
         </div>
       </div>
     </form>

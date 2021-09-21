@@ -2,7 +2,7 @@
 <mat-card class="container m-4">
   <div class=" mx-auto">
 
-    <button class="btn btn-info" [routerLink]="'/users'"> Retour </button>
+      <button mat-button color="accent" [routerLink]="'/users'"> Retour </button>
 
     <mat-spinner *ngIf="!dataSource2 || !dataSource2.data" style="margin:0 auto;padding-top: 6em"
                  mode="indeterminate"></mat-spinner>
