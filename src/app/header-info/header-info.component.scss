@@ -1,3 +1,6 @@
+@import '~@angular/material/_theming.scss';
+@import './src/themes.scss';
+
 .logo {
   font-size: 1.2em;
   font-family: "Comic Sans MS";
@@ -7,7 +10,7 @@
 ::ng-deep .mat-menu-panel.providers-menu {
   margin-top: 3em;
   width: 15em;
-  background-color: cornflowerblue;
+  background-color: mat-color($candy-app-primary);
 }
 
 a {
@@ -111,7 +114,7 @@ a {
   float: right;
 }
 
-.toolBar{
+.toolBar {
   height: 4em;
 }
 

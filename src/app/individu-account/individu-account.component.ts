@@ -40,6 +40,11 @@ export class IndividuAccountComponent implements OnInit {
               private router: Router) {
   }
 
+  ngOnInit() {
+    this.chargeLogedUserInfo();
+    this.retrieveAllTown();
+  }
+
   findAdressByGouvernorat(id: number) {
     this.individuApiService.getAdressByGouvernorat(id).subscribe(data => {
       this.reinitVilleAndCity();
@@ -88,11 +93,6 @@ export class IndividuAccountComponent implements OnInit {
   nameFormControl = new FormControl('', [
     Validators.required,
   ]);
-
-  ngOnInit() {
-    this.chargeLogedUserInfo();
-    this.retrieveAllTown();
-  }
 
   public updateWordingLanguage(language) {
     this.WORDING = LanguageUtils.whichWording(language);
@@ -158,7 +158,7 @@ export class IndividuAccountComponent implements OnInit {
   openDialog(msg: string): void {
     let dialogInformation = this.buildConfirmationDialog(msg);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
-      width: '30%'
+      minWidth: '20em', width: '35%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(() => {

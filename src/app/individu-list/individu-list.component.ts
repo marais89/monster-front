@@ -8,15 +8,13 @@ import {MatTableDataSource} from '@angular/material/table';
 import {IndividuService} from '../shared/individu/individu.service';
 import {UserStatutAction} from '../utils/user-statut-action';
 import {UserInfosComponent} from '../user-infos/user-infos.component';
-import {Status} from '../individu-create/individu-create.component';
-import {ColorUtils} from '../utils/color-utils';
 import {LanguageUtils} from '../utils/language-utils';
 import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-individu-list',
   templateUrl: './individu-list.component.html',
-  styleUrls: ['./individu-list.component.css']
+  styleUrls: ['./individu-list.component.scss']
 })
 export class IndividuListComponent implements OnInit {
 
@@ -45,7 +43,7 @@ export class IndividuListComponent implements OnInit {
   perfermActions(login: string, action: UserStatutAction): void {
     let dialogInformation = this.buildDialogInfo(login, action);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
-      width: '40%'
+      minWidth: '20em', width: '35%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
@@ -97,7 +95,7 @@ export class IndividuListComponent implements OnInit {
   openInfoDialog(msg: string, title: string): void {
     let dialogInformation = this.buildConfirmationDialog(msg, title);
     const dialogRef = this.dialog.open(DialogInfoComponent, {
-      width: '25%'
+      minWidth: '20em', width: '30%'
     });
     dialogRef.componentInstance.dialogInfo = dialogInformation;
     dialogRef.afterClosed().subscribe(result => {
@@ -126,7 +124,7 @@ export class IndividuListComponent implements OnInit {
 
   displayUserInfoPopup(individu: Individu) {
     const dialogRef = this.dialog.open(UserInfosComponent, {
-      minWidth: '25em', width: '50%'
+      minWidth: '20em', width: '35%'
     });
     dialogRef.componentInstance.individu = individu;
     dialogRef.afterClosed().subscribe(result => {
