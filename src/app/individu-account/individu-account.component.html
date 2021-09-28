@@ -7,8 +7,8 @@
     </div>
 
     <br>
-    <div class=" p-4 ">
-      <div class=" border d-flex justify-content-center p-3 w-50">
+    <div class=" p-3">
+      <div class=" border d-sm-flex justify-content-center p-3 col-lg-6 col-12" >
         <div class=" w-50">
           <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage"
                                                                              [src]="user_image | safeImage" alt="1"/>
@@ -48,8 +48,8 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-start p-4 w-100">
-      <div class="border m-1 w-50">
+    <div class="d-lg-flex justify-content-start p-4 w-100">
+      <div class="border m-1" [ngClass]="'width_info'">
         <div class="block-info_header  mb-2"><span>{{WORDING.individu_account.informations_perso}}</span></div>
         <div class="p-3">
           <mat-form-field floatLabel="never" class="row mb-3 w-100" title="{{WORDING.individu.attributs.lastName}}">
@@ -98,14 +98,14 @@
         </div>
       </div>
 
-      <div class="border m-1 w-50">
+      <div class="border m-1" [ngClass]="'width_info'">
         <div class="block-info_header  mb-2">{{WORDING.address.title}}</div>
         <div class="p-3">
           <!-- adress -->
           <div><span class="alert-danger" *ngIf="displayAddressError"
                      [innerHTML]="WORDING.address.invalide_adr"> </span>
           </div>
-          <div class="d-flex justify-content-start w-100 ">
+          <div class="d-md-flex justify-content-start w-100 ">
             <mat-form-field floatLabel="never" class="mb-3 w-75" title="{{WORDING.address.gouvernorat}}">
               <mat-label>{{WORDING.address.gouvernorat}}</mat-label>
               <mat-select [(ngModel)]="selectedGouvernorat">

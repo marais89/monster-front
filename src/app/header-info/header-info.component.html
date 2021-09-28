@@ -1,23 +1,36 @@
 <mat-toolbar layout="row" color="primary" class="toolBar">
 
-  <a (click)="drawer.toggle()">
+  <a (click)="drawer.toggle()" class="pt-2">
     <i class="material-icons burger">chat</i>
   </a>
   <a routerLink="/" class="align-middle logo">MONSTER</a>
   <div class="toolbar-menu-right mr-2">
-    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.home}}"
+
+    <a [matMenuTriggerFor]="option" class="menu-btn d-inline d-md-none">
+      <span class="mr-1">Menu</span>
+    </a>
+    <mat-menu #option="matMenu" yPosition="below" xPosition="before" class="providers-menu">
+      <a mat-menu-item  class="menu-btn ml-2" title="{{WORDING.header_toolBar.home}}"
+         routerLink="/"><i class="material-icons align-middle">home</i><span class="ml-2">{{WORDING.header_toolBar.home}}</span></a>
+      <a mat-menu-item  class="menu-btn ml-2" title="{{WORDING.header_toolBar.product}}"
+         routerLink="/"><i class="material-icons align-middle">storefront</i><span class="ml-2">{{WORDING.header_toolBar.product}}</span></a>
+      <a mat-menu-item  class="menu-btn ml-2" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
+         routerLink="/users"><i class="material-icons align-middle">manage_accounts</i><span class="ml-2">{{WORDING.header_toolBar.administration}}</span></a>
+    </mat-menu>
+
+    <a class="menu-btn ml-2 d-none d-md-inline" title="{{WORDING.header_toolBar.home}}"
        routerLink="/"><span>{{WORDING.header_toolBar.home}}</span></a>
-    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.product}}"
+    <a class="menu-btn ml-2 d-none d-md-inline" title="{{WORDING.header_toolBar.product}}"
        routerLink="/"><span>{{WORDING.header_toolBar.product}}</span></a>
-    <a class="menu-btn ml-2" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
+    <a class="menu-btn ml-2 d-none d-md-inline" title="{{WORDING.header_toolBar.administration}}" *ngIf="isAdmin()"
        routerLink="/users"><span>{{WORDING.header_toolBar.administration}}</span></a>
 
-    <a *ngIf="!individu" class="ml-5" routerLink="/login">
+    <a *ngIf="!individu" class="ml-O ml-md-4" routerLink="/login">
       <span class="menu-btn mr-2">{{WORDING.header_toolBar.connect}} </span>
     </a>
 
-    <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-5">
-      <span class="mr-2">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
+    <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-2 ml-md-4">
+      <span class="mr-1 d-none d-md-inline">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
       <img class="roundedImage" [src]="individu.user_image | safeImage"/>
     </a>
     <mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="providers-menu">
@@ -49,7 +62,7 @@
   </div>
 </mat-toolbar>
 
-<mat-drawer #drawer class="example-sidenav">
+<mat-drawer #drawer class="example-sidenav col-6 col-md-4 col-lg-3">
   <a (click)="drawer.toggle()">
     <i class="material-icons close">close</i>
   </a>

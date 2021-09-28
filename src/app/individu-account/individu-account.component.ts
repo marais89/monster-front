@@ -14,7 +14,7 @@ import {LanguageUtils} from '../utils/language-utils';
 @Component({
   selector: 'app-individu-account',
   templateUrl: './individu-account.component.html',
-  styleUrls: ['./individu-account.component.css']
+  styleUrls: ['./individu-account.component.scss']
 })
 export class IndividuAccountComponent implements OnInit {
 

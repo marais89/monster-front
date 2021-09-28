@@ -14,7 +14,7 @@ export const routes: Routes = [
   {path: 'users', component: IndividuListComponent, canActivate: [AuthGuard, RoleGuardService]},
   {path: 'create', component: IndividuCreateComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'updatePwd', component: PasswordUpdateComponent},
+  {path: 'updatePwd', component: PasswordUpdateComponent, canActivate: [AuthGuard]},
   {path: 'account', component: IndividuAccountComponent, canActivate: [AuthGuard]},
   {path: 'history', component: HistoryComponent, canActivate: [AuthGuard, RoleGuardService]},
   {path: '**', redirectTo: ''}

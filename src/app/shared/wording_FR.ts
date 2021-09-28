@@ -72,6 +72,7 @@ export const Wording_FR = {
     return_btn: 'Retour'
   },
   password_update: {
+    title: 'Modifier mon mot de passe',
     old_password: 'Ancien mot de passe',
     new_password: 'Nouveau mot de passe',
     new_password_confirm: 'Nouveau mot de passe confirmation',

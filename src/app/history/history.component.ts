@@ -46,4 +46,8 @@ export class HistoryComponent implements OnInit {
     });
   }
 
+  public updateWordingLanguage(language) {
+    this.WORDING = LanguageUtils.whichWording(language);
+  }
+
 }

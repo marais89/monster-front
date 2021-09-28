@@ -75,4 +75,8 @@ export class PasswordUpdateComponent implements OnInit {
     return dialogInfo;
   }
 
+  public updateWordingLanguage(language) {
+    this.WORDING = LanguageUtils.whichWording(language);
+  }
+
 }

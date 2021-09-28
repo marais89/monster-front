@@ -72,6 +72,7 @@ export const Wording_EN = {
     return_btn: 'Return'
   },
   password_update: {
+    title: 'Update password',
     old_password: 'Old password',
     new_password: 'New password',
     new_password_confirm: 'New password confirmation',

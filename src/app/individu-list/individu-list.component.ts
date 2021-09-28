@@ -34,8 +34,6 @@ export class IndividuListComponent implements OnInit {
               private router: Router) {
   }
 
-  //TODO faire un min width dans le html / gerer le respensive de la page
-
   ngOnInit() {
     this.findIndividus();
   }
