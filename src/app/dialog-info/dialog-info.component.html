@@ -1,5 +1,10 @@
-<h1 mat-dialog-title  *ngIf="dialogInfo.titre">{{dialogInfo.titre}}</h1>
-<div mat-dialog-content class="mt-3" >
+
+<div class="w-100" *ngIf="dialogInfo.titre" [ngSwitch]="dialogInfo.dialogType" >
+<h1 mat-dialog-title class="info w-100" *ngSwitchCase="TYPES.INFO" >{{dialogInfo.titre}}</h1>
+<h1 mat-dialog-title class="success w-100" *ngSwitchCase="TYPES.SUCCESS" >{{dialogInfo.titre}}</h1>
+<h1 mat-dialog-title class="error w-100" *ngSwitchCase="TYPES.ERROR" >{{dialogInfo.titre}}</h1>
+</div>
+  <div mat-dialog-content class="mt-3" >
   <p class="text-center" [ngStyle]="{'color': findTextColorFromDialogType(dialogInfo.dialogType)}"
      [innerHTML]="dialogInfo.message1"></p>
   <p class="text-center" [ngStyle]="{'color': findTextColorFromDialogType(dialogInfo.dialogType)}"

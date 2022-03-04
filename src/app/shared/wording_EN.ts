@@ -135,5 +135,15 @@ export const Wording_EN = {
     postal_code: 'Zip code',
     invalide_adr: 'Your address is incomplete select <strong> (Governorate, Town, City) </strong> and write <strong> the number and the name of your street </strong>',
   },
+  business:{
+    title: 'Business informations',
+    name: 'Name',
+    description: 'Description',
+    creator: 'Creator',
+    creation_date: 'Creation date',
+    status: 'Status',
+    mondatory: '<strong> Mandatory </strong> field',
+    address: 'Address',
+  },
   problem: 'A technical problem has arisen'
 };

@@ -20,7 +20,7 @@
               <th mat-header-cell *matHeaderCellDef class="d-none d-md-table-cell"></th>
               <td mat-cell height="50px" *matCellDef="let element" class="d-none d-md-table-cell"
                   (click)="displayUserInfoPopup(element)">
-                <img width="60px" height="100%" [src]="element.user_image | safeImage"/>
+                <img width="60px" height="100%" [src]="element.user_image | individuPicPipe"/>
             </ng-container>
 
             <ng-container matColumnDef="nom">

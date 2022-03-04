@@ -1,19 +1,19 @@
+import {Address} from './address';
+
 export class Individu {
 
+  id: number;
   nom: string;
   prenom: string;
-  adresse: string;
   username: string;
-  gouvernorat: string;
-  ville: string;
-  cite: string;
-  code_postale: number;
+  addressDetails: Address;
+  addressComplement: string;
   email: string;
   numeroTel: string;
   date_naissance: Date;
   date_ceation: Date;
   niveau: number;
-  statut: string;
+  status: string;
   user_image: any;
   pass: string;
   lastConnexion: Date;

@@ -135,5 +135,15 @@ export const Wording_FR = {
     postal_code: 'Code postale',
     invalide_adr: 'Votre adresse est incomplète sélectionnez <strong>(Gouvernorat, Ville, cité)</strong> et écrire <strong>le numéro et le nom de votre rue</strong>',
   },
+  business:{
+    title: 'Information de l\'entreprise',
+    name: 'Nom',
+    description: 'Description',
+    creator: 'Propriétaire',
+    creation_date: 'Date création',
+    status: 'Etat',
+    mondatory: 'Ce champ est <strong>Obligatoire</strong>',
+    address: 'Adresse',
+  },
   problem: ' Un probléme technique est survenue !'
 };

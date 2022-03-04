@@ -9,7 +9,7 @@
 
         <br>
         <a (click)="prepareclickedPic()" title="select your picture"> <img class="roundedImage"
-                                                                           [src]="individu.user_image | safeImage"
+                                                                           [src]="individu.user_image | individuPicPipe"
                                                                            alt="1"/> </a>
         <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
                style="display:none"/>

@@ -26,6 +26,8 @@ export class DialogInformation {
 })
 export class DialogInfoComponent implements OnInit {
 
+  TYPES = DialogType;
+
   @Input() dialogInfo: DialogInformation;
 
   constructor(

@@ -7,8 +7,6 @@ import {User} from '../../login/login.component';
 import {CookiesUtils} from '../../utils/cookies-utils';
 import {IndividuGlobaleInfos} from '../../model/individu-globale-infos';
 import {SavingResponse} from '../../model/saving_response';
-import {Adress} from '../../model/adress';
-import {Town} from '../../model/town';
 import {BrowserUtils} from '../../utils/browser-utils';
 import {IndividuRequest} from '../../model/individu-request';
 import {UpdateStatusRequest} from '../../model/update-status-request';
@@ -96,14 +94,6 @@ export class IndividuApiService {
     let url = UrlUtils.BASE_URL + UrlUtils.GET_LOGGED_LOGIN_URL;
     let loginInfo: string = btoa(user.username + ':' + user.password);
     return this.http.post<LoginResponse>(url, this.buildLoginRequest(loginInfo));
-  }
-
-  getAdressByGouvernorat(gouvernorat: number): Observable<Adress[]> {
-    return this.http.get<Adress[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ADRESS_URL + gouvernorat, this.buildHeader());
-  }
-
-  getAllTown(): Observable<Town[]> {
-    return this.http.get<Town[]>(UrlUtils.BASE_URL + UrlUtils.RETRIEVE_ALLTOWN_URL, this.buildHeader());
   }
 
   private buildIndividuRequest(individu: Individu) {

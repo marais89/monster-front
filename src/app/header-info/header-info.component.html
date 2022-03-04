@@ -31,7 +31,7 @@
 
     <a *ngIf="individu" [matMenuTriggerFor]="menu" class="ml-2 ml-md-4">
       <span class="mr-1 d-none d-md-inline">{{WORDING.header_toolBar.welcome}} {{individu.nom}} </span>
-      <img class="roundedImage" [src]="individu.user_image | safeImage"/>
+      <img class="roundedImage" [src]="individu.user_image | individuPicPipe"/>
     </a>
     <mat-menu #menu="matMenu" yPosition="below" xPosition="before" class="providers-menu">
       <a mat-menu-item title="{{WORDING.header_toolBar.order}}"><i

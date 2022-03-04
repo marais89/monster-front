@@ -88,7 +88,7 @@ export class IndividuCreateComponent implements OnInit {
 
     this.actualDate = new Date();
     this.individu.date_ceation = this.actualDate;
-    this.individu.statut = Status.attente;
+    this.individu.status = Status.attente;
     this.individu.niveau = Niveau.niveau1;
     const salt = bcrypt.genSaltSync(10);
     this.individu.pass = bcrypt.hashSync(this.password, salt);

@@ -4,7 +4,7 @@
   </div>
   <div class="w-100 mx-auto" *ngIf="individu">
 
-    <img class="roundedImage" [src]="individu.user_image | safeImage" alt="1">
+    <img class="roundedImage" [src]="individu.user_image | individuPicPipe" alt="1">
 
     <div class="row d-flex justify-content-start mt-5 mb-4 w-100">
       <span class="w-50 text-lg-left">{{WORDING.individu.attributs.lastName}} :</span>
@@ -43,7 +43,7 @@
 
     <div class="row d-flex justify-content-start mb-4 w-100">
       <span class="w-50 text-lg-left">{{WORDING.individu.attributs.status}} :</span>
-      <span class="w-50 text-lg-left">{{individu.statut}}</span>
+      <span class="w-50 text-lg-left">{{individu.status}}</span>
     </div>
 
     <div class="row d-flex justify-content-start mb-4 w-100">

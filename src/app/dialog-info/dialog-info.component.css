@@ -6,3 +6,15 @@
   width: 100px;
   background-color: beige;
 }
+
+.error{
+  background-color: rgba(243, 116, 116, 0.6);
+}
+
+.success{
+  background-color: rgb(167, 243, 164);
+}
+
+.info{
+  background-color: rgba(231, 230, 230, 0.6);
+}
