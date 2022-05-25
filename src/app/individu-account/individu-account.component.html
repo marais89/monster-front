@@ -110,9 +110,9 @@
               <div><span class="alert-danger" *ngIf="displayAddressError"
                          [innerHTML]="WORDING.address.invalide_adr"> </span>
               </div>
-              <div class="d-md-flex justify-content-start w-100 ">
+              <div class="d-flex flex-column w-100 ">
 
-                <mat-form-field floatLabel="never" class="mb-3 w-75" title="pays">
+                <mat-form-field floatLabel="never" class="mb-3" title="pays">
                   <mat-label>pays</mat-label>
                   <mat-select [(ngModel)]="selectedCountry" [compareWith]="objectComparisonFunction">
                     <mat-option *ngFor="let country of countries" (click)="findGovernorateByCountry(selectedCountry.id)"
@@ -122,7 +122,7 @@
                   </mat-select>
                 </mat-form-field>
 
-                <mat-form-field floatLabel="never" class="mb-3 w-75" title="{{WORDING.address.gouvernorat}}">
+                <mat-form-field floatLabel="never" class="mb-3" title="{{WORDING.address.gouvernorat}}">
                   <mat-label>{{WORDING.address.gouvernorat}}</mat-label>
                   <mat-select [(ngModel)]="selectedGovernorate" [compareWith]="objectComparisonFunction">
                     <mat-option *ngFor="let governorate of governorates"
@@ -143,7 +143,7 @@
                     </mat-autocomplete>
                   </mat-form-field>
 
-                <mat-form-field floatLabel="never" class="row mb-3 w-100"
+                <mat-form-field floatLabel="never" class="mb-3 w-100"
                                 title="Complement d'adresse">
                   <input type="text" matInput placeholder="complement adresse"
                          [(ngModel)]="selectedCompAddress" required
