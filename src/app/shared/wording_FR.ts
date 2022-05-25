@@ -20,6 +20,9 @@ export const Wording_FR = {
         ok: 'Vos Informations ont été mis a jour avec succée',
         ko: 'Nous n\'avans pas pu éffectuer votre demande, veiller réessayer ultériairement',
       },
+      create: {
+        ok: 'Informations ajouter avec succée',
+      },
       create_user_1: 'Votre compte a été bien créé.',
       create_user_2: 'Vous pouvez dès maintenant vous connecter en utilisant votre login et mot de passe',
       create_user_existe: 'Un compte existe déja avec ce pseudonyme',

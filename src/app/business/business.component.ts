@@ -1,10 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LanguageUtils} from '../utils/language-utils';
 import {Business} from '../model/business';
 import {BusinessApiService} from '../shared/business/businessApiService';
 import {Individu} from '../model/individu';
 import {FormControl, Validators} from '@angular/forms';
 import {StringUtils} from '../utils/string-utils';
+import {DialogType} from '../individu-create/individu-create.component';
+import {IndividuService} from '../shared/individu/individu.service';
+import {Router} from '@angular/router';
+import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'business',
@@ -15,30 +20,67 @@ export class BusinessComponent implements OnInit {
 
 
   WORDING = LanguageUtils.getWordingLanguage();
-  @Input() individu: Individu;
+  individu: Individu;
   business: Business;
   displayErrorMsg: boolean = false;
-  hasBusiness: boolean= false;
+  hasBusiness: boolean = false;
   displaySaveForm: boolean = false;
   displayMaxSizeImage: boolean;
   logo: any;
 
-  constructor(private businessApiService: BusinessApiService) {
+  constructor(private businessApiService: BusinessApiService,
+              private individuService: IndividuService,
+              private dialog: MatDialog,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.retrieveBusinessInfo();
+    this.chargeLogedUserInfo();
+  }
+
+  chargeLogedUserInfo() {
+    this.individuService.chargeLogedUserInfo().subscribe(data => {
+      if (data) {
+        this.individu = data;
+        this.retrieveBusinessInfo();
+      } else {
+        this.router.navigate(['/login']);
+        this.openDialog(this.WORDING.problem, DialogType.ERROR);
+      }
+    });
+  }
+
+  openDialog(msg: string, type: DialogType): void {
+    let dialogInformation = this.buildConfirmationDialog(msg, type);
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      minWidth: '20em', width: '35%'
+    });
+    dialogRef.componentInstance.dialogInfo = dialogInformation;
+    dialogRef.afterClosed().subscribe(() => {
+    });
+  }
+
+  buildConfirmationDialog(msg: string, type: DialogType): DialogInformation {
+    let dialogInfo = new DialogInformation();
+    dialogInfo.titre = this.WORDING.dialog.title.confirm;
+    dialogInfo.dialogType = type;
+    dialogInfo.message1 = msg;
+    dialogInfo.noLbl = this.WORDING.dialog.button.close;
+    return dialogInfo;
   }
 
   retrieveBusinessInfo() {
     if (this.individu && this.individu.id) {
       this.businessApiService.getBusinessByCreatorId(this.individu.id).subscribe(data => {
-        if(data){
+        if (data) {
           this.business = data;
           this.hasBusiness = true;
           this.logo = this.business.logo;
         }
-      });
+      },
+        () => {
+          this.openDialog(this.WORDING.problem, DialogType.ERROR);
+        });
     }
   }
 
@@ -50,26 +92,26 @@ export class BusinessComponent implements OnInit {
     //add loader (automatic implementation)
     this.businessApiService.updateBusiness(this.business).subscribe(data => {
         this.business = data;
-        //display success msg
+        this.openDialog(this.WORDING.dialog.message.update.ok, DialogType.SUCCESS);
       },
       () => {
-        // display error msg
+        this.openDialog(this.WORDING.problem, DialogType.ERROR);
       });
   }
 
   saveBusiness() {
     //add loader (automatic implementation)
-    this.business.status= "WAITING";
+    this.business.creator = this.individu.id;
     this.businessApiService.saveBusiness(this.business).subscribe(data => {
         this.business = data;
-        //display success msg
+        this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS);
       },
       () => {
-        // display error msg
+        this.openDialog(this.WORDING.problem, DialogType.ERROR);
       });
   }
 
-  switchToForm(){
+  switchToForm() {
     this.business = new Business();
     this.displaySaveForm = true;
   }

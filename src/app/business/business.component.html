@@ -1,14 +1,14 @@
 <div class="main-div">
-  <mat-card *ngIf="hasBusiness" class="container mx-4 text-center">
-    <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
-      {{WORDING.problem}}
-    </div>
 
+  <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
+    {{WORDING.problem}}
+  </div>
+
+  <mat-card *ngIf="hasBusiness" class="container mx-4 text-center">
     <div class=" border d-sm-flex justify-content-center p-1 col-12">
       <div class=" w-50">
         <a (click)="prepareclickedPic()" title="select your picture"> <img class="picture"
-                                                                           [src]="logo | businessPicPipe"
-                                                                           alt="1"/>
+                                                                  [src]="logo | businessPicPipe" alt="1"/>
         </a>
         <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
                style="display:none"/>
@@ -16,7 +16,7 @@
                    [innerHTML]="WORDING.individu.attributs.img_max_size_msg"> </span></div>
       </div>
       <div class=" w-50 ">
-  <p>information sur l'entreprise</p>
+        <p>information sur l'entreprise</p>
       </div>
     </div>
 

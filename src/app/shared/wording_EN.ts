@@ -20,6 +20,9 @@ export const Wording_EN = {
         ok: 'Your information has been updated successfully',
         ko: 'We could not make your request, try again later...',
       },
+      create: {
+        ok: 'Information added successfully',
+      },
       create_user_1: 'Your account has been successfully created.',
       create_user_2: 'You can now log in using your login and password',
       create_user_existe: 'An account already exists with this pseudonym',
