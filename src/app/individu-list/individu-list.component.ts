@@ -10,6 +10,7 @@ import {UserStatutAction} from '../utils/user-statut-action';
 import {UserInfosComponent} from '../user-infos/user-infos.component';
 import {LanguageUtils} from '../utils/language-utils';
 import {Router} from '@angular/router';
+import {StringUtils} from '../utils/string-utils';
 
 @Component({
   selector: 'app-individu-list',
@@ -109,15 +110,15 @@ export class IndividuListComponent implements OnInit {
   }
 
   isDeasbledSuspend(status: string): boolean {
-    return status != 'active' ? true : false;
+    return StringUtils.isNullOrUndefined(status) || status != 'active';
   }
 
   isDesabledResume(status: string): boolean {
-    return (status == 'active' || status == 'resilie') ? true : false;
+    return StringUtils.isNullOrUndefined(status) || (status == 'active' || status == 'resilie');
   }
 
   isDesabledDeactivate(status: string): boolean {
-    return status == 'resilie' ? true : false;
+    return StringUtils.isNullOrUndefined(status) || status == 'resilie';
   }
 
   displayUserInfoPopup(individu: Individu) {

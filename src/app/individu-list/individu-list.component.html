@@ -30,7 +30,7 @@
 
             <ng-container matColumnDef="prenom">
               <th mat-header-cell *matHeaderCellDef>{{WORDING.individu.attributs.firstName}}</th>
-              <td mat-cell *matCellDef="let element"> {{element.prenom}} </td>
+              <td mat-cell *matCellDef="let element" (click)="displayUserInfoPopup(element)"> {{element.prenom}} </td>
             </ng-container>
 
             <ng-container matColumnDef="email">
@@ -43,9 +43,9 @@
               <th mat-header-cell *matHeaderCellDef>{{WORDING.individu.attributs.status}}</th>
               <td mat-cell class="text-capitalize" *matCellDef="let element" (click)="displayUserInfoPopup(element)">
                 <span class="mr-4" [class.primary-color]="element.statut === 'active'"
-                      [class.accent-color]="element.statut === 'attente'"
-                      [class.warn-color]="element.statut === 'bloque'"
-                      [class.accent-dark-color]="element.statut === 'resilie'">{{element.statut}} </span>
+                      [class.accent-color]="element.status === 'attente'"
+                      [class.warn-color]="element.status === 'bloque'"
+                      [class.accent-dark-color]="element.status === 'resilie'">{{element.status}}</span>
               </td>
             </ng-container>
 
@@ -56,7 +56,7 @@
                   class="column-table-action_style">{{WORDING.individu_list.actions.suspend}}</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-mini-fab color="accent"
-                        [disabled]="isDeasbledSuspend(element.statut)"
+                        [disabled]="isDeasbledSuspend(element.status)"
                         (click)="perfermActions(element.username, userStatusAction.SUSPEND)"
                         title="{{WORDING.individu_list.actions.suspend}}">
                   <mat-icon>lock_outline</mat-icon>
@@ -68,7 +68,7 @@
                   class="column-table-action_style">{{WORDING.individu_list.actions.resume}}</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-mini-fab color="primary"
-                        [disabled]="isDesabledResume(element.statut)"
+                        [disabled]="isDesabledResume(element.status)"
                         (click)="perfermActions(element.username, userStatusAction.RESUME)"
                         title="{{WORDING.individu_list.actions.resume}}">
                   <mat-icon>lock_open</mat-icon>
@@ -80,7 +80,7 @@
                   class="column-table-action_style">{{WORDING.individu_list.actions.deactivate}}</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-mini-fab class="mr-1 grey" color="warn"
-                        [disabled]="isDesabledDeactivate(element.statut)"
+                        [disabled]="isDesabledDeactivate(element.status)"
                         (click)="perfermActions(element.username, userStatusAction.DEACTIVATE)"
                         title="{{WORDING.individu_list.actions.deactivate}}">
                   <mat-icon>delete_forever</mat-icon>
