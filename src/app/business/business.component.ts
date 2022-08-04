@@ -101,7 +101,7 @@ export class BusinessComponent implements OnInit {
 
   saveBusiness() {
     //add loader (automatic implementation)
-    this.business.creator = this.individu.id;
+    this.business.creatorId = this.individu.id;
     this.businessApiService.saveBusiness(this.business).subscribe(data => {
         this.business = data;
         this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS);
