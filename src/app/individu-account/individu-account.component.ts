@@ -13,8 +13,8 @@ import {AddressApiService} from '../shared/address/address-api.service';
 import {Country} from '../model/country';
 import {Governorate} from '../model/governorate';
 import {Address} from '../model/address';
-import {Observable, of} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-individu-account',
@@ -35,7 +35,7 @@ export class IndividuAccountComponent implements OnInit {
 
   countries: Country[];
   governorates: Governorate[];
-  addresses: Address[] =  new Array<Address>();
+  addresses: Address[] = new Array<Address>();
   filteredAddresses: Observable<Address[]>;
 
   selectedCountry: Country;
@@ -44,7 +44,6 @@ export class IndividuAccountComponent implements OnInit {
   selectedCompAddress: string;
 
   myControl = new FormControl();
-
 
 
   constructor(private individuService: IndividuService,
@@ -60,7 +59,7 @@ export class IndividuAccountComponent implements OnInit {
 
     this.filteredAddresses = this.myControl.valueChanges
       .pipe(
-       // startWith(''),
+        // startWith(''),
         map(value => this._filter(value))
       );
   }
@@ -70,20 +69,20 @@ export class IndividuAccountComponent implements OnInit {
   ]);
 
   displayFn(address?: Address): string | undefined {
-    return address ? StringUtils.normalizeAddress(address.city +" , "+ address.town +" - "+ address.code) : undefined;
+    return address ? StringUtils.normalizeAddress(address.city + ' , ' + address.town + ' - ' + address.code) : undefined;
   }
 
   private _filter(value: string): Address[] {
     const filterValue = StringUtils.normalizeAddress(value);
 
-    let ad : Address[] = new Array<Address>();
+    let ad: Address[] = new Array<Address>();
     this.addresses.forEach(function (el) {
-     if(StringUtils.normalizeAddress(el.town+ " "+ el.city).indexOf(filterValue) !== -1 ||
-       StringUtils.normalizeAddress(el.city+ " "+ el.town).indexOf(filterValue) !== -1 ||
-       parseInt(filterValue) === el.code){
-       ad.push(el);
-     }
-    })
+      if (StringUtils.normalizeAddress(el.town + ' ' + el.city).indexOf(filterValue) !== -1 ||
+        StringUtils.normalizeAddress(el.city + ' ' + el.town).indexOf(filterValue) !== -1 ||
+        parseInt(filterValue) === el.code) {
+        ad.push(el);
+      }
+    });
     return ad;
   }
 
@@ -96,9 +95,9 @@ export class IndividuAccountComponent implements OnInit {
       });
   }
 
-  public objectComparisonFunction = function( option, value ) : boolean {
+  public objectComparisonFunction = function (option, value): boolean {
     return option.id === value.id;
-  }
+  };
 
   findAddressByGouvernorat(id: number) {
     this.addressApiService.findAdressByGouvernorat(id).subscribe(data => {
@@ -125,13 +124,13 @@ export class IndividuAccountComponent implements OnInit {
         if (data.user_image) {
           this.user_image = data.user_image;
         }
-        if (this.individu.addressDetails){
-            this.selectedCountry = this.individu.addressDetails.governorate.country;
-            this.selectedGovernorate = this.individu.addressDetails.governorate;
-            this.findGovernorateByCountry(this.selectedCountry.id);
-            this.selectedAddress = this.individu.addressDetails;
-            this.findAddressByGouvernorat(this.selectedGovernorate.id);
-            this.selectedCompAddress = this.individu.addressComplement;
+        if (this.individu.addressDetails) {
+          this.selectedCountry = this.individu.addressDetails.governorate.country;
+          this.selectedGovernorate = this.individu.addressDetails.governorate;
+          this.findGovernorateByCountry(this.selectedCountry.id);
+          this.selectedAddress = this.individu.addressDetails;
+          this.findAddressByGouvernorat(this.selectedGovernorate.id);
+          this.selectedCompAddress = this.individu.addressComplement;
         }
       } else {
         this.router.navigate(['/login']);
@@ -161,21 +160,30 @@ export class IndividuAccountComponent implements OnInit {
 
   updateIndividuAccountInformations() {
 
-  this.selectedGovernorate.country = this.selectedCountry;
-  this.selectedAddress.governorate = this.selectedGovernorate;
-  this.individu.addressDetails = this.selectedAddress;
-  this.individu.addressComplement = this.selectedCompAddress;
-    this.displayAddressError = false;
-    this.individu.user_image = this.user_image;
-    this.individuApiService.updateIndividu(this.individu).subscribe(
-      data => {
-        this.individuService.connectedUserInfo = data;
-        this.openDialog(this.WORDING.dialog.message.update.ok, DialogType.SUCCESS);
-      },
-      () => {
-        this.openDialog(this.WORDING.dialog.message.update.ko, DialogType.ERROR);
-      }
-    );
+    if (StringUtils.isNullOrUndefined(this.selectedCountry) ||
+      StringUtils.isNullOrUndefined(this.selectedGovernorate) ||
+      StringUtils.isNullOrUndefined(this.selectedAddress) ||
+      StringUtils.isNullOrUndefined(this.selectedCompAddress)||
+      StringUtils.isNullOrUndefined(this.individu.numeroTel)) {
+      this.openDialog(this.WORDING.individu_account.all_mondatory, DialogType.ERROR);
+    } else {
+
+      this.selectedGovernorate.country = this.selectedCountry;
+      this.selectedAddress.governorate = this.selectedGovernorate;
+      this.individu.addressDetails = this.selectedAddress;
+      this.individu.addressComplement = this.selectedCompAddress;
+      this.displayAddressError = false;
+      this.individu.user_image = this.user_image;
+      this.individuApiService.updateIndividu(this.individu).subscribe(
+        data => {
+          this.individuService.connectedUserInfo = data;
+          this.openDialog(this.WORDING.dialog.message.update.ok, DialogType.SUCCESS);
+        },
+        () => {
+          this.openDialog(this.WORDING.dialog.message.update.ko, DialogType.ERROR);
+        }
+      );
+    }
   }
 
   prepareclickedPic() {

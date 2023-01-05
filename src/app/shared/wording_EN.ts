@@ -57,6 +57,7 @@ export const Wording_EN = {
   individu_account: {
     title: 'my profile',
     mondatory: '<strong> Mandatory </strong> field',
+    all_mondatory: 'All fields with (*) are <strong>Required</strong>',
     sous_date: 'Registration date',
     last_connection_date: 'Last connection',
     account_status: {

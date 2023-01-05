@@ -114,7 +114,7 @@
 
                 <mat-form-field floatLabel="never" class="mb-3" title="pays">
                   <mat-label>pays</mat-label>
-                  <mat-select [(ngModel)]="selectedCountry" [compareWith]="objectComparisonFunction">
+                  <mat-select [(ngModel)]="selectedCountry" required [compareWith]="objectComparisonFunction">
                     <mat-option *ngFor="let country of countries" (click)="findGovernorateByCountry(selectedCountry.id)"
                                 [value]="country">
                       {{country.name}}
@@ -124,7 +124,7 @@
 
                 <mat-form-field floatLabel="never" class="mb-3" title="{{WORDING.address.gouvernorat}}">
                   <mat-label>{{WORDING.address.gouvernorat}}</mat-label>
-                  <mat-select [(ngModel)]="selectedGovernorate" [compareWith]="objectComparisonFunction">
+                  <mat-select [(ngModel)]="selectedGovernorate" required [compareWith]="objectComparisonFunction">
                     <mat-option *ngFor="let governorate of governorates"
                                 (click)="findAddressByGouvernorat(governorate.id)"
                                 [value]="governorate">
@@ -135,7 +135,7 @@
 
 
                   <mat-form-field class="example-full-width w-100 ">
-                    <input type="text" placeholder="votre adresse" [(ngModel)]="selectedAddress" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <input type="text" placeholder="votre adresse" [(ngModel)]="selectedAddress" aria-label="Number" required matInput [formControl]="myControl" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete" name="selectedAddress" [displayWith]="displayFn" >
                       <mat-option *ngFor="let option of filteredAddresses | async" [value]="option">
                         {{option.city}} {{option.town}} - {{option.code}}

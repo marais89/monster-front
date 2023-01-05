@@ -57,6 +57,7 @@ export const Wording_FR = {
   individu_account: {
     title: 'Mon profile',
     mondatory: 'Ce champ est <strong>Obligatoire</strong>',
+    all_mondatory: 'Tous les champs avec (*) sont <strong>Obligatoire</strong>',
     sous_date: 'Date d\'inscription',
     last_connection_date: 'Dernière connexion',
     account_status: {
