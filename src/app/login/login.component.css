@@ -11,6 +11,12 @@ mat-checkbox ::ng-deep .mat-checkbox-inner-container {
   height: 16px;
 }
 
+.roundedflag {
+  width: 1.8em;
+  height: 1.8em;
+  cursor: pointer;
+}
+
 body, html {
   height: 100%;
 }
@@ -21,6 +27,12 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+::ng-deep .mat-menu-panel.login-language-menu {
+  margin-top: 2em;
+  width: 9em;
+  background-color: transparent;
 }
 
 .title {

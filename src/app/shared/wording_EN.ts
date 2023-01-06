@@ -94,7 +94,13 @@ export const Wording_EN = {
     confirm: 'Validate',
     signUp: 'Sign up',
     signUp_msg: 'You do not have an account',
-    forgot_pwd: 'Forgot your password ?'
+    forgot_pwd: 'Forgot your password ?',
+    reinit_pwd: 'Initialized your password',
+    reinit_session_expired: 'You session has expired, please try again',
+    reinit_pwd_msg_succes: 'Your password has been successfully initialized',
+    renit_pwd_starting_process: 'Enter your email address to reset your password and let yourself be guided.',
+    reinit_pwd_wrong_email: 'the email address is not recognized.',
+    reinit_pwd_email_sent: 'An email has been sent to you to change your password.',
   },
   header_toolBar: {
     home: 'Home',
@@ -147,7 +153,9 @@ export const Wording_EN = {
     creation_date: 'Creation date',
     status: 'Status',
     mondatory: '<strong> Mandatory </strong> field',
+    creation_not_allowed: 'Your current status does not allow you to create a business, your status is',
     address: 'Address',
+    create_business: 'create your business'
   },
   problem: 'A technical problem has arisen'
 };

@@ -1,72 +1,87 @@
-<div class="main-div bg">
-  <mat-card class="container login-container text-center m-2 m-md-3 col-md-6" >
-    <div *ngIf="!displayUpdatePwd && isLogin">
-      <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
-      <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
-        {{WORDING.login.error1}} <br>
-        <span *ngIf="restTentativeCount > -1" >
+<div class="bg">
+  <div class="d-flex flex-row-reverse fixed-top p-2 w-100">
+    <a mat-menu-item mat-menu-item [matMenuTriggerFor]="language" title="{{WORDING.header_toolBar.language.title}}">
+      <img class="roundedflag" [src]="selectedFlag"/>
+      <span class="ml-2"></span></a>
+
+    <mat-menu #language="matMenu" yPosition="below" xPosition="before" class="login-language-menu">
+      <a mat-menu-item (click)="setFranshLanguage()"><img class="roundedflag" [src]="flag_fr"/><span
+        class="ml-2">{{WORDING.header_toolBar.language.fr}}</span></a>
+      <a mat-menu-item (click)="setEnglishLanguage()"><img class="roundedflag" [src]="flag_en"/><span
+        class="ml-2">{{WORDING.header_toolBar.language.en}}</span></a>
+    </mat-menu>
+  </div>
+  <div class="main-div h-100">
+    <mat-card class="container login-container text-center m-2 m-md-3 col-md-6">
+      <div *ngIf="!displayUpdatePwd && isLogin">
+        <h5 class=" mb-5 text-center text-capitalize title"><span>{{WORDING.login.title}}</span></h5>
+        <div class="alert alert-danger w-100" *ngIf="displayLoginErrorMsg" role="alert">
+          {{WORDING.login.error1}} <br>
+          <span *ngIf="restTentativeCount > -1">
         <span>  {{WORDING.login.attempts_worning}}</span> <br>
         <span><strong>{{restTentativeCount}}</strong> {{WORDING.login.attempts_remaining}}</span>
           </span>
-      </div>
-      <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
-        {{WORDING.login.error2}}
-      </div>
-      <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
-        {{WORDING.problem}}
-      </div>
-      <div class="w-75 mx-auto">
-        <mat-form-field floatLabel="never" class=" mb-5 w-100">
-          <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.username" required>
-          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            {{WORDING.login.mondatory}}
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field floatLabel="never" class="container w-100 input_password-format">
-          <div class="d-flex justify-content-start">
-            <input [type]="fieldTextType ? 'text' : 'password'" matInput placeholder="{{WORDING.login.pwd}}"
-                   [(ngModel)]="user.password" required name="password">
-            <div class="float-right">
-          <span class="">
-            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType}"
-               (click)="toggleFieldTextType()"></i>
-          </span>
-            </div>
-          </div>
-          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-            {{WORDING.login.mondatory}}
-          </mat-error>
-        </mat-form-field>
-        <mat-checkbox [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
-
-        <div class=" mb-5 w-100">
-          <button class="w-100" mat-button color="primary" type="submit" title="{{WORDING.login.confirm}}"
-                  (click)="login()">{{WORDING.login.confirm}}</button>
         </div>
-        <div>
-          <span class="w-100" >{{WORDING.login.signUp_msg}} <a class="primary-color" routerLink="/create">{{WORDING.login.signUp}}</a></span>
-        </div>
-        <div class="w-100"><a (click)="pwdForgotten()">{{WORDING.login.forgot_pwd}}</a></div>
-      </div>
-      <div>
-      </div>
-    </div>
-
-    <div *ngIf="!displayUpdatePwd && !isLogin">
-        <h3 class=" mb-5 text-center "><span>Entrez votre adresse mail pour réinitialiser votre mot de passe et laissez-vous guider.</span></h3>
         <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
           {{WORDING.login.error2}}
-        </div>
-        <div class="alert alert-danger w-100" *ngIf="isUserNotFound" role="alert">
-          l'adresse e-mail n'est pas reconnue.
         </div>
         <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
           {{WORDING.problem}}
         </div>
-      <div class="alert alert-success w-100" *ngIf="isEmailSend" role="alert">
-        Un e-mail vous a été envoyer pour modifier votre mot de passe.
+        <div class="w-75 mx-auto">
+          <mat-form-field floatLabel="never" class=" mb-5 w-100">
+            <input type="text" matInput placeholder="{{WORDING.login.userName}}" [(ngModel)]="user.username" required>
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              {{WORDING.login.mondatory}}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field floatLabel="never" class="container w-100 input_password-format">
+            <div class="d-flex justify-content-start">
+              <input [type]="fieldTextType ? 'text' : 'password'" matInput placeholder="{{WORDING.login.pwd}}"
+                     [(ngModel)]="user.password" required name="password">
+              <div class="float-right">
+          <span class="">
+            <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType, 'fa-eye': fieldTextType}"
+               (click)="toggleFieldTextType()"></i>
+          </span>
+              </div>
+            </div>
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              {{WORDING.login.mondatory}}
+            </mat-error>
+          </mat-form-field>
+          <mat-checkbox [(ngModel)]="rememberMe" class="mb-5 float-left">{{WORDING.login.remember_me}}</mat-checkbox>
+
+          <div class=" mb-5 w-100">
+            <button class="w-100" mat-button color="primary" type="submit" title="{{WORDING.login.confirm}}"
+                    (click)="login()">{{WORDING.login.confirm}}</button>
+          </div>
+          <div>
+            <span class="w-100">{{WORDING.login.signUp_msg}} <a class="primary-color"
+                                                                routerLink="/create">{{WORDING.login.signUp}}</a></span>
+          </div>
+          <div class="w-100"><a (click)="pwdForgotten()">{{WORDING.login.forgot_pwd}}</a></div>
+        </div>
+        <div>
+        </div>
       </div>
+
+      <div *ngIf="!displayUpdatePwd && !isLogin">
+        <h3 class=" mb-5 text-center "><span>{{WORDING.login.renit_pwd_starting_process}}</span>
+        </h3>
+        <div class="alert alert-danger w-100" *ngIf="isUserDesabledErrorMsg" role="alert">
+          {{WORDING.login.error2}}
+        </div>
+        <div class="alert alert-danger w-100" *ngIf="isUserNotFound" role="alert">
+          {{WORDING.login.reinit_pwd_wrong_email}}
+        </div>
+        <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
+          {{WORDING.problem}}
+        </div>
+        <div class="alert alert-success w-100" *ngIf="isEmailSend" role="alert">
+         {{WORDING.login.reinit_pwd_email_sent}}
+        </div>
         <div class="w-75 mx-auto">
           <mat-form-field floatLabel="never" class=" mb-5 w-100">
             <input type="email" [email]="true" matInput placeholder="{{WORDING.individu.attributs.email}}"
@@ -80,54 +95,91 @@
             <button class="btn btn-success w-100" [disabled]="isNotValidEmail()" (click)="checkUserByEmail()"
                     title="{{WORDING.login.confirm}}">{{WORDING.login.confirm}}</button>
           </div>
-          <div class="mt-1"><a routerLink="/"  (click)="switchToLogin()" title="{{WORDING.individu_create.return_btn}}"
+          <div class="mt-1"><a routerLink="/login" (click)="switchToLogin()" title="{{WORDING.individu_create.return_btn}}"
                                class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>
           </div>
         </div>
-    </div>
-
-    <div *ngIf="displayUpdatePwd">
-      <h4 class=" mb-5 text-center "><span>Initialié votre mot de passe</span></h4>
-      <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
-        {{WORDING.problem}}
-      </div>
-      <div class="alert alert-danger w-100" *ngIf="isNotValidOrExpiredKeyMsg" role="alert">
-        La session a expirée, veillez reéssayé
-      </div>
-      <div class="alert alert-success w-100" *ngIf="isPwpUpdatedSuccessfullyMsg" role="alert">
-        Votre mot de passe a été initialié avec succes
       </div>
 
-      <!-- Password validation -->
-      <mat-form-field floatLabel="never" class="row mb-5 w-100">
-        <input type="password" matInput placeholder="{{WORDING.individu.attributs.pwd}}" [(ngModel)]="pwd"
-               required minlength="8"
-               pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
-               name="pwd">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
-        </mat-error>
-      </mat-form-field>
+      <div *ngIf="displayUpdatePwd">
+        <h4 class=" mb-5 text-center "><span>{{WORDING.login.reinit_pwd}}</span></h4>
+        <div class="alert alert-danger w-100" *ngIf="istechnicalErrorMsg" role="alert">
+          {{WORDING.problem}}
+        </div>
+        <div class="alert alert-danger w-100" *ngIf="isNotValidOrExpiredKeyMsg" role="alert">
+          {{WORDING.login.reinit_session_expired}}
+        </div>
+        <div class="alert alert-success w-100" *ngIf="isPwpUpdatedSuccessfullyMsg" role="alert">
+          {{WORDING.login.reinit_pwd_msg_succes}}
+        </div>
 
-      <mat-form-field floatLabel="never" class="row mb-1 w-100">
-        <input type="password" matInput placeholder="{{WORDING.individu.attributs.confirm_pwd}}"
-               [(ngModel)]="pwdConfirmation" required
-               minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
-               name="pwdConfirm">
-        <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-          <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
-        </mat-error>
-      </mat-form-field>
-      <div *ngIf="!isConformPwd()" class=" text-danger mb-5" role="alert">
-        <span [innerHTML]="WORDING.individu_create.pw_identique"></span>
-      </div>
+        <!-- Password validation -->
+        <mat-form-field floatLabel="never" class="row mb-5 w-100">
+          <input type="password" matInput placeholder="{{WORDING.individu.attributs.pwd}}" [(ngModel)]="pwd"
+                 required minlength="8"
+                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                 name="pwd">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field floatLabel="never" class="row mb-1 w-100">
+          <input type="password" matInput placeholder="{{WORDING.individu.attributs.confirm_pwd}}"
+                 [(ngModel)]="pwdConfirmation" required
+                 minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                 name="pwdConfirm">
+          <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+            <span [innerHTML]="WORDING.individu_create.pw_regex"></span>
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="!isConformPwd()" class=" text-danger mb-5" role="alert">
+          <span [innerHTML]="WORDING.individu_create.pw_identique"></span>
+        </div>
 
         <div class="mt-4 mb-2 w-100">
-          <button class="w-100" mat-button color="primary" (click)="updtePwdWithKey()" [disabled]="!isConformPwd()" type="submit" title="{{WORDING.login.confirm}}" >{{WORDING.login.confirm}}</button>
+          <button class="w-100" mat-button color="primary" (click)="updtePwdWithKey()" [disabled]="!isConformPwd()" type="submit"
+                  title="{{WORDING.login.confirm}}">{{WORDING.login.confirm}}</button>
         </div>
-      <div class="mt-1"><a routerLink="/"  (click)="switchToLogin()" title="{{WORDING.individu_create.return_btn}}"
-                           class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>
+        <div class="mt-1"><a routerLink="/" (click)="switchToLogin()" title="{{WORDING.individu_create.return_btn}}"
+                             class="text-center text-capitalize text-dark">{{WORDING.individu_create.return_btn}}</a>
+        </div>
       </div>
-      </div>
-  </mat-card>
+    </mat-card>
+
+  </div>
+
+  <div class="d-flex flex-row fixed-bottom p-1 w-100" style="background-color: rgba(0, 0, 0, 0.2);">
+
+    <div class="text-info text-left position-absolute h-100 justify-content-center">
+      © 2023 Copyright:
+      <a class="text-info" href="https://mdbootstrap.com/">monster.com</a>
+    </div>
+
+    <div class="text-center w-100">
+      <!-- Facebook -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
+
+      <!-- Twitter -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
+
+      <!-- Google -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark" ><i class="fab fa-google"></i></a>
+
+      <!-- Instagram -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark" ><i class="fab fa-instagram"></i></a>
+
+      <!-- Linkedin -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark" ><i class="fab fa-linkedin"></i></a>
+      <!-- Github -->
+      <a class="btn btn-link btn-floating btn-lg text-info m-1"
+        href="#!" role="button" data-mdb-ripple-color="dark" ><i class="fab fa-github"></i></a>
+    </div>
+  </div>
+
 </div>

@@ -82,7 +82,7 @@ export const Wording_FR = {
     new_password_confirm: 'Nouveau mot de passe confirmation',
   },
   login: {
-    title: 'Login',
+    title: 'Connexion',
     error1: 'Login ou mot de passe incorrect !',
     error2: 'Votre compte est désactivé, veuillez contacter le service client !',
     attempts_worning: 'Au bout de 5 tentatives erronées, votre compte sera bloqué,',
@@ -94,7 +94,13 @@ export const Wording_FR = {
     confirm: 'Valider',
     signUp: 'inscrivez-vous',
     signUp_msg: 'Vous n\'avez pas de compte',
-    forgot_pwd: 'mot de passe oublié ?'
+    forgot_pwd: 'mot de passe oublié ?',
+    reinit_pwd: 'Initialié votre mot de passe',
+    reinit_session_expired: 'La session a expirée, veillez reéssayé',
+    reinit_pwd_msg_succes: 'Votre mot de passe a été initialié avec succes',
+    renit_pwd_starting_process: 'Entrez votre adresse mail pour réinitialiser votre mot de passe et laissez-vous guider.',
+    reinit_pwd_wrong_email: 'l\'adresse e-mail n\'est pas reconnue.',
+    reinit_pwd_email_sent: 'Un e-mail vous a été envoyer pour modifier votre mot de passe.',
   },
   header_toolBar: {
     home: 'Accueil',
@@ -147,7 +153,9 @@ export const Wording_FR = {
     creation_date: 'Date création',
     status: 'Etat',
     mondatory: 'Ce champ est <strong>Obligatoire</strong>',
+    creation_not_allowed: 'Votre statut actuel ne vous permet pas de créer une entreprise, votre statut est :',
     address: 'Adresse',
+    create_business: 'Créer votre entreprise'
   },
   problem: ' Un probléme technique est survenue !'
 };

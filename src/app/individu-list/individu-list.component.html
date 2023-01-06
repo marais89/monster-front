@@ -42,7 +42,7 @@
             <ng-container matColumnDef="statut">
               <th mat-header-cell *matHeaderCellDef>{{WORDING.individu.attributs.status}}</th>
               <td mat-cell class="text-capitalize" *matCellDef="let element" (click)="displayUserInfoPopup(element)">
-                <span class="mr-4" [class.primary-color]="element.statut === 'active'"
+                <span class="mr-4" [class.primary-color]="element.status === 'active'"
                       [class.accent-color]="element.status === 'attente'"
                       [class.warn-color]="element.status === 'bloque'"
                       [class.accent-dark-color]="element.status === 'resilie'">{{element.status}}</span>

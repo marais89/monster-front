@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CookiesUtils} from '../utils/cookies-utils';
 import {IndividuService} from '../shared/individu/individu.service';
 import {IndividuApiService} from '../shared/individu/individu-api.service';
-import {LanguageUtils} from '../utils/language-utils';
+import {LanguageEnum, LanguageUtils} from '../utils/language-utils';
 import {isNullOrUndefined} from 'util';
 import * as bcrypt from 'bcryptjs';
 import {CheckUserErrorType} from '../model/check-user';
@@ -45,6 +45,9 @@ export class LoginComponent implements OnInit {
   pwd: string;
   pwdConfirmation: string;
   private displayUpdatePwd: boolean = false;
+  flag_fr = 'assets/france.png';
+  flag_en = 'assets/britsh.png';
+  selectedFlag: string;
 
   constructor(private individuApiService: IndividuApiService,
               private individuService: IndividuService,
@@ -62,6 +65,20 @@ export class LoginComponent implements OnInit {
     this.doUpdatePwd();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.verifyRememberMe();
+    this.whichLanguage();
+  }
+
+  whichLanguage() {
+    if (isNullOrUndefined(CookiesUtils.getCookie('language'))) {
+      this.selectedFlag = this.flag_fr;
+    } else {
+      var flag = CookiesUtils.getCookie('language');
+      if (flag === 'FR') {
+        this.selectedFlag = this.flag_fr;
+      } else {
+        this.selectedFlag = this.flag_en;
+      }
+    }
   }
 
   doUpdatePwd() {
@@ -248,6 +265,18 @@ export class LoginComponent implements OnInit {
   isConformPwd(): boolean {
     let bol = this.pwd === this.pwdConfirmation || this.pwdConfirmation == undefined;
     return bol;
+  }
+
+  setFranshLanguage() {
+    LanguageUtils.setLanguage(LanguageEnum.FR);
+    this.selectedFlag = this.flag_fr;
+    this.WORDING = LanguageUtils.whichWording(LanguageEnum.FR);
+  }
+
+  setEnglishLanguage() {
+    LanguageUtils.setLanguage(LanguageEnum.EN);
+    this.selectedFlag = this.flag_en;
+    this.WORDING = LanguageUtils.whichWording(LanguageEnum.EN);
   }
 
 }
