@@ -102,8 +102,12 @@ export const Wording_FR = {
     reinit_pwd_wrong_email: 'l\'adresse e-mail n\'est pas reconnue.',
     reinit_pwd_email_sent: 'Un e-mail vous a été envoyer pour modifier votre mot de passe.',
   },
+  schedules: {
+    title: 'Planning',
+  },
   header_toolBar: {
     home: 'Accueil',
+    planning: 'planning',
     product: 'Produits',
     administration: 'Gérer',
     welcome: 'Bonjour',
@@ -155,7 +159,7 @@ export const Wording_FR = {
     mondatory: 'Ce champ est <strong>Obligatoire</strong>',
     creation_not_allowed: 'Votre statut actuel ne vous permet pas de créer une entreprise, votre statut est :',
     address: 'Adresse',
-    create_business: 'Créer votre entreprise'
+    upgrade_to_pro_client: 'Devenir client PRO'
   },
   problem: ' Un probléme technique est survenue !'
 };

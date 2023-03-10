@@ -9,6 +9,7 @@ export class UrlUtils {
   public static UPDATE_URL = '/individus/update';
   public static SUSPEND_URL = '/individus/suspend/username/';
   public static RESUME_URL = '/individus/resume/username/';
+  public static UPGRADE_BUSINESS_ADM_URL = '/individus/upgradeUserToBusinessAdmin/username/';
   public static DEACTIVATE_URL = '/individus/deactivate/username/';
   public static RETRIEVE_INDIVIDU_URL = '/individus/username/';
   public static CHECK_BY_EMAIL_INDIVIDU_URL = '/individus/checkEmail';

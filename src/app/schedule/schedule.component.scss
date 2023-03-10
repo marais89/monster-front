@@ -1,0 +1,32 @@
+.week-bord{
+  border: solid #3bc2c7;
+  height: 10em;
+}
+
+.activity{
+  border: solid 2px #d8d8d8;
+}
+
+.projectBtn{
+  height: 4em;
+  border-radius: 8%;
+  border: solid 2px #d8d8d8;
+}
+
+.projectDurationBtn{
+  cursor: pointer;
+}
+
+.material-icons.color_red {
+  color: crimson;
+cursor: pointer;
+}
+
+.day-header{
+height: 4em;
+}
+
+.freeDay{
+  background: linear-gradient(-45deg, #e8ab85 25%, #ea320a 25%, #e7967a 50%, #eaa483 50%, #86602B 75%, #6B4C22 75%, #6B4C22);
+  background-size:6px 6px;
+}

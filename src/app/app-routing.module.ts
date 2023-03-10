@@ -8,10 +8,12 @@ import {IndividuAccountComponent} from './individu-account/individu-account.comp
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {PasswordUpdateComponent} from './password-update/password-update.component';
 import {HistoryComponent} from './history/history.component';
+import {ScheduleComponent} from './schedule/schedule.component';
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'users', component: IndividuListComponent, canActivate: [AuthGuard, RoleGuardService]},
+  {path: 'schedule', component: ScheduleComponent, canActivate: [AuthGuard]},
   {path: 'create', component: IndividuCreateComponent},
   {path: 'login', component: LoginComponent},
   {path: 'updatePwd', component: PasswordUpdateComponent, canActivate: [AuthGuard]},

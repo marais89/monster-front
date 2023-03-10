@@ -31,6 +31,8 @@ import { HistoryComponent } from './history/history.component';
 import {BusinessApiService} from './shared/business/businessApiService';
 import {BusinessComponent} from './business/business.component';
 import {BusinessPicPipe} from './shared/business-pic-pipe';
+import { ScheduleComponent } from './schedule/schedule.component';
+import {DatePipe} from '@angular/common';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import {BusinessPicPipe} from './shared/business-pic-pipe';
     PasswordUpdateComponent,
     IndividuPicPipe,
     BusinessPicPipe,
-    HistoryComponent
+    HistoryComponent,
+    ScheduleComponent
   ],
     imports: [
         BrowserModule,
@@ -69,7 +72,7 @@ import {BusinessPicPipe} from './shared/business-pic-pipe';
         MatSortModule,
         MatAutocompleteModule
     ],
-  providers: [IndividuService, IndividuApiService, BusinessApiService, AuthGuardService, RoleGuardService, AuthentApiService, HistoryApiService],
+  providers: [IndividuService, IndividuApiService, BusinessApiService, AuthGuardService, RoleGuardService, AuthentApiService, HistoryApiService, DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]
 })

@@ -29,7 +29,7 @@ export const Wording_EN = {
       create_email_existe: 'An account already exists with this e-mail address',
       authorities_error: 'You do not have the necessary rights for this functionality',
       valitation_account: 'Your account has been successfully activated',
-      update_password: "Your password has successfully been updated",
+      update_password: 'Your password has successfully been updated',
       validation_account_error: 'Your validation code has expired or is not valid',
       send_msg_error: 'We could not send you your validation E-mail, check if your E-mail address is correct!',
     },
@@ -102,8 +102,12 @@ export const Wording_EN = {
     reinit_pwd_wrong_email: 'the email address is not recognized.',
     reinit_pwd_email_sent: 'An email has been sent to you to change your password.',
   },
+  schedules: {
+    title: 'Schedules',
+  },
   header_toolBar: {
     home: 'Home',
+    planning: 'schedules',
     product: 'Product',
     administration: 'Manage',
     welcome: 'Hello',
@@ -145,7 +149,7 @@ export const Wording_EN = {
     postal_code: 'Zip code',
     invalide_adr: 'Your address is incomplete select <strong> (Governorate, Town, City) </strong> and write <strong> the number and the name of your street </strong>',
   },
-  business:{
+  business: {
     title: 'Business informations',
     name: 'Name',
     description: 'Description',
@@ -155,7 +159,7 @@ export const Wording_EN = {
     mondatory: '<strong> Mandatory </strong> field',
     creation_not_allowed: 'Your current status does not allow you to create a business, your status is',
     address: 'Address',
-    create_business: 'create your business'
+    upgrade_to_pro_client: 'Become a PRO customer'
   },
   problem: 'A technical problem has arisen'
 };

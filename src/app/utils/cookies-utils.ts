@@ -13,6 +13,20 @@ export class CookiesUtils {
     document.cookie = name + '=' + value + '; expires=' + date.toUTCString() + '; path=/';
   }
 
+  /*
+* General utils for managing cookies in Typescript.
+*/
+  static setDevranchementCookie(name: string, val: string) {
+    const date = new Date();
+    const value = val;
+
+    // Set it expire in 30 minutes
+    date.setTime(date.getTime() + (30 * 60 * 1000));
+
+    // Set it
+    document.cookie = name + '=' + value + '; expires=' + date.toUTCString() + '; path=/' ;
+  }
+
   static setCookieWithoutTime(name: string, val: string) {
     const date = new Date();
     const value = val;

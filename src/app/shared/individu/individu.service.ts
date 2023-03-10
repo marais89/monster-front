@@ -6,6 +6,7 @@ import {IndividuApiService} from './individu-api.service';
 import {Observable, of} from 'rxjs';
 import {UserStatutAction} from '../../utils/user-statut-action';
 import {concatMap} from 'rxjs/operators';
+import {Authorities} from '../../model/authorities';
 
 @Injectable()
 export class IndividuService {
@@ -41,6 +42,15 @@ export class IndividuService {
     }
   }
 
+  public upgradeUserToBusinessAdmin(username: string): Observable<Authorities> {
+    return this.individuApiService.upgradeUserToBusinessAdmin(username).pipe(
+      concatMap(data => {
+          this.connectedUserRole = data.authority;
+          return of(data);
+        }
+      ));
+  }
+
   public updateUserStatus(username: string, action: UserStatutAction) {
     switch (action) {
       case UserStatutAction.SUSPEND : {
@@ -70,6 +80,10 @@ export class IndividuService {
 
   isSuperUser(): boolean {
     return this.connectedUserRole == 'ROLE_SUPERUSER';
+  }
+
+  isBusinessAdmin() {
+    return this.connectedUserRole == 'ROLE_BUSINESS_ADMIN';
   }
 
 }

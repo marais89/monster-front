@@ -64,7 +64,7 @@
   <mat-card *ngIf="!hasBusiness" class="container m-4 text-center">
     <div><span class="primary-color"  *ngIf="individu.status != 'active'" >{{WORDING.business.creation_not_allowed}} {{individu.status}}</span></div>
     <div *ngIf="individu.status == 'active'" ><button  mat-button color="primary" type="submit" *ngIf="!displaySaveForm"
-            (click)="switchToForm()">{{WORDING.business.create_business}}</button></div>
+            (click)="switchToForm()">{{WORDING.business.upgrade_to_pro_client}}</button></div>
 
 
     <div *ngIf="displaySaveForm" class="d-lg-flex justify-content-center p-4 w-100">

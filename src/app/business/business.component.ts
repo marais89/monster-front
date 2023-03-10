@@ -10,6 +10,8 @@ import {IndividuService} from '../shared/individu/individu.service';
 import {Router} from '@angular/router';
 import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
 import {MatDialog} from '@angular/material/dialog';
+import {concatMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'business',
@@ -72,12 +74,12 @@ export class BusinessComponent implements OnInit {
   retrieveBusinessInfo() {
     if (this.individu && this.individu.id) {
       this.businessApiService.getBusinessByCreatorId(this.individu.id).subscribe(data => {
-        if (data) {
-          this.business = data;
-          this.hasBusiness = true;
-          this.logo = this.business.logo;
-        }
-      },
+          if (data) {
+            this.business = data;
+            this.hasBusiness = true;
+            this.logo = this.business.logo;
+          }
+        },
         () => {
           this.openDialog(this.WORDING.problem, DialogType.ERROR);
         });
@@ -102,13 +104,16 @@ export class BusinessComponent implements OnInit {
   saveBusiness() {
     //add loader (automatic implementation)
     this.business.creatorId = this.individu.id;
-    this.businessApiService.saveBusiness(this.business).subscribe(data => {
+    this.businessApiService.saveBusiness(this.business).pipe(
+      concatMap(data => {
         this.business = data;
-        this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS);
-      },
-      () => {
-        this.openDialog(this.WORDING.problem, DialogType.ERROR);
-      });
+        return of(this.business);
+      })).subscribe(
+      data => this.individuService.upgradeUserToBusinessAdmin(this.individu.username).subscribe(
+        () => this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS),
+      ),
+      () => this.openDialog(this.WORDING.problem, DialogType.ERROR)
+    );
   }
 
   switchToForm() {

@@ -16,6 +16,7 @@ import {LoginResponse} from '../../model/login-response';
 import {CheckUser} from '../../model/check-user';
 import {UpdatePwdWithKeyResponse} from '../../model/update-pwd-with-key-response';
 import {UpdatePwdWithKey} from '../../model/update-pwd-with-key';
+import {Authorities} from '../../model/authorities';
 
 @Injectable()
 export class IndividuApiService {
@@ -39,6 +40,12 @@ export class IndividuApiService {
     return this.http.get<Individu[]>(UrlUtils.BASE_URL + UrlUtils.INDIVIDUS_URL, this.buildHeader());
   }
 
+  setIndividuCookies(): Observable<string> {
+    let url = UrlUtils.BASE_URL + '/individus/cookies';
+    return this.http.get<string>(url, this.buildHeader());
+
+  }
+
 
   saveIndividu(individu: Individu): Observable<SavingResponse> {
     let url = UrlUtils.BASE_URL + UrlUtils.CREATE_URL;
@@ -52,6 +59,11 @@ export class IndividuApiService {
     let individuRequest = this.buildIndividuRequest(individu);
     return this.http.post<Individu>(url, individuRequest, this.buildHeader());
   };
+
+  upgradeUserToBusinessAdmin(username: string): Observable<Authorities> {
+    let url = UrlUtils.BASE_URL + UrlUtils.UPGRADE_BUSINESS_ADM_URL + username;
+    return this.http.post<Authorities>(url, null, this.buildHeader());
+  }
 
   SuspendUser(username: string): Observable<Individu[]> {
     let url = UrlUtils.BASE_URL + UrlUtils.SUSPEND_URL + username;

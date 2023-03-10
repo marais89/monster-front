@@ -1,0 +1,45 @@
+<app-header-info></app-header-info>
+<div class="h-75 ">
+  <mat-card class="h-100 m-4">
+    <h6 class="card-title mb-4">{{WORDING.schedules.title}}</h6>
+    <div class="h-100 mx-auto">
+
+      <div class="d-flex justify-content-between " >
+        <button class="btn btn-info navigation-btn" [disabled]="!canDisplayPreviousBtn()"  (click)="buildPreviousWeek()"><mat-icon>arrow_back_ios</mat-icon></button>
+        <button class="btn btn-info navigation-btn" [disabled]="!canDisplaySaveBtn()" (click)="saveSchedules()"><mat-icon>save</mat-icon></button>
+      <button class="btn btn-info navigation-btn" [disabled]="!canDisplayNextBtn()" (click)="buildNextWeek()"><mat-icon>arrow_forward_ios</mat-icon></button>
+      </div>
+
+      <div class="d-flex flex-row w-100 week-bord m-2">
+        <div *ngFor="let day of preloadedWeeks.actualWeek;let indexOfelement=index;" (click)="updateSelectedDay(indexOfelement)" [class.alert-dark]="indexOfelement == selectedDayIndex" class="d-flex flex-column w-100 activity">
+          <div class="p-1 primary-color d-flex flex-row day-header"><span class="text-center">{{day.planningDate | date :'EEEE d MMM'}} </span>
+            <div *ngIf="!isFree(day.planningDate)" > <mat-icon (click)="removeDayActivity(indexOfelement)" *ngIf="selectedDayIndex==indexOfelement && (day.activities && day.activities.length > 0)" class="w-25 material-icons color_red" >delete</mat-icon></div>
+          </div>
+
+            <div class="h-100 d-flex flex-column" *ngIf="!isFree(day.planningDate)" >
+          <div *ngFor="let activity of day.activities;let indexOfelement2=index2;" [class]="'h-'+12.5 * activity.duration" [ngStyle]="{'background-color': activity.project.color}" >
+            <div ><span class="p-2">{{activity.project.name}}</span></div>
+          </div>
+            </div>
+            <div class="h-100 d-flex flex-column" *ngIf="isFree(day.planningDate)" >
+              <div  class="h-100 freeDay p-2" >  </div>
+            </div>
+
+        </div>
+      </div>
+<div class="d-flex flex-wrap" >
+      <div *ngFor="let project of projectList" [ngStyle]="{'background-color': project.color}" class="d-flex flex-column projectBtn text-center m-1" >
+        <div class="h-50" > <span class="p-2">{{project.name}}</span></div>
+        <div class="d-flex flex-row w-100 h-50 projectDurationBtn" >
+          <div (click)="addProjectToActivity(project, 2)"  class="w-50 border btn btn-info" >+2</div>
+          <div (click)="addProjectToActivity(project, 4)" class="w-50 border btn btn-success" >+4</div>
+          <div (click)="addProjectToActivity(project, 8)" class="w-50 border btn btn-danger" >+8</div>
+        </div>
+      </div>
+
+</div>
+
+    </div>
+  </mat-card>
+</div>
+
