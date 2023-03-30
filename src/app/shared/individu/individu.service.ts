@@ -83,6 +83,7 @@ export class IndividuService {
   }
 
   isBusinessAdmin() {
+    //TODO verify userBusinessRelation table insted global role
     return this.connectedUserRole == 'ROLE_BUSINESS_ADMIN';
   }
 

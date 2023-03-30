@@ -163,7 +163,7 @@ export class IndividuAccountComponent implements OnInit {
     if (StringUtils.isNullOrUndefined(this.selectedCountry) ||
       StringUtils.isNullOrUndefined(this.selectedGovernorate) ||
       StringUtils.isNullOrUndefined(this.selectedAddress) ||
-      StringUtils.isNullOrUndefined(this.selectedCompAddress)||
+      StringUtils.isNullOrUndefined(this.selectedCompAddress) ||
       StringUtils.isNullOrUndefined(this.individu.numeroTel)) {
       this.openDialog(this.WORDING.individu_account.all_mondatory, DialogType.ERROR);
     } else {

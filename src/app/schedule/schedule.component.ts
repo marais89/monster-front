@@ -9,13 +9,15 @@ import {isNullOrUndefined} from 'util';
 import {ScheduleApiService} from '../shared/schedule/schedule-api.service';
 import {BusinessApiService} from '../shared/business/businessApiService';
 import {concatMap} from 'rxjs/operators';
-import {Business} from '../model/business';
 import {Activity} from '../model/activity';
 import {Project} from '../model/project';
 import {Period} from '../model/period';
 import {Schedule} from '../model/schedule';
 import {DatePipe} from '@angular/common';
 import {WeeksPlanning} from '../model/weekesPlanning';
+import {UserBusinessRelationService} from '../shared/userBusinessRelation/user-business-relation.service';
+import {UserBusinessRelation, UserBusinessRole} from '../model/user-business-relation';
+import {Business} from '../model/business';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -29,26 +31,74 @@ export class ScheduleComponent implements OnInit {
 
   WORDING = LanguageUtils.getWordingLanguage();
   individu: Individu;
-  business: Business;
   projectList: Array<Project>;
   selectedDayIndex: number = 0;
   preloadedWeeks: WeeksPlanning = new WeeksPlanning([], [], []);
   freeDays: Date[] = [new Date('2023-02-16'), new Date('2023-02-22')];
   days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weekend: string[] = ['Saturday', 'Sunday'];
+  myUserBusinessRelationList: UserBusinessRelation[];
+  selectedUserBusinessRelation: UserBusinessRelation;
+  businessList: Business[];
+  selectedBusiness: Business;
+  private displayMsg: boolean = false;
 
   constructor(private dialog: MatDialog,
               private activatedRoute: ActivatedRoute,
               private individuServiceApi: IndividuApiService,
               private individuService: IndividuService,
               private scheduleServiceApi: ScheduleApiService,
+              private userBusinessRelationService: UserBusinessRelationService,
               private businessApi: BusinessApiService,
               public datepipe: DatePipe) {
   }
 
   ngOnInit() {
-    this.loadData();
+    this.loadUserBusiness();
+  }
 
+  loadUserBusiness(): void {
+    this.individuService.chargeLogedUserInfo().pipe(
+      concatMap(data => {
+          this.individu = data;
+          return this.userBusinessRelationService.findUserBusinessRelationByUserId(this.individu.id);
+        },
+      )).subscribe(
+      data => {
+        this.myUserBusinessRelationList = data.filter(ubr => ubr.role == UserBusinessRole.MEMBER);
+        if (this.myUserBusinessRelationList.length === 1) {
+          this.selectedBusiness = this.myUserBusinessRelationList[0].business;
+          this.loadData();
+        } else if (this.myUserBusinessRelationList.length > 1) {
+          const distinctBusiness: Set<Business> = new Set<Business>();
+          this.myUserBusinessRelationList.forEach(b => {
+            if (!distinctBusiness.has(b.business)) {
+              distinctBusiness.add(b.business);
+              this.businessList.push(b.business);
+            }
+          });
+        }
+      }
+    );
+  }
+
+  loadData() {
+    this.individuService.chargeLogedUserInfo().pipe(
+      concatMap(
+        data => {
+          if (data) {
+            this.individu = data;
+            this.buildActualWeeks();
+            return this.scheduleServiceApi.findProjectsByBusinessId(this.selectedUserBusinessRelation.business.id);
+          }
+        },
+      )
+    ).subscribe(
+      data => {
+        this.projectList = data;
+        this.initPreviousAndNextWeeks();
+      }
+    );
   }
 
   saveSchedules() {
@@ -96,29 +146,6 @@ export class ScheduleComponent implements OnInit {
     this.preloadedWeeks.actualWeek[index].activities = [];
   }
 
-  loadData() {
-    this.individuService.chargeLogedUserInfo().pipe(
-      concatMap(
-        data => {
-          if (data) {
-            this.individu = data;
-            return this.businessApi.getBusinessByCreatorId(this.individu.id);
-          }
-        },
-      )
-    ).pipe(
-      concatMap(
-        data => {
-          this.buildActualWeeks();
-          return this.scheduleServiceApi.findProjectsByBusinessId(data.id);
-        }
-      )).subscribe(
-      data => {
-        this.projectList = data;
-        this.initPreviousAndNextWeeks();
-      }
-    );
-  }
 
   buildActualWeeks() {
     this.retrieveSchedules(new Date(), this.preloadedWeeks.actualWeek);
@@ -131,15 +158,15 @@ export class ScheduleComponent implements OnInit {
     this.retrieveSchedules(firstDayOfPreviousWeek, this.preloadedWeeks.previousWeek);
   }
 
-  canDisplayNextBtn(): boolean{
+  canDisplayNextBtn(): boolean {
     return !isNullOrUndefined(this.preloadedWeeks.nextWeek) && this.preloadedWeeks.nextWeek.length == 7;
   }
 
-  canDisplayPreviousBtn(): boolean{
+  canDisplayPreviousBtn(): boolean {
     return !isNullOrUndefined(this.preloadedWeeks.previousWeek) && this.preloadedWeeks.previousWeek.length == 7;
   }
 
-  canDisplaySaveBtn(): boolean{
+  canDisplaySaveBtn(): boolean {
     return !isNullOrUndefined(this.preloadedWeeks.actualWeek) && this.preloadedWeeks.actualWeek.length == 7;
   }
 
@@ -183,7 +210,7 @@ export class ScheduleComponent implements OnInit {
     let firstDay: Date = this.getFirstDayOfActualWeek(d);
     let lastDay: Date = this.getLastDayOfWeek(d);
     let period = new Period(firstDay, lastDay);
-    this.scheduleServiceApi.findDailyPlanningByPeriod(this.individu.id, period).subscribe(
+    this.scheduleServiceApi.findDailyPlanningByPeriod(this.selectedUserBusinessRelation.id, period).subscribe(
       data => {
         this.buildWeek(data, firstDay, lastDay, cible);
       }
@@ -195,16 +222,18 @@ export class ScheduleComponent implements OnInit {
     let week: Schedule[] = [];
     let dateIterator: Date = first;
     for (let i = 0; i <= 6; i++) {
-      let newSchedule = new Schedule(null, dateIterator, this.individu.id,  []);
+      let newSchedule = new Schedule(null, dateIterator, this.individu.id, []);
       if (schedules && schedules.length > 0) {
         let actualSchedule = schedules.filter(s => this.datepipe.transform(s.planningDate, 'yyyy/MM/dd') == this.datepipe.transform(dateIterator, 'yyyy/MM/dd'));
-        if(actualSchedule && actualSchedule.length > 0){
+        if (actualSchedule && actualSchedule.length > 0) {
           newSchedule = actualSchedule[0];
           newSchedule.planningDate = dateIterator;
+        }else{
+          this.displayMsg = true;
         }
       }
-      week.push(newSchedule)
-      dateIterator = new Date(new Date(week[i].planningDate).setDate(week[i].planningDate.getDate() + 1))
+      week.push(newSchedule);
+      dateIterator = new Date(new Date(week[i].planningDate).setDate(week[i].planningDate.getDate() + 1));
     }
     cible.push(...week);
   }
@@ -224,4 +253,8 @@ export class ScheduleComponent implements OnInit {
       this.weekend.includes(this.days[date.getDay()]);
   }
 
+  selectBusiness(item: Business) {
+    this.selectedBusiness = item;
+    this.loadData();
+  }
 }

@@ -27,12 +27,14 @@ import {MatSelectModule} from '@angular/material/select';
 import {PasswordUpdateComponent} from './password-update/password-update.component';
 import {AuthentApiService} from './shared/authent/authent-api.service';
 import {HistoryApiService} from './shared/history/history-api.service';
-import { HistoryComponent } from './history/history.component';
+import {HistoryComponent} from './history/history.component';
 import {BusinessApiService} from './shared/business/businessApiService';
 import {BusinessComponent} from './business/business.component';
 import {BusinessPicPipe} from './shared/business-pic-pipe';
-import { ScheduleComponent } from './schedule/schedule.component';
+import {ScheduleComponent} from './schedule/schedule.component';
 import {DatePipe} from '@angular/common';
+import {BusinessGroupComponent} from './business-group/business-group.component';
+import {BusinessAffectationComponent} from './business-affectation/business-affectation.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import {DatePipe} from '@angular/common';
     UserInfosComponent,
     BusinessComponent,
     IndividuAccountComponent,
+    BusinessGroupComponent,
+    BusinessAffectationComponent,
     LoginComponent,
     DialogInfoComponent,
     HeaderInfoComponent,
@@ -53,25 +57,25 @@ import {DatePipe} from '@angular/common';
     HistoryComponent,
     ScheduleComponent
   ],
-    imports: [
-        BrowserModule,
-        MaterialModule,
-        HttpClientModule,
-        FormsModule,
-        AppRoutingModule,
-        RouterModule,
-        MatCheckboxModule,
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatListModule,
-        MatSelectModule,
-        MatTabsModule,
-        MatTableModule,
-        MatSortModule,
-        MatAutocompleteModule
-    ],
+  imports: [
+    BrowserModule,
+    MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
+    RouterModule,
+    MatCheckboxModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatTableModule,
+    MatSortModule,
+    MatAutocompleteModule
+  ],
   providers: [IndividuService, IndividuApiService, BusinessApiService, AuthGuardService, RoleGuardService, AuthentApiService, HistoryApiService, DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [DialogInfoComponent, UserInfosComponent]

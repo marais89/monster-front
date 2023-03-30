@@ -1,14 +1,19 @@
+<app-header-info (changeLanguageEvent)="updateWordingLanguage($event)"></app-header-info>
+
+<mat-tab-group style="width: 100%">
+  <mat-tab label="{{WORDING.business.title}}">
+
 <div class="main-div">
 
   <div class="alert alert-danger w-100" *ngIf="displayErrorMsg" role="alert">
     {{WORDING.problem}}
   </div>
 
-  <mat-card *ngIf="hasBusiness" class="container mx-4 text-center">
+  <mat-card *ngIf="selectedBusiness" class="container mx-4 text-center">
     <div class=" border d-sm-flex justify-content-center p-1 col-12">
       <div class=" w-50">
         <a (click)="prepareclickedPic()" title="select your picture"> <img class="picture"
-                                                                  [src]="logo | businessPicPipe" alt="1"/>
+                                                                           [src]="logo | businessPicPipe" alt="1"/>
         </a>
         <input id="imgupload" type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg"
                style="display:none"/>
@@ -27,7 +32,7 @@
         <div class="p-3">
           <mat-form-field class="row mb-3 w-100" title="{{WORDING.business.name}}">
             <input type="text" [disabled]="true" matInput placeholder="{{WORDING.business.name}}"
-                   [(ngModel)]="business.name" required>
+                   [(ngModel)]="selectedBusiness.name" required>
             <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
               <strong>{{WORDING.business.mondatory}}</strong>
             </mat-error>
@@ -36,7 +41,7 @@
           <mat-form-field class="row mb-3 w-100"
                           title="{{WORDING.business.description}}">
             <input type="text" matInput placeholder="{{WORDING.business.description}}"
-                   [(ngModel)]="business.descreption" required
+                   [(ngModel)]="selectedBusiness.descreption" required
                    name="prenom">
             <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
               <strong>{{WORDING.business.mondatory}}</strong>
@@ -45,7 +50,7 @@
 
           <mat-form-field class="row mb-3 w-100" title="{{WORDING.business.address}}">
             <input type="email" matInput placeholder="{{WORDING.business.address}}"
-                   [(ngModel)]="business.physicalAddress" required
+                   [(ngModel)]="selectedBusiness.physicalAddress" required
                    name="email">
             <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
               <strong>{{WORDING.business.mondatory}}</strong>
@@ -61,52 +66,77 @@
               (click)="updateBusiness()">{{WORDING.dialog.button.confirm}}</button>
     </div>
   </mat-card>
-  <mat-card *ngIf="!hasBusiness" class="container m-4 text-center">
-    <div><span class="primary-color"  *ngIf="individu.status != 'active'" >{{WORDING.business.creation_not_allowed}} {{individu.status}}</span></div>
-    <div *ngIf="individu.status == 'active'" ><button  mat-button color="primary" type="submit" *ngIf="!displaySaveForm"
-            (click)="switchToForm()">{{WORDING.business.upgrade_to_pro_client}}</button></div>
 
 
-    <div *ngIf="displaySaveForm" class="d-lg-flex justify-content-center p-4 w-100">
-      <div class="border m-1" [ngClass]="'width_info'">
-        <div class="block-info_header mb-2"><span>{{WORDING.business.title}}</span></div>
-        <div class="p-3">
-          <mat-form-field floatLabel="never" class="row mb-3 w-100" title="{{WORDING.business.name}}">
-            <input type="text" matInput placeholder="{{WORDING.business.name}}"
-                   [(ngModel)]="business.name" required>
-            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-              <strong>{{WORDING.business.mondatory}}</strong>
-            </mat-error>
-          </mat-form-field>
+  <mat-card *ngIf="!selectedBusiness" class="container m-4 text-center">
 
-          <mat-form-field floatLabel="never" class="row mb-3 w-100"
-                          title="{{WORDING.business.description}}">
-            <input type="text" matInput placeholder="{{WORDING.business.description}}"
-                   [(ngModel)]="business.descreption" required
-                   name="prenom">
-            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-              <strong>{{WORDING.business.mondatory}}</strong>
-            </mat-error>
-          </mat-form-field>
+    <div *ngIf="businessList">
+      <div *ngFor="let item of businessList" class="m-2 alert-info" (click)="selectBusiness(item)">
+        <span>{{item.name}}</span>
+        <span>{{item.status}}</span>
+      </div>
+    </div>
 
-          <mat-form-field floatLabel="never" class="row mb-3 w-100" title="{{WORDING.business.address}}">
-            <input type="email" matInput placeholder="{{WORDING.business.address}}"
-                   [(ngModel)]="business.physicalAddress" required
-                   name="email">
-            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
-              <strong>{{WORDING.business.mondatory}}</strong>
-            </mat-error>
-          </mat-form-field>
-
-        </div>
+    <div *ngIf="!businessList && individu">
+      <div><span class="primary-color"
+                 *ngIf="individu.status != 'active'">{{WORDING.business.creation_not_allowed}} {{individu.status}}</span></div>
+      <div *ngIf="individu.status == 'active'">
+        <button mat-button color="primary" type="submit" *ngIf="!displaySaveForm"
+                (click)="switchToForm()">{{WORDING.business.upgrade_to_pro_client}}</button>
       </div>
 
-    </div>
-    <div class="mb-5 w-100">
-      <a routerLink="/" class="mr-3" mat-button color="accent">{{WORDING.dialog.button.return}}</a>
-      <button mat-button *ngIf="displaySaveForm" color="primary" type="submit"
-              (click)="saveBusiness()">{{WORDING.dialog.button.confirm}}</button>
-    </div>
 
+      <div *ngIf="displaySaveForm" class="d-lg-flex justify-content-center p-4 w-100">
+        <div class="border m-1" [ngClass]="'width_info'">
+          <div class="block-info_header mb-2"><span>{{WORDING.business.title}}</span></div>
+          <div class="p-3">
+            <mat-form-field floatLabel="never" class="row mb-3 w-100" title="{{WORDING.business.name}}">
+              <input type="text" matInput placeholder="{{WORDING.business.name}}"
+                     [(ngModel)]="business.name" required>
+              <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+                <strong>{{WORDING.business.mondatory}}</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="never" class="row mb-3 w-100"
+                            title="{{WORDING.business.description}}">
+              <input type="text" matInput placeholder="{{WORDING.business.description}}"
+                     [(ngModel)]="business.descreption" required
+                     name="prenom">
+              <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+                <strong>{{WORDING.business.mondatory}}</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="never" class="row mb-3 w-100" title="{{WORDING.business.address}}">
+              <input type="email" matInput placeholder="{{WORDING.business.address}}"
+                     [(ngModel)]="business.physicalAddress" required
+                     name="email">
+              <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+                <strong>{{WORDING.business.mondatory}}</strong>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="mb-5 w-100">
+        <a routerLink="/" class="mr-3" mat-button color="accent">{{WORDING.dialog.button.return}}</a>
+        <button mat-button *ngIf="displaySaveForm" color="primary" type="submit"
+                (click)="saveBusiness()">{{WORDING.dialog.button.confirm}}</button>
+      </div>
+    </div>
   </mat-card>
 </div>
+
+  </mat-tab>
+
+  <mat-tab label="{{WORDING.business.group}}">
+    <business-group></business-group>
+  </mat-tab>
+
+  <mat-tab label="{{WORDING.business.affect}}">
+    <business-affectation></business-affectation>
+  </mat-tab>
+</mat-tab-group>

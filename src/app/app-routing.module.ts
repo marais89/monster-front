@@ -9,6 +9,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {PasswordUpdateComponent} from './password-update/password-update.component';
 import {HistoryComponent} from './history/history.component';
 import {ScheduleComponent} from './schedule/schedule.component';
+import {BusinessComponent} from './business/business.component';
 
 export const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -18,6 +19,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'updatePwd', component: PasswordUpdateComponent, canActivate: [AuthGuard]},
   {path: 'account', component: IndividuAccountComponent, canActivate: [AuthGuard]},
+  {path: 'business', component: BusinessComponent, canActivate: [AuthGuard]},
   {path: 'history', component: HistoryComponent, canActivate: [AuthGuard, RoleGuardService]},
   {path: '**', redirectTo: ''}
 ];

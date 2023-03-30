@@ -26,8 +26,8 @@ export class ScheduleApiService {
     return this.http.get<Project[]>(url, this.buildHeader());
   }
 
-  findDailyPlanningByPeriod(userId: number, period: Period): Observable<Schedule[]> {
-    const url = UrlUtils.BASE_URL + '/schedule/userId/' + userId;
+  findDailyPlanningByPeriod(userBusinessRelationId: number, period: Period): Observable<Schedule[]> {
+    const url = UrlUtils.BASE_URL + '/schedule/relationId/' + userBusinessRelationId;
     return this.http.post<Schedule[]>(url,period ,this.buildHeader());
   }
 

@@ -113,6 +113,7 @@ export const Wording_FR = {
     welcome: 'Bonjour',
     order: 'Mes commandes',
     account: 'Mon compte',
+    business: 'Mon entreprise',
     language: {
       title: 'Language',
       fr: 'Francais',
@@ -159,7 +160,9 @@ export const Wording_FR = {
     mondatory: 'Ce champ est <strong>Obligatoire</strong>',
     creation_not_allowed: 'Votre statut actuel ne vous permet pas de créer une entreprise, votre statut est :',
     address: 'Adresse',
-    upgrade_to_pro_client: 'Devenir client PRO'
+    upgrade_to_pro_client: 'Devenir client PRO',
+    group: 'Groupes',
+    affect: 'affectation'
   },
   problem: ' Un probléme technique est survenue !'
 };

@@ -12,6 +12,9 @@ import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info
 import {MatDialog} from '@angular/material/dialog';
 import {concatMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {UserBusinessRelationService} from '../shared/userBusinessRelation/user-business-relation.service';
+import {UserBusinessRelation, UserBusinessRole, UserBusinessStatus} from '../model/user-business-relation';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'business',
@@ -23,14 +26,16 @@ export class BusinessComponent implements OnInit {
 
   WORDING = LanguageUtils.getWordingLanguage();
   individu: Individu;
-  business: Business;
   displayErrorMsg: boolean = false;
-  hasBusiness: boolean = false;
   displaySaveForm: boolean = false;
   displayMaxSizeImage: boolean;
   logo: any;
+  selectedBusiness: Business;
+  businessList: Business[];
+  business: Business;
 
   constructor(private businessApiService: BusinessApiService,
+              private userBusinessRelationService: UserBusinessRelationService,
               private individuService: IndividuService,
               private dialog: MatDialog,
               private router: Router) {
@@ -41,15 +46,39 @@ export class BusinessComponent implements OnInit {
   }
 
   chargeLogedUserInfo() {
-    this.individuService.chargeLogedUserInfo().subscribe(data => {
-      if (data) {
-        this.individu = data;
-        this.retrieveBusinessInfo();
-      } else {
-        this.router.navigate(['/login']);
-        this.openDialog(this.WORDING.problem, DialogType.ERROR);
+    this.individuService.chargeLogedUserInfo().pipe(
+      concatMap(data => {
+        if (data) {
+          this.individu = data;
+          return this.userBusinessRelationService.findUserBusinessRelationByUserId(this.individu.id);
+        } else {
+          this.router.navigate(['/login']);
+          this.openDialog(this.WORDING.problem, DialogType.ERROR);
+        }
+      })
+    ).subscribe(data => {
+      if (data && data.length > 0) {
+        let userBusinessRelation = data.filter(ubr => ubr.role == 'ADMIN');
+        if (!isNullOrUndefined(userBusinessRelation)) {
+          if (userBusinessRelation.length == 1) {
+            this.selectedBusiness = userBusinessRelation[0].business;
+            this.logo = this.selectedBusiness.logo;
+          } else if (userBusinessRelation.length > 1) {
+            const distinctBusiness: Set<Business> = new Set<Business>();
+            userBusinessRelation.forEach(b => {
+              if (!distinctBusiness.has(b.business)) {
+                distinctBusiness.add(b.business);
+                this.businessList.push(b.business);
+              }
+            });
+          }
+        }
       }
-    });
+    }, () => {this.openDialog(this.WORDING.problem, DialogType.ERROR);});
+  }
+
+  public updateWordingLanguage(language) {
+    this.WORDING = LanguageUtils.whichWording(language);
   }
 
   openDialog(msg: string, type: DialogType): void {
@@ -71,29 +100,14 @@ export class BusinessComponent implements OnInit {
     return dialogInfo;
   }
 
-  retrieveBusinessInfo() {
-    if (this.individu && this.individu.id) {
-      this.businessApiService.getBusinessByCreatorId(this.individu.id).subscribe(data => {
-          if (data) {
-            this.business = data;
-            this.hasBusiness = true;
-            this.logo = this.business.logo;
-          }
-        },
-        () => {
-          this.openDialog(this.WORDING.problem, DialogType.ERROR);
-        });
-    }
-  }
-
   nameFormControl = new FormControl('', [
     Validators.required,
   ]);
 
   updateBusiness() {
     //add loader (automatic implementation)
-    this.businessApiService.updateBusiness(this.business).subscribe(data => {
-        this.business = data;
+    this.businessApiService.updateBusiness(this.selectedBusiness).subscribe(data => {
+        this.selectedBusiness = data;
         this.openDialog(this.WORDING.dialog.message.update.ok, DialogType.SUCCESS);
       },
       () => {
@@ -106,14 +120,27 @@ export class BusinessComponent implements OnInit {
     this.business.creatorId = this.individu.id;
     this.businessApiService.saveBusiness(this.business).pipe(
       concatMap(data => {
-        this.business = data;
-        return of(this.business);
-      })).subscribe(
-      data => this.individuService.upgradeUserToBusinessAdmin(this.individu.username).subscribe(
-        () => this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS),
+        this.selectedBusiness = data;
+        return of(this.selectedBusiness);
+      })).pipe(
+      concatMap(data => {
+        let ubr = this.buildUserBusinessRelation(data);
+        return this.userBusinessRelationService.saveUserBusinessRelationByGroupId(ubr);
+      })
+    ).subscribe(
+      data => this.openDialog(this.WORDING.dialog.message.create.ok, DialogType.SUCCESS
       ),
       () => this.openDialog(this.WORDING.problem, DialogType.ERROR)
     );
+  }
+
+  private buildUserBusinessRelation(data: Business) {
+    let ubr = new UserBusinessRelation();
+    ubr.business = data;
+    ubr.individuId = this.individu.id;
+    ubr.status = UserBusinessStatus.ACTIF;
+    ubr.role = UserBusinessRole.ADMIN;
+    return ubr;
   }
 
   switchToForm() {
@@ -145,4 +172,7 @@ export class BusinessComponent implements OnInit {
     this.logo = btoa(e.target.result);
   }
 
+  selectBusiness(item: Business) {
+    this.selectedBusiness = item;
+  }
 }

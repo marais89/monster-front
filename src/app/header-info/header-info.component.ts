@@ -24,7 +24,7 @@ export class HeaderInfoComponent implements OnInit {
   constructor(private individuService: IndividuService) {
   }
 
-//TODO update user image after update user info
+  //TODO update user image after update user info
   ngOnInit() {
     if (!this.individu) {
       this.individuService.chargeLogedUserInfo().subscribe(data => {
