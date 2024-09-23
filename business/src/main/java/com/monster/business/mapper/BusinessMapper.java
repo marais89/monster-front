@@ -21,6 +21,8 @@ public interface BusinessMapper {
 
     BusinessGroup mapToEntity(BusinessGroupDto businessGroupDto);
 
+    @Mapping(source = "business.id", target = "businessId")
+    @Mapping(source = "businessGroup.id", target = "groupId")
     UserBusinessRelation mapToEntity(UserBusinessRelationDto userBusinessRelation);
 
     UserBusinessRelationDto mapToDto(UserBusinessRelation userBusinessRelationDto);

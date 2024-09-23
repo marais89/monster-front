@@ -7,15 +7,15 @@ import javax.persistence.*;
 public class BusinessGroup {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
     @Column(name = "name")
     private String name;
     @Column(name = "description")
-    private int description;
+    private String description;
     @Column(name = "id_business")
-    private int businessId;
+    private int idBusiness;
 
     @Column(name = "active")
     private boolean active;
@@ -36,20 +36,20 @@ public class BusinessGroup {
         this.name = name;
     }
 
-    public int getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(int description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public int getBusinessId() {
-        return businessId;
+    public int getIdBusiness() {
+        return idBusiness;
     }
 
-    public void setBusinessId(int businessId) {
-        this.businessId = businessId;
+    public void setIdBusiness(int idBusiness) {
+        this.idBusiness = idBusiness;
     }
 
     public boolean isActive() {

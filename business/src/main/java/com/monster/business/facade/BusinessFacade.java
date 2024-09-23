@@ -37,16 +37,16 @@ public class BusinessFacade {
         return businessService.findBusinessGroupByBusinessId(businessId);
     }
 
-    public BusinessGroupDto desableBusinessGroup(int idBusinessGroup) throws NotFoundException {
-        return businessService.desableBusinessGroup(idBusinessGroup);
+    public BusinessGroupDto updateStatusBusinessGroup(int idBusinessGroup, boolean status) throws NotFoundException {
+        return businessService.updateStatusBusinessGroup(idBusinessGroup, status);
     }
 
-    public UserBusinessRelationDto saveUserBusinessRelation(UserBusinessRelationDto userBusinessRelationDto) {
+    public List<UserBusinessRelationDto> saveUserBusinessRelation(UserBusinessRelationDto userBusinessRelationDto) {
         return businessService.saveUserBusinessRelation(userBusinessRelationDto);
     }
 
-    public List<UserBusinessRelationDto> findUserBusinessRelationByUserId(int userId) {
-        return businessService.findUserBusinessRelationByUserId(userId);
+    public List<UserBusinessRelationDto> findUserBusinessRelationByUserEmail(String email) {
+        return businessService.findUserBusinessRelationByUserEmail(email);
     }
 
     public List<UserBusinessRelationDto> findUserBusinessRelationByBusinessId(int businessId) {
@@ -61,7 +61,7 @@ public class BusinessFacade {
         return businessService.updateStatusUserBusinessRelation(userBusinessRelationId, status);
     }
 
-    public List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndUserId(int businessId, int userId) {
-        return businessService.findUserBusinessRelationByBusinessIdAndUserId(businessId, userId);
+    public List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndUserEmail(int businessId, String email) {
+        return businessService.findUserBusinessRelationByBusinessIdAndEmail(businessId, email);
     }
 }

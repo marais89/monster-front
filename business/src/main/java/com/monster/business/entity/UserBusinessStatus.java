@@ -4,5 +4,7 @@ public enum UserBusinessStatus {
 
     ACTIF,
     SUSPENDED,
-    DISABLE
+    DISABLE,
+
+    WAITING
 }

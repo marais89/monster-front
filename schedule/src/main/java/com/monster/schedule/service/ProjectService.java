@@ -9,4 +9,5 @@ public interface ProjectService {
 
     List<ProjectDto> findByBusinessId(int businessId);
 
+    List<ProjectDto> save(ProjectDto project);
 }

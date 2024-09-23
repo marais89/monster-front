@@ -36,4 +36,9 @@ public class ScheduleFacade {
     public List<ScheduleDto> save(List<ScheduleDto> schedules) {
         return sheaduleService.save(schedules);
     }
+
+    public List<ProjectDto> saveProject(ProjectDto project) {
+
+        return projectService.save(project);
+    }
 }

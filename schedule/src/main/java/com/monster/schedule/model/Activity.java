@@ -15,7 +15,8 @@ public class Activity implements Serializable {
     @JoinColumn(insertable = true, updatable = true, name = "project_id")
     private Project project;
 
-    private Integer SCHEDULE_ID;
+    @Column(name = "SCHEDULE_ID")
+    private Integer scheduleid;
 
     private int duration;
 
@@ -53,11 +54,11 @@ public class Activity implements Serializable {
         this.comment = comment;
     }
 
-    public Integer getSCHEDULE_ID() {
-        return SCHEDULE_ID;
+    public Integer getScheduleid() {
+        return scheduleid;
     }
 
-    public void setSCHEDULE_ID(Integer SCHEDULE_ID) {
-        this.SCHEDULE_ID = SCHEDULE_ID;
+    public void setScheduleid(Integer scheduleid) {
+        this.scheduleid = scheduleid;
     }
 }

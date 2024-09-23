@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BusinessGroupRepository extends CrudRepository<BusinessGroup, Integer> {
 
-    List<BusinessGroup> findBusinessGroupByBusinessId(int idBusiness);
+    List<BusinessGroup> findBusinessGroupByIdBusiness(int idBusiness);
+
+    List<BusinessGroup> findBusinessGroupByName(String name);
 }

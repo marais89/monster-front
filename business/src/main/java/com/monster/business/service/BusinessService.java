@@ -19,11 +19,11 @@ public interface BusinessService {
 
     List<BusinessGroupDto> findBusinessGroupByBusinessId(int businessId);
 
-    BusinessGroupDto desableBusinessGroup(int idBusinessGroup) throws NotFoundException;
+    BusinessGroupDto updateStatusBusinessGroup(int idBusinessGroup, boolean status) throws NotFoundException;
 
-    UserBusinessRelationDto saveUserBusinessRelation(UserBusinessRelationDto userBusinessRelationDto);
+    List<UserBusinessRelationDto> saveUserBusinessRelation(UserBusinessRelationDto userBusinessRelationDto);
 
-    List<UserBusinessRelationDto> findUserBusinessRelationByUserId(int userId);
+    List<UserBusinessRelationDto> findUserBusinessRelationByUserEmail(String email);
 
     List<UserBusinessRelationDto> findUserBusinessRelationByBusinessId(int businessId);
 
@@ -32,5 +32,5 @@ public interface BusinessService {
     UserBusinessRelationDto updateStatusUserBusinessRelation(int userBusinessRelationId, UserBusinessStatus status) throws NotFoundException;
 
 
-    List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndUserId(int businessId, int userId);
+    List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndEmail(int businessId, String email);
 }

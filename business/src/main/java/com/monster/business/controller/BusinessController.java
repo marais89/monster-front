@@ -22,7 +22,7 @@ public class BusinessController {
     private static final String CREATORID = "creatorId";
     private static final String BUSINESS_GROUP_ID = "businessGroupId";
     public static final String BUSINESS_ID = "businessId";
-    public static final String USER_ID = "userId";
+    public static final String USER_EMAIL = "userEmail";
     public static final String GROUP_ID = "groupId";
 
     @Autowired
@@ -59,28 +59,34 @@ public class BusinessController {
         return businessFacade.findAllBusinessGroup(businessId);
     }
 
-    @PostMapping("/business/businessGroup/businessGroupId/{businessGroupId}")
-    @ApiOperation(value = "desable Business group by id", authorizations = @Authorization("jwt"))
-    public BusinessGroupDto desableBusinessGroup(@PathVariable(BUSINESS_GROUP_ID) int idBusinessGroup) throws NotFoundException {
-        return businessFacade.desableBusinessGroup(idBusinessGroup);
+    @PostMapping("/business/businessGroup/businessGroupId/{businessGroupId}/disable")
+    @ApiOperation(value = "disable Business group by id", authorizations = @Authorization("jwt"))
+    public BusinessGroupDto disableBusinessGroup(@PathVariable(BUSINESS_GROUP_ID) int idBusinessGroup) throws NotFoundException {
+        return businessFacade.updateStatusBusinessGroup(idBusinessGroup, false);
+    }
+
+    @PostMapping("/business/businessGroup/businessGroupId/{businessGroupId}/activate")
+    @ApiOperation(value = "disable Business group by id", authorizations = @Authorization("jwt"))
+    public BusinessGroupDto activateBusinessGroup(@PathVariable(BUSINESS_GROUP_ID) int idBusinessGroup) throws NotFoundException {
+        return businessFacade.updateStatusBusinessGroup(idBusinessGroup, true);
     }
 
     @PostMapping("/business/userBusinessRelation/save")
     @ApiOperation(value = "save user business relation", authorizations = @Authorization("jwt"))
-    public UserBusinessRelationDto saveUserBusinessRelation(@RequestBody UserBusinessRelationDto userBusinessRelationDto) {
+    public List<UserBusinessRelationDto> saveUserBusinessRelation(@RequestBody UserBusinessRelationDto userBusinessRelationDto) {
         return businessFacade.saveUserBusinessRelation(userBusinessRelationDto);
     }
 
-    @GetMapping("/business/userBusinessRelation/userId/{userId}")
+    @GetMapping("/business/userBusinessRelation/userEmail/{userEmail}")
     @ApiOperation(value = "find user business relation by user id", authorizations = @Authorization("jwt"))
-    public List<UserBusinessRelationDto> findUserBusinessRelationByUserId(@PathVariable(USER_ID) int userId) {
-        return businessFacade.findUserBusinessRelationByUserId(userId);
+    public List<UserBusinessRelationDto> findUserBusinessRelationByUserEmail(@PathVariable(USER_EMAIL) String email) {
+        return businessFacade.findUserBusinessRelationByUserEmail(email);
     }
 
-    @GetMapping("/business/userBusinessRelation/businessId/{businessId}/userId/{userId}")
-    @ApiOperation(value = "find user business relation by user id and business id", authorizations = @Authorization("jwt"))
-    public List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndUserId(@PathVariable(BUSINESS_ID) int businessId, @PathVariable(USER_ID) int userId) {
-        return businessFacade.findUserBusinessRelationByBusinessIdAndUserId(businessId, userId);
+    @GetMapping("/business/userBusinessRelation/businessId/{businessId}/userEmail/{userEmail}")
+    @ApiOperation(value = "find user business relation by user id and business email", authorizations = @Authorization("jwt"))
+    public List<UserBusinessRelationDto> findUserBusinessRelationByBusinessIdAndUserEmail(@PathVariable(BUSINESS_ID) int businessId, @PathVariable(USER_EMAIL) String email) {
+        return businessFacade.findUserBusinessRelationByBusinessIdAndUserEmail(businessId, email);
     }
 
     @GetMapping("/business/userBusinessRelation/businessId/{businessId}")

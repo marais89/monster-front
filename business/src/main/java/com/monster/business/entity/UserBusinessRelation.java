@@ -1,7 +1,7 @@
 package com.monster.business.entity;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "userBusinessRelations")
@@ -10,8 +10,8 @@ public class UserBusinessRelation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "id_individu")
-    private int individuId;
+    @Column(name = "email")
+    private String email;
     @Column(name = "id_business")
     private int businessId;
 
@@ -38,12 +38,12 @@ public class UserBusinessRelation implements Serializable {
         this.id = id;
     }
 
-    public int getIndividuId() {
-        return individuId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIndividuId(int individuId) {
-        this.individuId = individuId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getBusinessId() {

@@ -9,5 +9,6 @@ public class ScheduleDto {
     public LocalDate planningDate;
     public Integer relationId;
     public List<ActivityDto> activities;
+    public boolean holiday;
 
 }

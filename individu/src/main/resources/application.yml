@@ -1,16 +1,18 @@
 spring.jpa.hibernate.ddl-auto: update
-#spring.datasource.url: jdbc:mysql://localhost:3306/individu
-#spring.datasource.username: dali1
-#spring.datasource.password: password123
+spring.datasource.url: jdbc:mysql://localhost:3306/monster?serverTimezone=Europe/Paris
+spring.datasource.username: dali
+spring.datasource.password: Password123*
 #spring.jpa.properties.hibernate.dialect:  org.hibernate.dialect.MySQL5Dialect
+spring.jpa.database-platform: org.hibernate.dialect.MySQL5Dialect
+spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
 spring.jpa.show-sql: true
 
 #H2 database
-spring.datasource.url: jdbc:h2:mem:monster
-spring.datasource.driverClassName: org.h2.Driver
-spring.datasource.username: sa
-spring.datasource.password: password
-spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+#spring.datasource.url: jdbc:h2:mem:monster
+#spring.datasource.driverClassName: org.h2.Driver
+#spring.datasource.username: sa
+#spring.datasource.password: password
+#spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 spring:
   h2:
     console:

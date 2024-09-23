@@ -5074,20 +5074,19 @@ values (1, 'GROUPE_1', 'description', 1, 1),
 CREATE TABLE userBusinessRelations
 (
     id          int(8) primary key auto_increment,
-    id_individu int(8)      not null,
+    email varchar(20)  not null,
     id_business int(8)      not null,
     role        varchar(10) not null,
     id_group    int(8)      null,
     status      varchar(10) not null,
     constraint userBusinessRelation_ibfk_1 foreign key (id_group) references businessGoup (id),
-    constraint userBusinessRelation_ibfk_2 foreign key (id_individu) references individu (id),
     constraint userBusinessRelation_ibfk_3 foreign key (id_business) references business (id),
-    constraint userBusinessRelation_ibuk_1 unique (id_individu, id_business, role)
+    constraint userBusinessRelation_ibuk_1 unique (email, id_business, role)
 );
 
-insert into userBusinessRelations(id, id_individu, id_business, role, id_group, status)
-values (1, 1, 1, 'MEMBER', 1, 'active'),
-       (2, 2, 1, 'MEMBER', 1, 'active');
+insert into userBusinessRelations(id, email, id_business, role, id_group, status)
+values (1, 'test@test.com', 1, 'MEMBER', 1, 'active'),
+       (2, 'test2@test.com', 1, 'MEMBER', 1, 'active');
 
 CREATE TABLE schedule
 (
@@ -5095,7 +5094,7 @@ CREATE TABLE schedule
     planning_date TIMESTAMP,
     relation_id   int(8),
     constraint schedule_ibfk_1
-        foreign key (relation_id) references userBusinessRelations (id),
+        foreign key (relation_id) references user_business_relations (id),
     constraint schedule_ibu_1
         unique (planning_date, relation_id)
 
@@ -5138,6 +5137,18 @@ CREATE TABLE scheduleRepport
     constraint scheduleRepport_ibu_1 unique (id_relation, month_repport),
     constraint scheduleRepport_ibfk_1 foreign key (id_relation) references userBusinessRelations (id)
 );
+
+CREATE TABLE holidays
+(
+       id  int(8) primary key auto_increment,
+       date date not null
+)
+
+insert into holidays(id, date)
+values (1, '2024-01-01'),
+       (2, '2023-12-26'),
+       (3, '2023-12-14');
+
 
 
 

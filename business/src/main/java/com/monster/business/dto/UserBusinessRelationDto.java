@@ -7,7 +7,7 @@ public class UserBusinessRelationDto {
 
     public int id;
 
-    public int individuId;
+    public String email;
 
     public BusinessDto business;
 

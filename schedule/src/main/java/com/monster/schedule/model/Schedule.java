@@ -17,8 +17,10 @@ public class Schedule implements Serializable {
 
     private Integer relationId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "SCHEDULE_ID")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "scheduleid")
     private List<Activity> activities;
+
+    private boolean holiday;
 
     public Integer getId() {
         return id;
@@ -52,4 +54,11 @@ public class Schedule implements Serializable {
         this.activities = activities;
     }
 
+    public boolean getHoliday() {
+        return this.holiday;
+    }
+
+    public void setHoliday(boolean holiday) {
+        this.holiday = holiday;
+    }
 }

@@ -30,7 +30,7 @@ public class ScheduleReportServiceImpl implements ScheduleReportService {
     }
 
     public ScheduleReportDto getScheduleRepportByMonthAndRelationId(YearMonth yearMonth, int relationId) throws NotFoundException {
-        return scheduleMapper.toDto(scheduleReportRepository.findScheduleReportByMonthRepportAndRelationId(toText(yearMonth), relationId).stream().findFirst().get());
+        return scheduleMapper.toDto(scheduleReportRepository.findScheduleReportByMonthRepportAndRelationId(toText(yearMonth), relationId).stream().findFirst().orElse(null));
     }
 
     @Override
