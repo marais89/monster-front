@@ -1,0 +1,116 @@
+<div class="main-div">
+
+  <mat-card class="container mx-4 text-center">
+    <div class=" border d-sm-flex d-flex align-items-start flex-column bd-highlight mb-3 p-1 col-12">
+      <form class="w-100" name="form2" #createProjectForm="ngForm">
+        <div *ngIf="displayAddForm">
+          <mat-form-field floatLabel="never" class="row m-4 w-75">
+            <input type="text" matInput placeholder="{{WORDING.business.group.name}}"
+                   [(ngModel)]="project.name" required
+                   name="name">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field floatLabel="never" class="row m-4 w-75">
+            <input type="text" matInput placeholder="Code"
+                   [(ngModel)]="project.code" required
+                   name="code">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field floatLabel="never" class="row m-4 w-75">
+            <input type="color" matInput placeholder="Color"
+                   [(ngModel)]="project.color" required
+                   name="color">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field floatLabel="never" class="row m-4 w-75">
+            <input type="text" matInput placeholder="{{WORDING.business.group.description}}"
+                   [(ngModel)]="project.description" required
+                   name="description">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="mt-5 mb-5 w-100">
+            <button type="button" class="btn btn-primary float-right" [disabled]="!createProjectForm.form.valid"
+                    title="Ajouter"
+                    (click)="addProject()">Ajouter</button>
+
+            <button type="button" class="btn btn-info float-right mx-2" (click)="cancel()"
+                    title="Annuler">Annuler</button>
+          </div>
+
+        </div>
+        <div *ngIf="!displayAddForm">
+          <button (click)="displayAddBusinessProject()" mat-button color="primary" class="float-right" type="submit"
+                  title="{{WORDING.business.group.add}}">
+            <mat-icon>add</mat-icon>
+            {{WORDING.business.group.add}}
+          </button>
+          <div *ngIf="dataSource.data.length>0">
+            <mat-form-field class="float-left">
+              <input matInput (keyup)="applyFilter($event.target.value)"
+                     placeholder="{{WORDING.business.group.search}}">
+            </mat-form-field>
+            <table class="w-100" mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Id</th>
+                <td mat-cell *matCellDef="let element">{{element.id}}</td>
+              </ng-container>
+              <ng-container matColumnDef="code">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Code</th>
+                <td mat-cell *matCellDef="let element">{{element.code}}</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Nom</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Description</th>
+                <td mat-cell *matCellDef="let element">{{element.description}}</td>
+              </ng-container>
+              <ng-container matColumnDef="color">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Couleur</th>
+                <td mat-cell *matCellDef="let element" class=" text-center"><div class="project-color" [style.background-color]="element.color" ></div></td>
+              </ng-container>
+              <ng-container matColumnDef="active">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element"
+                    [class.accent-color]="!element.active"
+                    [class.primary-color]="element.active"
+                ><span>{{findBSStatus(element.active)}}</span></td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell class="d-none d-md-table-cell text-center" *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn float-right"
+                          [class.accent-color]="element.active"
+                          [class.primary-color]="!element.active"
+                          (click)="doAction(element)">{{getButtonName(element.active)}}</button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="dataSource.data.length == 0 && !displayAddForm" class="w-100 text-center">
+          <span>{{WORDING.business.group.no_group}}</span>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
+

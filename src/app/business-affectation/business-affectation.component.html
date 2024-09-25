@@ -1,0 +1,114 @@
+<div class="main-div">
+
+  <mat-card class="container mx-4 text-center">
+    <div class=" border d-sm-flex d-flex align-items-start flex-column bd-highlight mb-3 p-1 col-12">
+      <form class="container m-4 text-center w-100" name="form2" #createGroupAffectationForm="ngForm">
+        <div *ngIf="displayAddForm" class="w-50 mx-auto">
+          <mat-form-field floatLabel="never" class="row m-3 w-75">
+            <input type="text" matInput placeholder="guest e-mail"
+                   [(ngModel)]="userBusinessRelation.email" required
+                   name="email">
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field floatLabel="never" class="row m-3 w-75" title="pays">
+            <mat-label>Role</mat-label>
+            <mat-select name="role" [(ngModel)]="userBusinessRelation.role" required>
+              <mat-option *ngFor="let role of roleList"  [value]="role">
+                {{role}}
+              </mat-option>
+            </mat-select>
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field floatLabel="never"  class="row m-3 w-75" title="pays">
+            <mat-label>Groupe</mat-label>
+            <mat-select name="group" [(ngModel)]="userBusinessRelation.businessGroup" [compareWith]="objectComparisonFunction"  required>
+              <mat-option *ngFor="let group of groups"  [value]="group">
+                {{group.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error class="text-danger" *ngIf="nameFormControl.hasError('required')">
+              <span [innerHTML]="WORDING.individu_account.mondatory"></span>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="mt-5 mb-5 w-100">
+            <button type="button" class="btn btn-info float-right" [disabled]="!createGroupAffectationForm.form.valid"
+                    title="{{WORDING.business.group.add}}"
+                    (click)="assignOrUpdateUserBusiness()">{{WORDING.business.group.add}}</button>
+
+            <button type="button" class="btn btn-warning float-right mx-2" (click)="cancel()"
+                    title="{{WORDING.business.group.cancel}}">{{WORDING.business.group.cancel}}</button>
+          </div>
+
+        </div>
+        <div *ngIf="!displayAddForm">
+          <button (click)="displayAddUserBusinessRelationForm()" mat-button color="primary" class="float-right" type="submit"
+                  title="{{WORDING.business.group.add}}">
+            <mat-icon>add</mat-icon>
+            {{WORDING.business.group.add}}
+          </button>
+          <div *ngIf="dataSource.data.length>0">
+            <mat-form-field class="float-left">
+              <input matInput (keyup)="applyFilter($event.target.value)"
+                     placeholder="{{WORDING.business.group.search}}">
+            </mat-form-field>
+            <table class="w-100" mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="email">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>{{WORDING.business.affect.email}}</th>
+                <td mat-cell *matCellDef="let element">{{element.email}}</td>
+              </ng-container>
+              <ng-container matColumnDef="group">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>{{WORDING.business.affect.group}}</th>
+                <td mat-cell *matCellDef="let element">{{element.businessGroup?.name}}</td>
+              </ng-container>
+              <ng-container matColumnDef="role">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>{{WORDING.business.affect.role}}</th>
+                <td mat-cell *matCellDef="let element">{{element.role}}</td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef>{{WORDING.business.affect.status}}</th>
+                <td mat-cell *matCellDef="let element">{{element.status}}</td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn float-right"
+                          [class.btn-danger]="element.status == 'ACTIF'"
+                          [class.btn-info]="element.status != 'ACTIF'"
+                          (click)="doAction(element)">{{getButtonName(element.status)}}</button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="update">
+                <th mat-header-cell class="d-none d-md-table-cell text-center"
+                    *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element">
+                  <button class="btn btn-warning"
+                          (click)="doUpdate(element)">{{WORDING.business.affect.modify}}</button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="dataSource.data.length == 0 && !displayAddForm" class="w-100 text-center">
+          <span>{{WORDING.business.group.no_group}}</span>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
+
