@@ -62,7 +62,7 @@ export const Wording_FR = {
     last_connection_date: 'Dernière connexion',
     account_status: {
       waiting: 'Votre compte est en attente d\'activation',
-      active: 'Votre compte est active',
+      active: 'Votre compte est actif',
       blocked: 'Votre compte est bloqué',
       canceled: 'Votre compte est résilié'
     },
@@ -161,8 +161,34 @@ export const Wording_FR = {
     creation_not_allowed: 'Votre statut actuel ne vous permet pas de créer une entreprise, votre statut est :',
     address: 'Adresse',
     upgrade_to_pro_client: 'Devenir client PRO',
-    group: 'Groupes',
-    affect: 'affectation'
+    group: {
+      group_title: 'Groupes',
+      search: 'Recherche',
+      add: 'Ajouter',
+      cancel: 'Annuler',
+      active: 'Actif',
+      disable: 'Désactivé',
+      activate_action: 'Activer',
+      disable_action: 'Désactiver',
+      id: 'Identifiant',
+      name: 'Nom',
+      description: 'Déscription',
+      status: 'Statut',
+      no_group: 'Aucun groupe n\'a été trouvé. Vous pouvez en créer un.',
+    },
+    affect: {
+      affect_title: 'affectation',
+      email: 'E-mail utilisateur',
+      group: 'Groupe',
+      role: 'Rôle',
+      status: 'Statut',
+      modify: 'Modifier'
+
+
+    },
+    project: {
+      project_title: 'Projet',
+    },
   },
   problem: ' Un probléme technique est survenue !'
 };

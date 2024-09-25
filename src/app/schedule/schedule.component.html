@@ -4,19 +4,19 @@
     <h6 class="card-title mb-4">{{WORDING.schedules.title}}</h6>
     <div class="h-100 mx-auto">
 
-      <div *ngIf="!selectedBusiness">
-        <div *ngIf="businessList">
-          <div *ngFor="let item of businessList" class="m-2 alert-info" (click)="selectBusiness(item)">
-            <span>{{item.name}}</span>
-            <span>{{item.status}}</span>
+      <div *ngIf="!selectedUserBusinessRelation">
+        <div *ngIf="myUserBusinessRelationList.length > 0">
+          <div *ngFor="let item of myUserBusinessRelationList" class="m-2 alert-info" (click)="selectBusiness(item)">
+            <span>{{item.business.name}}</span>
+            <span>{{item.business.status}}</span>
           </div>
         </div>
-        <div *ngIf="!businessList" class="text-center text-info">
+        <div *ngIf="myUserBusinessRelationList.length == 0" class="text-center text-info">
           <span>Vous n'étes pas encore affécté à une entreprise.</span>
         </div>
       </div>
 
-      <div *ngIf="selectedBusiness">
+      <div *ngIf="selectedUserBusinessRelation">
         <div class="d-flex justify-content-between ">
           <button class="btn btn-info navigation-btn" [disabled]="!canDisplayPreviousBtn()" (click)="buildPreviousWeek()">
             <mat-icon>arrow_back_ios</mat-icon>
@@ -34,7 +34,7 @@
                [class.alert-dark]="indexOfelement == selectedDayIndex" class="d-flex flex-column w-100 activity">
             <div class="p-1 primary-color d-flex flex-row day-header"><span
               class="text-center">{{day.planningDate | date :'EEEE d MMM'}} </span>
-              <div *ngIf="!isFree(day.planningDate)">
+              <div *ngIf="!isFree(day)">
                 <mat-icon (click)="removeDayActivity(indexOfelement)"
                           *ngIf="selectedDayIndex==indexOfelement && (day.activities && day.activities.length > 0)"
                           class="w-25 material-icons color_red">delete
@@ -42,13 +42,13 @@
               </div>
             </div>
 
-            <div class="h-100 d-flex flex-column" *ngIf="!isFree(day.planningDate)">
-              <div *ngFor="let activity of day.activities;let indexOfelement2=index2;" [class]="'h-'+12.5 * activity.duration"
+            <div class="h-100 d-flex flex-column" *ngIf="!isFree(day)">
+              <div *ngFor="let activity of day.activities;" [class]="'h-'+12.5 * activity.duration"
                    [ngStyle]="{'background-color': activity.project.color}">
                 <div><span class="p-2">{{activity.project.name}}</span></div>
               </div>
             </div>
-            <div class="h-100 d-flex flex-column" *ngIf="isFree(day.planningDate)">
+            <div class="h-100 d-flex flex-column" *ngIf="isFree(day)">
               <div class="h-100 freeDay p-2"></div>
             </div>
 

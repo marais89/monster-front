@@ -96,7 +96,7 @@ export class IndividuAccountComponent implements OnInit {
   }
 
   public objectComparisonFunction = function (option, value): boolean {
-    return option.id === value.id;
+    return option && value ? option.id === value.id : null;
   };
 
   findAddressByGouvernorat(id: number) {

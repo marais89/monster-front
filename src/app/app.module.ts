@@ -35,6 +35,7 @@ import {ScheduleComponent} from './schedule/schedule.component';
 import {DatePipe} from '@angular/common';
 import {BusinessGroupComponent} from './business-group/business-group.component';
 import {BusinessAffectationComponent} from './business-affectation/business-affectation.component';
+import {BusinessProjectComponent} from './business-project/business-project.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {BusinessAffectationComponent} from './business-affectation/business-affe
     BusinessComponent,
     IndividuAccountComponent,
     BusinessGroupComponent,
+    BusinessProjectComponent,
     BusinessAffectationComponent,
     LoginComponent,
     DialogInfoComponent,

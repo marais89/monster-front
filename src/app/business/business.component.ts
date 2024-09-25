@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LanguageUtils} from '../utils/language-utils';
-import {Business} from '../model/business';
+import {Business} from '../model/business/business';
 import {BusinessApiService} from '../shared/business/businessApiService';
 import {Individu} from '../model/individu';
 import {FormControl, Validators} from '@angular/forms';
@@ -13,7 +13,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {concatMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {UserBusinessRelationService} from '../shared/userBusinessRelation/user-business-relation.service';
-import {UserBusinessRelation, UserBusinessRole, UserBusinessStatus} from '../model/user-business-relation';
+import {UserBusinessRelation, UserBusinessRole, UserBusinessStatus} from '../model/business/user-business-relation';
 import {isNullOrUndefined} from 'util';
 
 @Component({
@@ -50,7 +50,7 @@ export class BusinessComponent implements OnInit {
       concatMap(data => {
         if (data) {
           this.individu = data;
-          return this.userBusinessRelationService.findUserBusinessRelationByUserId(this.individu.id);
+          return this.userBusinessRelationService.findUserBusinessRelationByUserEmail(this.individu.email);
         } else {
           this.router.navigate(['/login']);
           this.openDialog(this.WORDING.problem, DialogType.ERROR);
@@ -124,7 +124,7 @@ export class BusinessComponent implements OnInit {
         return of(this.selectedBusiness);
       })).pipe(
       concatMap(data => {
-        let ubr = this.buildUserBusinessRelation(data);
+        let ubr = this.buildUserBusinessRelationAsAdmin(data);
         return this.userBusinessRelationService.saveUserBusinessRelationByGroupId(ubr);
       })
     ).subscribe(
@@ -134,10 +134,10 @@ export class BusinessComponent implements OnInit {
     );
   }
 
-  private buildUserBusinessRelation(data: Business) {
+  private buildUserBusinessRelationAsAdmin(data: Business) {
     let ubr = new UserBusinessRelation();
     ubr.business = data;
-    ubr.individuId = this.individu.id;
+    ubr.email = this.individu.email;
     ubr.status = UserBusinessStatus.ACTIF;
     ubr.role = UserBusinessRole.ADMIN;
     return ubr;

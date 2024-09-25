@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookiesUtils} from '../../utils/cookies-utils';
 import {Observable} from 'rxjs';
 import {UrlUtils} from '../../utils/url-utils';
-import {Events} from '../../model/Events';
+import {Events} from '../../model/events';
 
 @Injectable()
 export class HistoryApiService {

@@ -4,14 +4,16 @@ export class Schedule {
 
   id: number;
   planningDate: Date;
-  userId: number;
+  relationId: number;
   isFree: boolean;
   activities: Activity[];
+  holiday: boolean;
 
-  constructor(id: number, planningDate: Date, userId: number, activities: Activity[]) {
+  constructor(id: number, planningDate: Date, relationId: number, activities: Activity[], holiday: boolean) {
     this.id = id;
     this.planningDate = planningDate;
-    this.userId = userId;
+    this.relationId = relationId;
     this.activities = activities;
+    this.holiday = holiday;
   }
 }

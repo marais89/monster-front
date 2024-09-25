@@ -16,8 +16,11 @@ import {Schedule} from '../model/schedule';
 import {DatePipe} from '@angular/common';
 import {WeeksPlanning} from '../model/weekesPlanning';
 import {UserBusinessRelationService} from '../shared/userBusinessRelation/user-business-relation.service';
-import {UserBusinessRelation, UserBusinessRole} from '../model/user-business-relation';
-import {Business} from '../model/business';
+import {UserBusinessRelation, UserBusinessRole} from '../model/business/user-business-relation';
+import {Business} from '../model/business/business';
+import {DialogType} from '../individu-create/individu-create.component';
+import {DialogInfoComponent, DialogInformation} from '../dialog-info/dialog-info.component';
+import {Holiday} from '../model/holiday';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
@@ -34,13 +37,11 @@ export class ScheduleComponent implements OnInit {
   projectList: Array<Project>;
   selectedDayIndex: number = 0;
   preloadedWeeks: WeeksPlanning = new WeeksPlanning([], [], []);
-  freeDays: Date[] = [new Date('2023-02-16'), new Date('2023-02-22')];
+  freeDays: Date[] = [new Date('2023-05-29'), new Date('2023-05-22')];
   days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weekend: string[] = ['Saturday', 'Sunday'];
-  myUserBusinessRelationList: UserBusinessRelation[];
+  myUserBusinessRelationList: UserBusinessRelation[] = [];
   selectedUserBusinessRelation: UserBusinessRelation;
-  businessList: Business[];
-  selectedBusiness: Business;
   private displayMsg: boolean = false;
 
   constructor(private dialog: MatDialog,
@@ -61,20 +62,20 @@ export class ScheduleComponent implements OnInit {
     this.individuService.chargeLogedUserInfo().pipe(
       concatMap(data => {
           this.individu = data;
-          return this.userBusinessRelationService.findUserBusinessRelationByUserId(this.individu.id);
+          return this.userBusinessRelationService.findUserBusinessRelationByUserEmail(this.individu.email);
         },
       )).subscribe(
       data => {
         this.myUserBusinessRelationList = data.filter(ubr => ubr.role == UserBusinessRole.MEMBER);
         if (this.myUserBusinessRelationList.length === 1) {
-          this.selectedBusiness = this.myUserBusinessRelationList[0].business;
+          this.selectedUserBusinessRelation = this.myUserBusinessRelationList[0];
           this.loadData();
         } else if (this.myUserBusinessRelationList.length > 1) {
           const distinctBusiness: Set<Business> = new Set<Business>();
           this.myUserBusinessRelationList.forEach(b => {
             if (!distinctBusiness.has(b.business)) {
               distinctBusiness.add(b.business);
-              this.businessList.push(b.business);
+              this.myUserBusinessRelationList.push(b);
             }
           });
         }
@@ -105,8 +106,31 @@ export class ScheduleComponent implements OnInit {
     this.scheduleServiceApi.saveSchedules(this.preloadedWeeks.actualWeek).subscribe(
       data => {
         this.preloadedWeeks.actualWeek = data;
+        this.openDialog('Sauvegarde réalisée avec succès', DialogType.SUCCESS);
+      },
+      error => {
+        this.openDialog('Une erreur c\'est produite lors da la sauvgarde du planning', DialogType.ERROR);
       }
     );
+  }
+
+  openDialog(msg: string, type: DialogType): void {
+    let dialogInformation = this.buildConfirmationDialog(msg, type);
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      minWidth: '20em', width: '35%'
+    });
+    dialogRef.componentInstance.dialogInfo = dialogInformation;
+    dialogRef.afterClosed().subscribe(() => {
+    });
+  }
+
+  buildConfirmationDialog(msg: string, type: DialogType): DialogInformation {
+    let dialogInfo = new DialogInformation();
+    dialogInfo.titre = this.WORDING.dialog.title.confirm;
+    dialogInfo.dialogType = type;
+    dialogInfo.message1 = msg;
+    dialogInfo.noLbl = this.WORDING.dialog.button.close;
+    return dialogInfo;
   }
 
   updateSelectedDay(index: number) {
@@ -114,6 +138,9 @@ export class ScheduleComponent implements OnInit {
   }
 
   addProjectToActivity(p: Project, duration: number) {
+    if(this.isFree(this.preloadedWeeks.actualWeek[this.selectedDayIndex])){
+      return;
+    }
     let totalActivitiesDuration: number = 0;
     this.preloadedWeeks.actualWeek[this.selectedDayIndex].activities.forEach(a => {
       totalActivitiesDuration += a.duration;
@@ -128,7 +155,7 @@ export class ScheduleComponent implements OnInit {
     );
 
     if (isNullOrUndefined(activity) || activity.length == 0) {
-      let activity = new Activity(3, p, duration, 'comment');
+      let activity = new Activity(null, p, duration, 'comment');
       this.preloadedWeeks.actualWeek[this.selectedDayIndex].activities.push(activity);
     } else {
       activity[0].duration = activity[0].duration + duration;
@@ -138,8 +165,20 @@ export class ScheduleComponent implements OnInit {
 
   switchToNextColumnifFull(projectDuration: number) {
     if (projectDuration >= 8 && this.selectedDayIndex < 6) {
-      this.selectedDayIndex++;
+      this.verifyNext();
     }
+  }
+
+  verifyNext(){
+    let counter: number = this.selectedDayIndex+1;
+    while (this.isFree(this.preloadedWeeks.actualWeek[counter])){
+      if(counter < 6){
+        counter++;
+      }else {
+        counter = this.selectedDayIndex;
+      }
+    }
+    this.selectedDayIndex = counter;
   }
 
   removeDayActivity(index: number) {
@@ -171,17 +210,19 @@ export class ScheduleComponent implements OnInit {
   }
 
   buildNextWeek() {
+    this.selectedDayIndex = 0;
     this.preloadedWeeks.previousWeek = [...this.preloadedWeeks.actualWeek];
     this.preloadedWeeks.actualWeek = [...this.preloadedWeeks.nextWeek];
-    var firstDayOfWeekDateToDisplay = new Date(this.preloadedWeeks.actualWeek[0].planningDate.getTime() + 7 * ONE_DAY);
+    var firstDayOfWeekDateToDisplay = new Date(new Date(this.preloadedWeeks.actualWeek[0].planningDate).getTime() + 7 * ONE_DAY);
     this.preloadedWeeks.nextWeek = [];
     this.retrieveSchedules(firstDayOfWeekDateToDisplay, this.preloadedWeeks.nextWeek);
   }
 
   buildPreviousWeek() {
+    this.selectedDayIndex = 0;
     this.preloadedWeeks.nextWeek = [...this.preloadedWeeks.actualWeek];
     this.preloadedWeeks.actualWeek = [...this.preloadedWeeks.previousWeek];
-    var firstDayOfPreviousWeek = new Date(this.preloadedWeeks.actualWeek[0].planningDate.getTime() - ONE_DAY);
+    var firstDayOfPreviousWeek = new Date(new Date(this.preloadedWeeks.actualWeek[0].planningDate).getTime() - ONE_DAY);
     this.preloadedWeeks.previousWeek = [];
     this.retrieveSchedules(firstDayOfPreviousWeek, this.preloadedWeeks.previousWeek);
   }
@@ -217,44 +258,52 @@ export class ScheduleComponent implements OnInit {
     );
   }
 
-  buildWeek(schedules: Schedule[], first: Date, Last: Date, cible: Schedule[]) {
+  buildWeek(schedules: Schedule[], first: Date, last: Date, cible: Schedule[]) {
 
     let week: Schedule[] = [];
     let dateIterator: Date = first;
-    for (let i = 0; i <= 6; i++) {
-      let newSchedule = new Schedule(null, dateIterator, this.individu.id, []);
-      if (schedules && schedules.length > 0) {
-        let actualSchedule = schedules.filter(s => this.datepipe.transform(s.planningDate, 'yyyy/MM/dd') == this.datepipe.transform(dateIterator, 'yyyy/MM/dd'));
-        if (actualSchedule && actualSchedule.length > 0) {
-          newSchedule = actualSchedule[0];
-          newSchedule.planningDate = dateIterator;
-        }else{
-          this.displayMsg = true;
+    this.scheduleServiceApi.getHolidays(this.datepipe.transform(first, 'yyyy-MM-dd'), this.datepipe.transform(last, 'yyyy-MM-dd')).subscribe(
+      data => {
+        for (let i = 0; i <= 6; i++) {
+          let newSchedule = new Schedule(null, dateIterator, this.selectedUserBusinessRelation.id, [], this.isHoliday(data, dateIterator));
+          if (schedules && schedules.length > 0) {
+            let actualSchedule = schedules.filter(s => this.datepipe.transform(s.planningDate, 'yyyy/MM/dd') == this.datepipe.transform(dateIterator, 'yyyy/MM/dd'));
+            if (actualSchedule && actualSchedule.length > 0) {
+              newSchedule = actualSchedule[0];
+              newSchedule.planningDate = dateIterator;
+            }else{
+              this.displayMsg = true;
+            }
+          }
+          week.push(newSchedule);
+          dateIterator = new Date(new Date(week[i].planningDate).setDate(week[i].planningDate.getDate() + 1));
         }
+        cible.push(...week);
       }
-      week.push(newSchedule);
-      dateIterator = new Date(new Date(week[i].planningDate).setDate(week[i].planningDate.getDate() + 1));
-    }
-    cible.push(...week);
+    )
   }
 
+  isHoliday(holidays: Holiday[], date: Date): boolean{
 
-  findActivities(schedules: Schedule[], date: Date): Activity[] {
-    if (!schedules || schedules.length == 0) {
-      return [];
-    } else {
-      let actualSchedule = schedules.filter(s => this.datepipe.transform(s.planningDate, 'yyyy/MM/dd') == this.datepipe.transform(date, 'yyyy/MM/dd'));
-      return actualSchedule.length > 0 ? actualSchedule[0].activities : [];
-    }
+    return holidays.some(h => {
+      const d = new Date(h.date);
+      return this.areDatesEqual(d, date);})
   }
 
-  isFree(date: Date): boolean {
-    return this.freeDays.map(d => this.datepipe.transform(d, 'yyyy/MM/dd')).includes(this.datepipe.transform(date, 'yyyy/MM/dd')) ||
-      this.weekend.includes(this.days[date.getDay()]);
+  areDatesEqual(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate();
   }
 
-  selectBusiness(item: Business) {
-    this.selectedBusiness = item;
+  isFree(schedule: Schedule ): boolean {
+    const planningDate = new Date(schedule.planningDate);
+    return this.weekend.includes(this.days[planningDate.getDay()])
+      || schedule.holiday;
+  }
+
+  selectBusiness(item: UserBusinessRelation) {
+    this.selectedUserBusinessRelation = item;
     this.loadData();
   }
 }

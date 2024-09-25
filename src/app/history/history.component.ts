@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {Events} from '../model/Events';
+import {Events} from '../model/events';
 import {MatSort} from '@angular/material';
 import {MatPaginator} from '@angular/material/paginator';
 import {HistoryApiService} from '../shared/history/history-api.service';

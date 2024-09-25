@@ -132,11 +132,15 @@
 
   </mat-tab>
 
-  <mat-tab label="{{WORDING.business.group}}">
-    <business-group></business-group>
+  <mat-tab *ngIf="selectedBusiness" label="{{WORDING.business.group.group_title}}">
+    <business-group [business]="selectedBusiness" [WORDING]="WORDING" ></business-group>
   </mat-tab>
 
-  <mat-tab label="{{WORDING.business.affect}}">
-    <business-affectation></business-affectation>
+  <mat-tab *ngIf="selectedBusiness" label="{{WORDING.business.affect.affect_title}}">
+    <business-affectation [business]="selectedBusiness" [WORDING]="WORDING" ></business-affectation>
+  </mat-tab>
+
+  <mat-tab *ngIf="selectedBusiness" label="{{WORDING.business.project.project_title}}">
+    <business-project [business]="selectedBusiness" [WORDING]="WORDING" ></business-project>
   </mat-tab>
 </mat-tab-group>

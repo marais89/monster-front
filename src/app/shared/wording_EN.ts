@@ -161,8 +161,27 @@ export const Wording_EN = {
     creation_not_allowed: 'Your current status does not allow you to create a business, your status is',
     address: 'Address',
     upgrade_to_pro_client: 'Become a PRO customer',
-    group: 'Groups',
-    affect: 'Assignment'
+    group: {
+      group_title: 'Groups',
+      search: 'Search',
+      add: 'Add',
+      cancel: 'Cancel',
+      active: 'Active',
+      disable: 'Inactive',
+      activate_action: 'Activate',
+      disable_action: 'deactivate',
+      id: 'ID',
+      name: 'Name',
+      description: 'Description',
+      status: 'Status',
+      no_group: 'No group found for this company. Please create one to continue.',
+    },
+    affect: {
+      affect_title: 'Assignment'
+    },
+    project: {
+      project_title: 'Project',
+    },
   },
   problem: 'A technical problem has arisen'
 };

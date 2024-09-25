@@ -17,9 +17,17 @@ export class UrlUtils {
   public static RETRIEVE_ADRESS_URL = '/address/gouvernorat/';
   public static UPDATE_PWD = '/updatePwd';
   public static RETRIEVE_BUSINESS_BY_CREATOR = '/business/creatorId/';
+  public static RETRIEVE_BUSINESS_GROUP_BY_BUSINESS_ID = '/business/';
+  public static SAVE_BUSINESS_GROUP = '/business/businessGroup/save';
+  public static DESABLE_BUSINESS_GROUP = '/business/businessGroup/businessGroupId/';
+  public static ACTIVATE_BUSINESS_GROUP = '/business/businessGroup/businessGroupId/';
   public static SAVE_BUSINESS = '/business/save';
   public static UPDATE_BUSINESS = '/business/update';
   public static ID = '';
+
+  public static USER_BUSINESS_RELATION = '/business/userBusinessRelation';
+
+  public static FIND_BUSINESS_RELATIONS_BY_BUSINESS_ID = '/business/userBusinessRelation/businessId/';
 
   //Histories
   public static USERNAME_FROM_HISTORIES_URL = '/history/usernameFromHistories';

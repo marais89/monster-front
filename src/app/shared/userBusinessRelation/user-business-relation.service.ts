@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CookiesUtils} from '../../utils/cookies-utils';
 import {Observable} from 'rxjs';
 import {UrlUtils} from '../../utils/url-utils';
-import {UserBusinessRelation} from '../../model/user-business-relation';
+import {UserBusinessRelation} from '../../model/business/user-business-relation';
 
 @Injectable({
   providedIn: 'root'
@@ -19,18 +19,25 @@ export class UserBusinessRelationService {
     };
   }
 
-  findUserBusinessRelationByUserId(userId: number): Observable<UserBusinessRelation[]> {
-    const url = UrlUtils.BASE_URL + '/business/userBusinessRelation/userId/' + userId;
+  saveUserBusinessRelation(userBusinessRelation: UserBusinessRelation): Observable<UserBusinessRelation[]> {
+
+    let url = UrlUtils.BASE_URL + UrlUtils.USER_BUSINESS_RELATION + '/save';
+    return this.http.post<UserBusinessRelation[]>(url, userBusinessRelation, this.buildHeader());
+  }
+
+  findUserBusinessRelationByBusinessId(userBusinessId: number): Observable<UserBusinessRelation[]> {
+    let url = UrlUtils.BASE_URL + UrlUtils.USER_BUSINESS_RELATION + '/businessId/' + userBusinessId;
     return this.http.get<UserBusinessRelation[]>(url, this.buildHeader());
   }
 
-  findUserBusinessRelationByBusinessId(businessId: number): Observable<UserBusinessRelation[]> {
-    const url = UrlUtils.BASE_URL + '/business/userBusinessRelation/businessId/' + businessId;
+  findUserBusinessRelationByUserEmail(userEmail: string): Observable<UserBusinessRelation[]> {
+    let url = UrlUtils.BASE_URL + UrlUtils.USER_BUSINESS_RELATION + '/userEmail/' + userEmail;
     return this.http.get<UserBusinessRelation[]>(url, this.buildHeader());
   }
 
-  findUserBusinessRelationByBusinessIdAndUserId(businessId: number, userId: number): Observable<UserBusinessRelation[]> {
-    const url = UrlUtils.BASE_URL + '/business/userBusinessRelation/businessId/' + businessId + '/userId/' + userId;
+
+  findUserBusinessRelationByBusinessIdAndUserEmail(businessId: number, userEmail: string): Observable<UserBusinessRelation[]> {
+    const url = UrlUtils.BASE_URL + '/business/userBusinessRelation/businessId/' + businessId + '/userEmail/' + userEmail;
     return this.http.get<UserBusinessRelation[]>(url, this.buildHeader());
   }
 
@@ -41,6 +48,6 @@ export class UserBusinessRelationService {
 
   saveUserBusinessRelationByGroupId(userBusinessRelation: UserBusinessRelation): Observable<UserBusinessRelation> {
     const url = UrlUtils.BASE_URL + '/business/userBusinessRelation/save';
-    return this.http.post<UserBusinessRelation>(url,userBusinessRelation, this.buildHeader());
+    return this.http.post<UserBusinessRelation>(url, userBusinessRelation, this.buildHeader());
   }
 }
